@@ -1,0 +1,15 @@
+{
+  "name": "Accords Guitare — Flashcards",
+  "short_name": "Accords Guitare",
+  "description": "Mémorise tes accords de guitare avec la répétition espacée",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F5F0E8",
+  "theme_color": "#B85C2A",
+  "lang": "fr",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

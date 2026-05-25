@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Accords Guitare — Flashcards</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#B85C2A" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Accords Guitare" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:           #F5F0E8;
+      --card:         #FFFFFF;
+      --text:         #1C1C1C;
+      --muted:        #8C8880;
+      --accent:       #B85C2A;
+      --accent-light: #F5E0CE;
+      --correct:      #2D8C5F;
+      --wrong:        #C03A2B;
+      --border:       #E8E0D5;
+      --mode-ess:     #2D7D5A;
+      --mode-ess-bg:  #E3F2EB;
+      --mode-comp:    #2A5FA8;
+      --mode-comp-bg: #E3EDFA;
+      --mode-all:     #7D2A85;
+      --mode-all-bg:  #F3E5F5;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 16px 24px;
+    }
+    #app { width: 100%; max-width: 430px; display: flex; flex-direction: column; align-items: center; flex: 1; }
+    .app-footer { width: 100%; max-width: 430px; text-align: center; padding: 18px 0 10px; font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 300; color: var(--muted); opacity: 0.55; }
+    .footer-link { color: inherit; text-decoration: underline; text-decoration-color: var(--border); transition: opacity .15s; }
+    .footer-link:hover { opacity: 1; }
+
+    /* ── HEADER ── */
+    .header { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 18px 0 14px; }
+    .header-title { font-family: 'Playfair Display', serif; font-size: 19px; letter-spacing: -.3px; }
+    .header-title b { color: var(--accent); font-weight: 700; }
+    .btn-ghost { font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 500; color: var(--accent); background: var(--accent-light); border: none; padding: 7px 14px; border-radius: 20px; cursor: pointer; transition: opacity .15s; }
+    .btn-ghost:hover { opacity: .72; }
+
+    /* ── PROGRESS BAR ── */
+    .prog-wrap { width: 100%; margin-bottom: 18px; }
+    .prog-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 7px; }
+    .prog-meta .tries-count { font-weight: 600; color: var(--text); }
+    .prog-track { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+    .prog-fill { height: 100%; border-radius: 3px; transition: width .4s ease; }
+
+    /* ── CARD ── */
+    .card-scene { width: 100%; perspective: 900px; margin-bottom: 20px; }
+    .card-body { width: 100%; height: 300px; position: relative; transform-style: preserve-3d; transition: transform .52s cubic-bezier(.4,0,.2,1); }
+    .card-body.flipped { transform: rotateY(180deg); }
+    .card-face { position: absolute; inset: 0; background: var(--card); border-radius: 22px; box-shadow: 0 2px 10px rgba(0,0,0,.06), 0 8px 28px rgba(0,0,0,.07); backface-visibility: hidden; -webkit-backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 18px 24px; }
+    .card-face.back { transform: rotateY(180deg); }
+    .face-tag { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+    .face-tag.hi { color: var(--accent); }
+    .chord-big { font-family: 'Playfair Display', serif; font-size: 92px; line-height: 1; letter-spacing: -3px; text-align: center; }
+    .chord-big.md { font-size: 72px; letter-spacing: -2px; }
+    .chord-big.sm { font-size: 56px; letter-spacing: -1px; }
+    .card-hint { font-size: 13px; color: var(--muted); margin-top: 10px; text-align: center; font-weight: 300; }
+    .diag-holder svg { width: 200px; height: auto; }
+
+    /* ── BUTTONS ── */
+    .btn-main { width: 100%; padding: 18px; font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 500; background: var(--text); color: #FFF; border: none; border-radius: 16px; cursor: pointer; transition: opacity .12s, transform .1s; margin-bottom: 12px; }
+    .btn-main:hover { opacity: .84; }
+    .btn-main:active { transform: scale(.985); }
+    .btn-row { width: 100%; display: flex; gap: 12px; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+    .btn-row.vis { opacity: 1; pointer-events: all; }
+    .btn-ok, .btn-ko { flex: 1; padding: 17px; font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 600; border: none; border-radius: 16px; cursor: pointer; transition: opacity .12s, transform .1s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .btn-ok { background: var(--correct); color: #FFF; }
+    .btn-ko { background: var(--wrong); color: #FFF; }
+    .btn-ok:hover, .btn-ko:hover { opacity: .84; }
+    .btn-ok:active, .btn-ko:active { transform: scale(.985); }
+
+    /* ── HOME ── */
+    .home { width: 100%; display: flex; flex-direction: column; align-items: center; padding-top: 14px; }
+    .home-icon { font-size: 36px; margin-bottom: 6px; }
+    .home-h1 { font-family: 'Playfair Display', serif; font-size: 32px; line-height: 1.15; letter-spacing: -1.2px; text-align: center; margin-bottom: 4px; }
+    .home-h1 em { color: var(--accent); font-style: italic; }
+    .home-sub { font-size: 12px; color: var(--muted); text-align: center; font-weight: 300; line-height: 1.6; margin-bottom: 18px; }
+    .mode-cards { width: 100%; display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+    .mode-card { background: var(--card); border-radius: 18px; padding: 18px 20px; display: flex; align-items: center; gap: 16px; box-shadow: 0 1px 8px rgba(0,0,0,.06); cursor: pointer; transition: box-shadow .15s, transform .12s; }
+    .mode-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.10); transform: translateY(-1px); }
+    .mode-card:active { transform: scale(.988); }
+    .mode-card.ess  { border-left: 4px solid var(--mode-ess); }
+    .mode-card.comp { border-left: 4px solid var(--mode-comp); }
+    .mode-card.all  { border-left: 4px solid var(--mode-all); }
+    .mode-icon-box { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+    .mode-icon-box.ess  { background: var(--mode-ess-bg); }
+    .mode-icon-box.comp { background: var(--mode-comp-bg); }
+    .mode-icon-box.all  { background: var(--mode-all-bg); }
+    .mode-info { flex: 1; min-width: 0; }
+    .mode-name { font-weight: 600; font-size: 15px; margin-bottom: 2px; }
+    .mode-desc { font-size: 12px; color: var(--muted); font-weight: 300; line-height: 1.4; }
+    .mode-prog-row { width: 100%; height: 3px; background: var(--border); border-radius: 2px; margin-top: 10px; overflow: hidden; }
+    .mode-prog-fill.ess  { height: 100%; border-radius: 2px; background: var(--mode-ess); }
+    .mode-prog-fill.comp { height: 100%; border-radius: 2px; background: var(--mode-comp); }
+    .mode-prog-fill.all  { height: 100%; border-radius: 2px; background: var(--mode-all); }
+    .mode-stat { text-align: right; flex-shrink: 0; }
+    .mode-stat-n { font-family: 'Playfair Display', serif; font-size: 22px; display: block; line-height: 1; margin-bottom: 2px; }
+    .mode-stat-n.ess  { color: var(--mode-ess); }
+    .mode-stat-n.comp { color: var(--mode-comp); }
+    .mode-stat-n.all  { color: var(--mode-all); }
+    .mode-stat-l { font-size: 10px; color: var(--muted); }
+    .btn-ref-link { background: none; border: none; font-family: 'Outfit', sans-serif; font-size: 14px; color: var(--muted); cursor: pointer; padding: 8px; text-decoration: underline; text-decoration-color: var(--border); transition: color .12s; }
+    .btn-ref-link:hover { color: var(--text); }
+    .home-links { display: flex; flex-direction: column; gap: 8px; width: 100%; margin-top: 4px; }
+    .home-action-btn { width: 100%; display: flex; align-items: center; gap: 12px; background: var(--card); border: 1.5px solid var(--border); border-radius: 14px; padding: 14px 18px; cursor: pointer; font-family: 'Outfit', sans-serif; transition: border-color .15s, box-shadow .15s, transform .1s; text-align: left; }
+    .home-action-btn:hover { border-color: var(--accent); box-shadow: 0 3px 14px rgba(184,92,42,.12); transform: translateY(-1px); }
+    .home-action-btn:active { transform: scale(.988); }
+    .hab-icon { font-size: 20px; flex-shrink: 0; }
+    .hab-text { flex: 1; font-size: 14px; font-weight: 500; color: var(--text); }
+    .hab-arrow { font-size: 16px; color: var(--muted); flex-shrink: 0; transition: transform .15s; }
+    .home-action-btn:hover .hab-arrow { transform: translateX(3px); color: var(--accent); }
+    .home-data-bar { width: 100%; display: flex; gap: 8px; margin-top: 10px; }
+    .btn-data { flex: 1; font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 500; color: var(--muted); background: var(--card); border: 1.5px solid var(--border); border-radius: 12px; padding: 11px 10px; cursor: pointer; transition: border-color .15s, color .15s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .btn-data:hover { border-color: var(--accent); color: var(--text); }
+    .streak-home { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 13px; font-weight: 500; margin-top: -6px; margin-bottom: 16px; }
+    .streak-home.active { color: var(--accent); }
+    .streak-home.cold { color: var(--muted); font-weight: 300; }
+    .end-streak-card { width: 100%; background: var(--accent-light); border-radius: 14px; padding: 14px 18px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; border-left: 3px solid var(--accent); }
+    .end-streak-left { display: flex; align-items: center; gap: 10px; }
+    .end-streak-flame { font-size: 26px; line-height: 1; }
+    .end-streak-count { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--accent); line-height: 1; }
+    .end-streak-lbl { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .end-streak-best { text-align: right; font-size: 11px; color: var(--muted); line-height: 1.5; }
+    .end-streak-best strong { display: block; font-size: 15px; font-weight: 600; color: var(--text); }
+
+    /* ── SUB-MODES ── */
+    .sub-screen { width: 100%; }
+    .sub-top { display: flex; align-items: center; gap: 14px; padding: 18px 0 14px; }
+    .sub-h { font-family: 'Playfair Display', serif; font-size: 21px; }
+    .sub-intro { font-size: 13px; color: var(--muted); font-weight: 300; line-height: 1.6; margin-bottom: 18px; }
+    .sub-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .sub-card { background: var(--card); border-radius: 16px; padding: 16px 16px 14px; display: flex; flex-direction: column; gap: 7px; box-shadow: 0 1px 6px rgba(0,0,0,.05); cursor: pointer; border-left: 4px solid #ccc; transition: box-shadow .15s, transform .12s; }
+    .sub-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+    .sub-card:active { transform: scale(.96); }
+    .sub-card-head { display: flex; align-items: center; gap: 8px; }
+    .sub-card-icon { font-size: 18px; line-height: 1; }
+    .sub-card-name { font-weight: 600; font-size: 14px; }
+    .sub-card-desc { font-size: 11px; color: var(--muted); font-weight: 300; line-height: 1.5; }
+    .sub-prog-row { width: 100%; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
+    .sub-prog-fill { height: 100%; border-radius: 2px; }
+    .sub-stat { font-size: 11px; color: var(--muted); }
+
+    /* ── END ── */
+    .end-screen { width: 100%; display: flex; flex-direction: column; align-items: center; padding-top: 24px; }
+    .end-badge { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 6px 14px; border-radius: 20px; margin-bottom: 28px; }
+    .end-score-wrap { text-align: center; margin-bottom: 32px; }
+    .end-emoji { font-size: 52px; margin-bottom: 12px; display: block; }
+    .end-score { font-family: 'Playfair Display', serif; font-size: 68px; line-height: 1; letter-spacing: -2px; }
+    .end-score span { font-size: 32px; color: var(--muted); letter-spacing: 0; }
+    .end-label { font-size: 14px; color: var(--muted); margin-top: 6px; }
+    .end-mastery-card { width: 100%; background: var(--card); border-radius: 18px; padding: 20px 22px; margin-bottom: 24px; box-shadow: 0 1px 8px rgba(0,0,0,.06); }
+    .end-mastery-title { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+    .end-mastery-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .end-m-val { font-family: 'Playfair Display', serif; font-size: 30px; white-space: nowrap; }
+    .end-m-val .slash { font-size: 18px; color: var(--muted); }
+    .end-m-delta { font-size: 13px; font-weight: 500; margin-top: 10px; }
+    .end-m-delta.up   { color: var(--correct); }
+    .end-m-delta.same { color: var(--muted); }
+    .end-track { flex: 1; }
+    .end-prog-track { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+    .end-prog-fill { height: 100%; border-radius: 3px; transition: width .8s ease; }
+    .end-prog-pct { font-size: 11px; color: var(--muted); margin-top: 4px; text-align: right; }
+    .end-btn-row { width: 100%; display: flex; gap: 12px; }
+    .btn-replay { flex: 1; padding: 17px; font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 600; border: none; border-radius: 16px; cursor: pointer; transition: opacity .12s; color: #FFF; }
+    .btn-replay:hover { opacity: .84; }
+    .btn-home-end { flex: 1; padding: 17px; font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 500; border: 1.5px solid var(--border); border-radius: 16px; cursor: pointer; background: var(--card); color: var(--text); transition: background .12s; }
+    .btn-home-end:hover { background: var(--border); }
+
+    /* ── REFERENCE ── */
+    .ref-screen { width: 100%; }
+    .ref-top { display: flex; align-items: center; gap: 14px; padding: 18px 0 14px; }
+    .btn-circ { width: 36px; height: 36px; flex-shrink: 0; background: var(--card); border: 1.5px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 15px; transition: background .12s; }
+    .btn-circ:hover { background: var(--border); }
+    .ref-h { font-family: 'Playfair Display', serif; font-size: 21px; }
+    .sort-bar { width: 100%; display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+    .sort-btn { font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 500; padding: 7px 13px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--card); color: var(--muted); cursor: pointer; transition: all .14s; white-space: nowrap; }
+    .sort-btn.active { background: var(--text); color: #FFF; border-color: var(--text); }
+    .ref-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .ref-item { background: var(--card); border-radius: 14px; padding: 12px 6px 10px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 1px 6px rgba(0,0,0,.05); cursor: pointer; transition: box-shadow .14s, transform .1s; }
+    .ref-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+    .ref-item:active { transform: scale(.94); }
+    .ref-item svg { width: 72px; height: auto; }
+    .ref-name { font-family: 'Playfair Display', serif; font-size: 13px; margin-top: 5px; text-align: center; }
+    .ref-bar { width: 80%; height: 3px; background: var(--border); border-radius: 2px; margin-top: 7px; overflow: hidden; }
+    .ref-fill { height: 100%; border-radius: 2px; }
+    .ref-pct { font-size: 10px; color: var(--muted); margin-top: 3px; }
+    .ref-footer { margin-top: 24px; text-align: center; }
+    .btn-reset { background: none; border: none; font-family: 'Outfit', sans-serif; font-size: 12px; color: var(--muted); cursor: pointer; padding: 8px; text-decoration: underline; text-decoration-color: var(--border); }
+    .btn-reset:hover { color: var(--wrong); }
+
+    /* ── CUSTOM SELECT ── */
+    .sel-screen { width: 100%; }
+    .sel-top { display: flex; align-items: center; gap: 14px; padding: 18px 0 10px; }
+    .sel-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .sel-count { font-size: 13px; font-weight: 600; }
+    .sel-count.ok   { color: var(--correct); }
+    .sel-count.warn { color: var(--accent); }
+    .sel-count.bad  { color: var(--muted); }
+    .sel-actions { display: flex; gap: 10px; }
+    .btn-sel-link { background: none; border: none; font-family: 'Outfit', sans-serif; font-size: 12px; color: var(--muted); cursor: pointer; padding: 4px 8px; text-decoration: underline; text-decoration-color: var(--border); border-radius: 6px; }
+    .btn-sel-link:hover { color: var(--text); }
+    .sel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+    .sel-item { background: var(--card); border-radius: 14px; padding: 10px 4px 8px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 1px 6px rgba(0,0,0,.05); cursor: pointer; border: 2.5px solid transparent; transition: border-color .12s, background .12s, transform .08s; position: relative; user-select: none; -webkit-tap-highlight-color: transparent; }
+    .sel-item:active { transform: scale(.94); }
+    .sel-item.selected { border-color: var(--accent); background: var(--accent-light); }
+    .sel-item svg { width: 60px; height: auto; }
+    .sel-item-name { font-family: 'Playfair Display', serif; font-size: 12px; margin-top: 4px; text-align: center; line-height: 1.3; }
+    .sel-check { position: absolute; top: 5px; right: 5px; width: 17px; height: 17px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #fff; opacity: 0; transform: scale(.5); transition: opacity .14s, transform .14s; }
+    .sel-item.selected .sel-check { opacity: 1; transform: scale(1); }
+    .btn-start-custom { width: 100%; padding: 18px; font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 600; background: var(--accent); color: #FFF; border: none; border-radius: 16px; cursor: pointer; transition: opacity .12s, transform .1s; box-shadow: 0 5px 20px rgba(184,92,42,.28); margin-bottom: 10px; }
+    .btn-start-custom:disabled { background: var(--border); color: var(--muted); box-shadow: none; cursor: not-allowed; }
+    .btn-start-custom:not([disabled]):hover { opacity: .88; }
+    .btn-start-custom:not([disabled]):active { transform: scale(.985); }
+    .custom-sandbox-note { font-size: 12px; color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 4px; }
+    .end-sandbox-card { width: 100%; background: var(--accent-light); border-radius: 18px; padding: 18px 22px; margin-bottom: 24px; border-left: 4px solid var(--accent); }
+    .end-sandbox-title { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+    .end-sandbox-body { font-size: 13px; color: var(--text); line-height: 1.6; font-weight: 300; }
+
+    /* ── CHORD DETAIL ── */
+    .detail-screen { width: 100%; display: flex; flex-direction: column; align-items: center; }
+    .detail-top { width: 100%; display: flex; align-items: center; gap: 14px; padding: 18px 0 10px; }
+    .detail-counter { font-size: 12px; color: var(--muted); margin-left: auto; }
+    .detail-card { width: 100%; background: var(--card); border-radius: 22px; box-shadow: 0 2px 10px rgba(0,0,0,.06), 0 8px 28px rgba(0,0,0,.07); display: flex; flex-direction: column; align-items: center; padding: 28px 24px 24px; margin-bottom: 16px; }
+    .detail-name { font-family: 'Playfair Display', serif; font-size: 52px; line-height: 1; letter-spacing: -2px; margin-bottom: 20px; }
+    .detail-diag svg { width: 220px; height: auto; }
+    .detail-prog-row { width: 80%; display: flex; flex-direction: column; align-items: center; gap: 5px; margin-top: 22px; }
+    .detail-bar { width: 100%; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+    .detail-fill { height: 100%; border-radius: 3px; }
+    .detail-pct { font-size: 11px; color: var(--muted); }
+    .detail-legend { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 16px; font-size: 11px; color: var(--muted); }
+    .detail-legend span { display: flex; align-items: center; gap: 4px; }
+    .det-dot { width: 16px; height: 16px; background: #1C1C1C; border-radius: 50%; color: white; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif; flex-shrink: 0; }
+    .detail-nav { width: 100%; display: flex; gap: 10px; }
+    .btn-nav { flex: 1; padding: 15px; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; border: 1.5px solid var(--border); border-radius: 14px; cursor: pointer; background: var(--card); color: var(--text); transition: background .12s, border-color .12s; }
+    .btn-nav:hover { border-color: var(--accent); }
+    .btn-nav:disabled { opacity: .3; cursor: not-allowed; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .fadein { animation: fadeUp .32s ease forwards; }
+    @keyframes popIn { from { opacity: 0; transform: scale(.88); } to { opacity: 1; transform: scale(1); } }
+    .popin { animation: popIn .4s cubic-bezier(.34,1.56,.64,1) forwards; }
+
+    /* ── RESPONSIVE ── */
+    @media (min-width: 400px) {
+      .card-body { height: 340px; }
+      .chord-big { font-size: 100px; }
+      .chord-big.md { font-size: 78px; }
+      .chord-big.sm { font-size: 62px; }
+      .diag-holder svg { width: 215px; }
+    }
+    @media (max-width: 340px) {
+      .card-body { height: 270px; }
+      .chord-big { font-size: 76px; }
+      .chord-big.md { font-size: 60px; }
+      .chord-big.sm { font-size: 48px; }
+      .diag-holder svg { width: 180px; }
+      .ref-grid { grid-template-columns: repeat(2, 1fr); }
+      .sub-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div id="app"></div>
+<footer class="app-footer">Réalisé par <a href="https://www.instagram.com/juliendestange/" target="_blank" rel="noopener" class="footer-link">Julien Destange</a></footer>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+
+/* ════════════════════════════════════════════════════════════
+   DONNÉES ACCORDS — Accordage EADGBE (standard)
+   frets : [E, A, D, G, B, e]   low → high
+    -1  = corde étouffée (×)
+     0  = corde à vide  (○)
+    1+  = numéro de frette
+   barre    : { fret, fromStr, toStr }  → ovale noir
+   baseFret : frette de départ (défaut 1 = sillet visible)
+════════════════════════════════════════════════════════════ */
+var CHORDS = [
+  // ── Majeurs ouverts ──────────────────────────────────────
+  // fingers : 1=index 2=majeur 3=annulaire 4=auriculaire P=pouce  0=corde à vide  null=étouffée
+  { id:'E',     name:'E',      frets:[ 0, 2, 2, 1, 0, 0],   fingers:[  0, 2, 3, 1, 0, 0] },
+  { id:'A',     name:'A',      frets:[-1, 0, 2, 2, 2, 0],   fingers:[  null, 0, 2, 3, 4, 0] },
+  { id:'D',     name:'D',      frets:[-1,-1, 0, 2, 3, 2],   fingers:[  null,null, 0, 1, 3, 2] },
+  { id:'C',     name:'C',      frets:[-1, 3, 2, 0, 1, 0],   fingers:[  null, 3, 2, 0, 1, 0] },
+  { id:'G',     name:'G',      frets:[ 3, 2, 0, 0, 3, 3],   fingers:[  2, 1, 0, 0, 3, 4] },
+  // ── Mineurs ouverts ──────────────────────────────────────
+  { id:'Em',    name:'Em',     frets:[ 0, 2, 2, 0, 0, 0],   fingers:[  0, 2, 3, 0, 0, 0] },
+  { id:'Am',    name:'Am',     frets:[-1, 0, 2, 2, 1, 0],   fingers:[  null, 0, 2, 3, 1, 0] },
+  { id:'Dm',    name:'Dm',     frets:[-1,-1, 0, 2, 3, 1],   fingers:[  null,null, 0, 2, 3, 1] },
+  // ── Barrés ───────────────────────────────────────────────
+  { id:'F',     name:'F',      frets:[ 1, 3, 3, 2, 1, 1], baseFret:1, barre:{fret:1,fromStr:0,toStr:5}, fingers:[1,3,4,2,1,1] },
+  { id:'Fmaj7', name:'Fmaj7',  frets:[ 1, 3, 3, 2, 1, 0],             fingers:['P',3,4,2,1,0] },
+  { id:'Fsm',   name:'F#m',    frets:[ 2, 4, 4, 2, 2, 2], baseFret:1, barre:{fret:2,fromStr:0,toStr:5}, fingers:[1,3,4,2,1,1] },
+  { id:'Bm',    name:'Bm',     frets:[-1, 2, 4, 4, 3, 2], baseFret:1, barre:{fret:2,fromStr:1,toStr:5}, fingers:[null,1,3,4,2,1] },
+  // ── 7e dominante ─────────────────────────────────────────
+  { id:'E7',    name:'E7',     frets:[ 0, 2, 0, 1, 0, 0],   fingers:[  0, 2, 0, 1, 0, 0] },
+  { id:'A7',    name:'A7',     frets:[-1, 0, 2, 0, 2, 0],   fingers:[  null, 0, 2, 0, 3, 0] },
+  { id:'D7',    name:'D7',     frets:[-1,-1, 0, 2, 1, 2],   fingers:[  null,null, 0, 2, 1, 3] },
+  { id:'G7',    name:'G7',     frets:[ 3, 2, 0, 0, 0, 1],   fingers:[  3, 2, 0, 0, 0, 1] },
+  { id:'B7',    name:'B7',     frets:[-1, 2, 1, 2, 0, 2],   fingers:[  null, 2, 1, 3, 0, 4] },
+  // ── 7e mineure ───────────────────────────────────────────
+  { id:'Em7',   name:'Em7',    frets:[ 0, 2, 2, 0, 3, 0],   fingers:[  0, 1, 2, 0, 4, 0] },
+  { id:'Am7',   name:'Am7',    frets:[-1, 0, 2, 0, 1, 0],   fingers:[  null, 0, 2, 0, 1, 0] },
+  { id:'Dm7',   name:'Dm7',    frets:[-1,-1, 0, 2, 1, 1], barre:{fret:1,fromStr:4,toStr:5}, fingers:[null,null,0,2,1,1] },
+  // ── 7e majeure ───────────────────────────────────────────
+  { id:'Cmaj7', name:'Cmaj7',  frets:[-1, 3, 2, 0, 0, 0],   fingers:[  null, 3, 2, 0, 0, 0] },
+  { id:'Amaj7', name:'Amaj7',  frets:[-1, 0, 2, 1, 2, 0],   fingers:[  null, 0, 2, 1, 3, 0] },
+  { id:'Gmaj7', name:'Gmaj7',  frets:[ 3,-1, 0, 0, 0, 2],   fingers:[  2, null, 0, 0, 0, 1] },
+  { id:'Dmaj7', name:'Dmaj7',  frets:[-1,-1, 0, 2, 2, 2], barre:{fret:2,fromStr:3,toStr:5}, fingers:[  null,null, 0, 1, 1, 1] },
+  // ── Suspendus / add ──────────────────────────────────────
+  { id:'Dsus2', name:'Dsus2',  frets:[-1,-1, 0, 2, 3, 0],   fingers:[  null,null, 0, 1, 3, 0] },
+  { id:'Dsus4', name:'Dsus4',  frets:[-1,-1, 0, 2, 3, 3],   fingers:[  null,null, 0, 1, 3, 4] },
+  { id:'Cadd9', name:'Cadd9',  frets:[-1, 3, 2, 0, 3, 0],   fingers:[  null, 2, 1, 0, 3, 0] },
+  { id:'Esus4', name:'Esus4',  frets:[ 0, 2, 2, 2, 0, 0],   fingers:[  0, 2, 3, 4, 0, 0] },
+  { id:'Asus2', name:'Asus2',  frets:[-1, 0, 2, 2, 0, 0],   fingers:[  null, 0, 2, 3, 0, 0] },
+  { id:'Asus4', name:'Asus4',  frets:[-1, 0, 2, 2, 3, 0],   fingers:[  null, 0, 2, 3, 4, 0] },
+];
+
+var SESSION_LENGTH = 10;
+
+/* ════════════════════════════════════════════════════════════
+   MODES PRINCIPAUX
+════════════════════════════════════════════════════════════ */
+var MODES = {
+  essentials: {
+    id:'essentials', cls:'ess', icon:'🌱', name:'Essentiels',
+    desc:'8 accords — le commencement !',
+    chordIds:['E','Em','A','Am','D','Dm','C','G'],
+    progColor:'#2D7D5A'
+  },
+  complementary: {
+    id:'complementary', cls:'comp', icon:'🎯', name:'Complémentaires',
+    desc:'7e, suspendus, premiers barrés à connaître',
+    chordIds:null,
+    progColor:'#2A5FA8'
+  },
+  all: {
+    id:'all', cls:'all', icon:'🔥', name:'Grande Révision',
+    desc:'Tous les accords — s\'adapte à ta progression globale',
+    chordIds:null,
+    progColor:'#7D2A85'
+  }
+};
+
+// Auto-fill complémentaires = tout sauf essentials, sauf accords réservés aux sous-modes
+(function(){
+  var ess     = MODES.essentials.chordIds;
+  var exclude = ['Esus4','Asus2','Asus4']; // réservés au sous-mode Suspendus + Grande Révision
+  MODES.complementary.chordIds = CHORDS
+    .filter(function(c){ return ess.indexOf(c.id) === -1 && exclude.indexOf(c.id) === -1; })
+    .map(function(c){ return c.id; });
+})();
+
+MODES.custom = {
+  id:'custom', cls:'cust', icon:'✏️', name:'Personnalisé',
+  desc:'', chordIds:null, progColor:'#B85C2A',
+  hidden:true, sandboxCorrect:true
+};
+
+/* ════════════════════════════════════════════════════════════
+   SOUS-MODES THÉMATIQUES
+════════════════════════════════════════════════════════════ */
+var SUB_MODES = [
+  { id:'sub_maj',  icon:'☀️', name:'Majeurs',
+    desc:'E · A · D · C · G · F',
+    chordIds:['E','A','D','C','G','F'],
+    progColor:'#B85C2A' },
+  { id:'sub_min',  icon:'🌙', name:'Mineurs',
+    desc:'Em · Am · Dm · F#m · Bm',
+    chordIds:['Em','Am','Dm','Fsm','Bm'],
+    progColor:'#2A5FA8' },
+  { id:'sub_dom7', icon:'7️⃣', name:'Dom. 7',
+    desc:'E7 · A7 · D7 · G7 · B7',
+    chordIds:['E7','A7','D7','G7','B7'],
+    progColor:'#7D2A85' },
+  { id:'sub_min7', icon:'🕯️', name:'Min. 7',
+    desc:'Em7 · Am7 · Dm7',
+    chordIds:['Em7','Am7','Dm7'],
+    progColor:'#2D7D5A' },
+  { id:'sub_maj7', icon:'✨', name:'Maj. 7',
+    desc:'Cmaj7 · Amaj7 · Gmaj7 · Dmaj7 · Fmaj7',
+    chordIds:['Cmaj7','Amaj7','Gmaj7','Dmaj7','Fmaj7'],
+    progColor:'#8A7D2A' },
+  { id:'sub_sus',  icon:'⏰', name:'Suspendus',
+    desc:'Dsus2 · Dsus4 · Cadd9 · Esus4 · Asus2 · Asus4',
+    chordIds:['Dsus2','Dsus4','Cadd9','Esus4','Asus2','Asus4'],
+    progColor:'#2A7D7D' }
+];
+
+// Lookup unifié : modes principaux + sous-modes
+var ALL_MODES = {};
+Object.keys(MODES).forEach(function(k){ ALL_MODES[k] = MODES[k]; });
+SUB_MODES.forEach(function(m){ ALL_MODES[m.id] = m; });
+
+/* ════════════════════════════════════════════════════════════
+   PERSISTANCE SÉLECTION PERSONNALISÉE
+════════════════════════════════════════════════════════════ */
+var CUSTOM_SEL_KEY = 'gtr_custom_sel';
+function loadCustomSel() {
+  try { var r = localStorage.getItem(CUSTOM_SEL_KEY); if (r) return JSON.parse(r); } catch(e){}
+  return [];
+}
+function saveCustomSel(ids) { try { localStorage.setItem(CUSTOM_SEL_KEY, JSON.stringify(ids)); } catch(e){} }
+
+/* ════════════════════════════════════════════════════════════
+   AUDIO — Web Audio API
+════════════════════════════════════════════════════════════ */
+var _ctx = null;
+function ctx() {
+  if (!_ctx) _ctx = new (window.AudioContext || window.webkitAudioContext)();
+  return _ctx;
+}
+function tone(freq, dur, vol, type, delay) {
+  try {
+    var c = ctx(), o = c.createOscillator(), g = c.createGain();
+    o.connect(g); g.connect(c.destination);
+    o.type = type || 'sine'; o.frequency.value = freq;
+    var t = c.currentTime + (delay || 0);
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(vol || 0.18, t + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+    o.start(t); o.stop(t + dur + 0.05);
+  } catch(e){}
+}
+function playSuccess(streak) {
+  var boost = Math.min(streak, 5) * 20;
+  tone(440 + boost, 0.12, 0.15, 'sine');
+  tone(554 + boost, 0.12, 0.13, 'sine', 0.1);
+  tone(659 + boost, 0.22, 0.13, 'sine', 0.2);
+}
+function playFail() {
+  tone(220, 0.08, 0.12, 'sawtooth');
+  tone(196, 0.22, 0.10, 'sawtooth', 0.08);
+}
+function playVictory() {
+  var notes = [523, 659, 784, 1047];
+  notes.forEach(function(n, i){ tone(n, 0.35, 0.14, 'sine', i * 0.12); });
+}
+
+/* ════════════════════════════════════════════════════════════
+   DIAGRAMME SVG GUITARE
+   6 cordes EADGBE, 4 frettes
+   Gère : X/O markers, sillet, barrés (ovale), points individuels,
+          offset de frette (baseFret > 1, label "Nfr")
+════════════════════════════════════════════════════════════ */
+function drawDiagram(chord, size) {
+  var frets    = chord.frets;
+  var baseFret = chord.baseFret || 1;
+  var barre    = chord.barre || null;
+  var fingers  = chord.fingers || null;
+  var sm       = (size === 'sm');
+
+  // ── Dimensions ───────────────────────────────────────────
+  var W    = sm ? 90  : 140;
+  var H    = sm ? 100 : 156;
+  var pL   = sm ? 14  : 20;   // symétrique → grille centrée
+  var pR   = sm ? 14  : 20;   // symétrique → grille centrée
+  var pTop = sm ? 20  : 28;
+  var nutH = sm ? 5   : 7;
+  var pBot = sm ? 6   : 8;
+
+  var nutY = pTop + nutH;
+  var gW   = W - pL - pR;     // largeur zone cordes
+  var gH   = H - nutY - pBot;
+  var sw   = gW / 5;           // espacement inter-cordes (6c = 5 gaps)
+  var fh   = gH / 4;           // hauteur d'une frette
+  var r    = Math.min(sw, fh) * 0.44; // rayon des points
+  var fnSz    = sm ? 7  : 11;  // taille police doigtés dans les points
+  var fnSzBar = sm ? 8  : 13;  // taille police "1" dans l'ovale (légèrement plus grand)
+
+  var sw_str  = sm ? 0.9 : 1.2;
+  var sw_fret = sm ? 0.6 : 0.8;
+  var sw_mk   = sm ? 1.3 : 1.7;
+  var mR      = sm ? 2.5 : 3.7;  // rayon marker O
+  var xSz     = sm ? 2.5 : 3.7;  // demi-taille marker X
+  var mY      = pTop - (sm ? 5.5 : 8);
+
+  var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">';
+
+  // ── Marqueurs au-dessus du sillet : × (étouffé) et ○ (à vide) ──
+  for (var i = 0; i < 6; i++) {
+    var xi = pL + i * sw;
+    if (frets[i] === 0) {
+      s += '<circle cx="'+xi.toFixed(1)+'" cy="'+mY.toFixed(1)+'" r="'+mR+'" fill="none" stroke="#1C1C1C" stroke-width="'+sw_mk+'"/>';
+    } else if (frets[i] === -1) {
+      s += '<line x1="'+(xi-xSz).toFixed(1)+'" y1="'+(mY-xSz).toFixed(1)+'" x2="'+(xi+xSz).toFixed(1)+'" y2="'+(mY+xSz).toFixed(1)+'" stroke="#1C1C1C" stroke-width="'+sw_mk+'" stroke-linecap="round"/>';
+      s += '<line x1="'+(xi+xSz).toFixed(1)+'" y1="'+(mY-xSz).toFixed(1)+'" x2="'+(xi-xSz).toFixed(1)+'" y2="'+(mY+xSz).toFixed(1)+'" stroke="#1C1C1C" stroke-width="'+sw_mk+'" stroke-linecap="round"/>';
+    }
+  }
+
+  // ── Sillet ou indicateur de frette ───────────────────────
+  if (baseFret === 1) {
+    // Sillet épais
+    s += '<rect x="'+(pL-1.5).toFixed(1)+'" y="'+pTop.toFixed(1)+'" width="'+(gW+3).toFixed(1)+'" height="'+nutH+'" fill="#1C1C1C" rx="1"/>';
+  } else {
+    // Ligne fine (pas de sillet)
+    s += '<line x1="'+pL.toFixed(1)+'" y1="'+pTop.toFixed(1)+'" x2="'+(pL+gW).toFixed(1)+'" y2="'+pTop.toFixed(1)+'" stroke="#1C1C1C" stroke-width="'+(sm?1.0:1.4)+'"/>';
+    // Label "Nfr" à droite
+    var lx = (pL + gW + (sm?3:4)).toFixed(1);
+    var ly = (pTop + fh * 0.65).toFixed(1);
+    s += '<text x="'+lx+'" y="'+ly+'" font-family="Outfit,sans-serif" font-size="'+(sm?7.5:10)+'" fill="#8C8880">'+baseFret+'fr</text>';
+  }
+
+  // ── Cordes verticales ─────────────────────────────────────
+  for (var i = 0; i < 6; i++) {
+    var xi2 = (pL + i * sw).toFixed(1);
+    s += '<line x1="'+xi2+'" y1="'+nutY.toFixed(1)+'" x2="'+xi2+'" y2="'+(nutY+gH).toFixed(1)+'" stroke="#1C1C1C" stroke-width="'+sw_str+'"/>';
+  }
+
+  // ── Lignes de frettes horizontales ───────────────────────
+  for (var f = 1; f <= 4; f++) {
+    var yf = (nutY + f * fh).toFixed(1);
+    s += '<line x1="'+pL.toFixed(1)+'" y1="'+yf+'" x2="'+(pL+gW).toFixed(1)+'" y2="'+yf+'" stroke="#1C1C1C" stroke-width="'+sw_fret+'"/>';
+  }
+
+  // ── Ovale de barré ────────────────────────────────────────
+  if (barre) {
+    var barreRow = barre.fret - baseFret + 1;
+    var barreY   = nutY + (barreRow - 0.5) * fh;
+    var bx1      = pL + barre.fromStr * sw;
+    var bx2      = pL + barre.toStr  * sw;
+    var bH       = r * 0.95;
+    s += '<rect x="'+(bx1 - r*1.3).toFixed(1)+'" y="'+(barreY - bH).toFixed(1)+'" width="'+(bx2 - bx1 + r*2.6).toFixed(1)+'" height="'+(bH*2).toFixed(1)+'" rx="'+bH.toFixed(1)+'" fill="#1C1C1C"/>';
+    s += '<text x="'+((bx1+bx2)/2).toFixed(1)+'" y="'+barreY.toFixed(1)+'" font-family="Outfit,sans-serif" font-size="'+fnSzBar+'" font-weight="700" fill="white" text-anchor="middle" dominant-baseline="central">1</text>';
+  }
+
+  // ── Points individuels (doigts non couverts par le barré) ─
+  for (var i = 0; i < 6; i++) {
+    var f = frets[i];
+    if (f <= 0) continue;
+    // Sauter si couvert par le barré à la même frette
+    if (barre && f === barre.fret && i >= barre.fromStr && i <= barre.toStr) continue;
+    var row = f - baseFret + 1;
+    if (row < 1 || row > 4) continue;
+    var xd = (pL + i * sw).toFixed(1);
+    var yd = (nutY + (row - 0.5) * fh).toFixed(1);
+    s += '<circle cx="'+xd+'" cy="'+yd+'" r="'+r.toFixed(1)+'" fill="#1C1C1C"/>';
+    var fn = fingers ? fingers[i] : null;
+    if (fn !== null && fn !== undefined && fn !== 0) {
+      s += '<text x="'+xd+'" y="'+yd+'" font-family="Outfit,sans-serif" font-size="'+fnSz+'" font-weight="700" fill="white" text-anchor="middle" dominant-baseline="central">'+fn+'</text>';
+    }
+  }
+
+  s += '</svg>';
+  return s;
+}
+
+/* ════════════════════════════════════════════════════════════
+   RÉPÉTITION ESPACÉE — SM-2
+════════════════════════════════════════════════════════════ */
+var STORAGE_KEY = 'gtr_flash_v1';
+var DAY_MS      = 24 * 60 * 60 * 1000;
+
+// Toutes les faces : chaque accord a une face "nom" et une face "diagramme"
+var ALL_ITEMS = [];
+CHORDS.forEach(function(c) {
+  ALL_ITEMS.push({ key: c.id+'_name',    chordId: c.id, side: 'name'    });
+  ALL_ITEMS.push({ key: c.id+'_diagram', chordId: c.id, side: 'diagram' });
+});
+
+var sr = loadSR();
+
+function freshItem() { return { interval:1, ef:2.5, reps:0, due:0, lastReview:0 }; }
+
+function loadSR() {
+  try {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      var p = JSON.parse(raw);
+      ALL_ITEMS.forEach(function(it) { if (!p.items[it.key]) p.items[it.key] = freshItem(); });
+      return p;
+    }
+  } catch(e) {}
+  var fresh = { items:{} };
+  ALL_ITEMS.forEach(function(it) { fresh.items[it.key] = freshItem(); });
+  return fresh;
+}
+
+function saveSR() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(sr)); } catch(e){} }
+
+/* ── STREAK ── */
+var STREAK_KEY = 'gtr_streak_v1';
+var GRACE_MS   = 36 * 60 * 60 * 1000;
+
+function loadStreak() {
+  try { var r = localStorage.getItem(STREAK_KEY); if (r) return JSON.parse(r); } catch(e) {}
+  return { count:0, best:0, lastTs:0 };
+}
+function saveStreak(sk) { try { localStorage.setItem(STREAK_KEY, JSON.stringify(sk)); } catch(e){} }
+function recordStreak() {
+  var now = Date.now(), sk = loadStreak();
+  var today = new Date().toDateString();
+  var last  = sk.lastTs ? new Date(sk.lastTs).toDateString() : null;
+  if (last === today) { /* déjà joué aujourd'hui */ }
+  else if (sk.lastTs && (now - sk.lastTs) <= GRACE_MS) { sk.count++; }
+  else { sk.count = 1; }
+  sk.best   = Math.max(sk.best || 0, sk.count);
+  sk.lastTs = now;
+  saveStreak(sk);
+  return sk;
+}
+
+function resetSR() {
+  sr = { items:{} };
+  ALL_ITEMS.forEach(function(it) { sr.items[it.key] = freshItem(); });
+  saveSR();
+}
+
+function getModeItems(modeId) {
+  if (modeId === 'custom') {
+    var ids = app.customChordIds || [];
+    return ALL_ITEMS.filter(function(it) { return ids.indexOf(it.chordId) !== -1; });
+  }
+  var mode = ALL_MODES[modeId];
+  if (!mode) return ALL_ITEMS;
+  var ids = mode.chordIds || CHORDS.map(function(c) { return c.id; });
+  return ALL_ITEMS.filter(function(it) { return ids.indexOf(it.chordId) !== -1; });
+}
+
+function nextItem(modeId, lastChordId) {
+  var now  = Date.now();
+  var pool = getModeItems(modeId).filter(function(i) { return i.chordId !== lastChordId; });
+  if (!pool.length) pool = getModeItems(modeId);
+
+  var overdue = pool.filter(function(i) { return (sr.items[i.key] || freshItem()).due <= now; });
+  if (overdue.length > 0) return overdue[Math.floor(Math.random() * overdue.length)];
+
+  pool.sort(function(a, b) { return (sr.items[a.key]||freshItem()).due - (sr.items[b.key]||freshItem()).due; });
+  var band = Math.max(1, Math.ceil(pool.length / 3));
+  var candidates = pool.slice(0, band);
+  return candidates[Math.floor(Math.random() * candidates.length)];
+}
+
+function recordAnswer(key, correct) {
+  var now = Date.now();
+  var d   = sr.items[key] || freshItem();
+  if (correct) {
+    var ni = (d.reps === 0) ? 1 : (d.reps === 1) ? 6 : Math.round(d.interval * d.ef);
+    d.reps++;
+    d.interval = ni;
+  } else {
+    d.reps     = 0;
+    d.interval = 1;
+    d.ef       = Math.max(1.3, (d.ef || 2.5) - 0.15);
+  }
+  d.due         = now + d.interval * DAY_MS;
+  d.lastReview  = now;
+  sr.items[key] = d;
+  saveSR();
+}
+
+function itemMastery(d) {
+  if (!d || d.reps === 0) return 0;
+  var iv = (d.reps === 1) ? 4 : (d.interval || 1);
+  return Math.min(Math.sqrt(Math.max(iv - 1, 0) / 88), 1);
+}
+
+function chordMastery(id) {
+  return (itemMastery(sr.items[id+'_name']) + itemMastery(sr.items[id+'_diagram'])) / 2;
+}
+
+function getModeStats(modeId) {
+  var items = getModeItems(modeId);
+  var totalM = 0, mastered = 0;
+  items.forEach(function(it) {
+    var m = itemMastery(sr.items[it.key]);
+    totalM += m;
+    if ((sr.items[it.key] || freshItem()).reps >= 3) mastered++;
+  });
+  var pct = items.length > 0 ? Math.round(mastered / items.length * 100) : 0;
+  return { mastered: mastered, total: items.length, pct: pct };
+}
+
+/* ════════════════════════════════════════════════════════════
+   ÉTAT DE L'APPLICATION
+════════════════════════════════════════════════════════════ */
+var app = {
+  screen:        'home',
+  item:          null,
+  lastChordId:   null,
+  modeId:        null,
+  refSort:       'alpha',
+  customChordIds: loadCustomSel(),
+  detailIds:     [],
+  detailIdx:     0,
+  session:       { correct:0, total:0, masteryAtStart:0, streak:0 },
+  streakResult:  null
+};
+
+function byId(id) { return CHORDS.find(function(c) { return c.id === id; }); }
+function sizeClass(n) { return n.length >= 5 ? 'sm' : n.length >= 4 ? 'md' : ''; }
+
+function sessionEmoji(c) {
+  return c===10?'🥇':c===9?'🏆':c>=7?'⭐':c>=5?'👍':c>=3?'💪':'🎯';
+}
+function sessionMsg(c) {
+  return c===10?'Série parfaite !':c>=9?'Excellent !':c>=7?'Très bien !':c>=5?"On s'accroche !":c>=3?'Continue !':'On y retourne !';
+}
+
+/* ════════════════════════════════════════════════════════════
+   EXPORT / IMPORT PROGRESSION
+════════════════════════════════════════════════════════════ */
+function exportProgress() {
+  var d   = new Date();
+  var ds  = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  var data = { app:'guitare', v:1, date:d.toISOString(), items:sr.items };
+  var blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' });
+  var url  = URL.createObjectURL(blob);
+  var a    = document.createElement('a');
+  a.href = url; a.download = 'progression-guitare-'+ds+'.json'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importProgress(file) {
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var data = JSON.parse(e.target.result);
+      if (!data.items || data.app !== 'guitare') {
+        alert('⚠️ Ce fichier ne correspond pas à l\'application Guitare.');
+        return;
+      }
+      var dateStr = data.date ? new Date(data.date).toLocaleDateString('fr-FR') : 'inconnue';
+      if (!confirm('Remplacer ta progression actuelle par celle du fichier ?\n📅 Date de la sauvegarde : '+dateStr)) return;
+      ALL_ITEMS.forEach(function(it) { if (data.items[it.key]) sr.items[it.key] = data.items[it.key]; });
+      saveSR();
+      render();
+    } catch(x) {
+      alert('⚠️ Fichier invalide ou corrompu.');
+    }
+  };
+  reader.readAsText(file);
+}
+
+/* ════════════════════════════════════════════════════════════
+   AUDIO — WebAudioFont (guitare nylon, lazy load)
+════════════════════════════════════════════════════════════ */
+var _WAFP_URL  = 'https://cdn.jsdelivr.net/npm/webaudiofont@2.0.5/npm/dist/WebAudioFontPlayer.js';
+var _TONE_URL  = 'https://cdn.jsdelivr.net/npm/webaudiofont@2.0.5/npm/dist/0240_Acoustic_Nylon_sf2_file.js';
+var _TONE_VAR  = '_tone_0240_Acoustic_Nylon_sf2_file';
+var _OPEN_MIDI = [40, 45, 50, 55, 59, 64]; /* E2 A2 D3 G3 B3 e4 */
+var _STRUM_S   = 0.088;
+var _NOTE_DUR  = 4.5;
+var _NOTE_VOL  = 0.72;
+var _wafReady = false, _wafLoading = false;
+var _wafCtx = null, _wafPlayer = null, _wafTone = null;
+
+function _loadAudio(cb) {
+  if (_wafReady)   { if (cb) cb(); return; }
+  if (_wafLoading) { return; }
+  _wafLoading = true;
+  function _initTone() {
+    _wafCtx    = new (window.AudioContext || window.webkitAudioContext)();
+    _wafPlayer = new WebAudioFontPlayer();
+    _wafPlayer.loader.startLoad(_wafCtx, _TONE_URL, _TONE_VAR);
+    _wafPlayer.loader.waitLoad(function() {
+      _wafTone = window[_TONE_VAR];
+      _wafReady = true; _wafLoading = false;
+      if (cb) cb();
+    });
+  }
+  if (typeof WebAudioFontPlayer === 'undefined') {
+    var s = document.createElement('script');
+    s.src = _WAFP_URL;
+    s.onload = _initTone;
+    document.head.appendChild(s);
+  } else { _initTone(); }
+}
+
+function playChordAudio(chord) {
+  _loadAudio(function() {
+    if (_wafCtx.state === 'suspended') _wafCtx.resume();
+    var now = _wafCtx.currentTime + 0.04, si = 0;
+    chord.frets.forEach(function(fret, i) {
+      if (fret < 0) return;
+      _wafPlayer.queueWaveTable(_wafCtx, _wafCtx.destination, _wafTone,
+        now + si * _STRUM_S, _OPEN_MIDI[i] + fret, _NOTE_DUR, _NOTE_VOL);
+      si++;
+    });
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   ROUTEUR
+════════════════════════════════════════════════════════════ */
+var _historyReady = false;
+var _chordDetailNav = false; // true quand prev/next dans chord-detail
+
+function _doRender(root) {
+  if      (app.screen === 'home')           renderHome(root);
+  else if (app.screen === 'submode-select') renderSubModes(root);
+  else if (app.screen === 'custom-select')  renderCustomSelect(root);
+  else if (app.screen === 'session')        renderSession(root);
+  else if (app.screen === 'end')            renderEnd(root);
+  else if (app.screen === 'reference')      renderReference(root);
+  else if (app.screen === 'chord-detail')   renderChordDetail(root);
+}
+
+function render() {
+  var root = document.getElementById('app');
+  root.innerHTML = '';
+  if (_historyReady) {
+    var st = { screen: app.screen, detailIds: app.detailIds, detailIdx: app.detailIdx };
+    if (app.screen === 'home') {
+      history.replaceState(st, '');                         // home = pas de retour en arrière → quitte l'app
+    } else if (app.screen === 'reference') {
+      history.pushState(st, '');                            // reference : retour → home
+    } else if (app.screen === 'chord-detail') {
+      if (_chordDetailNav) { history.replaceState(st, ''); } // prev/next : retour → reference (1 clic)
+      else                 { history.pushState(st, '');    } // entrée dans chord-detail : empile
+      _chordDetailNav = false;
+    }
+    // session, end, submode-select, custom-select → pas d'entrée dans l'historique → retour = home
+  }
+  _doRender(root);
+}
+
+window.addEventListener('popstate', function(e) {
+  var s = (e.state && e.state.screen) || 'home';
+  // Les écrans transitoires ne doivent jamais être restaurés → home
+  if (s === 'session' || s === 'end' || s === 'submode-select' || s === 'custom-select') s = 'home';
+  app.screen = s;
+  if (e.state) {
+    if (e.state.detailIds)            app.detailIds = e.state.detailIds;
+    if (e.state.detailIdx != null)    app.detailIdx = e.state.detailIdx;
+  }
+  var root = document.getElementById('app');
+  root.innerHTML = '';
+  _doRender(root);
+});
+
+/* ════════════════════════════════════════════════════════════
+   ACCUEIL
+════════════════════════════════════════════════════════════ */
+function renderHome(root) {
+  var div = document.createElement('div');
+  div.className = 'home fadein';
+  div.innerHTML =
+    '<div class="home-icon">🎸</div>'+
+    '<h1 class="home-h1">Premiers accords<br><em>Guitare</em></h1>'+
+    '<p class="home-sub">Mémorise tes accords avec la répétition espacée<br>Sessions de '+SESSION_LENGTH+' questions · 30 accords</p>'+
+    (function(){ var sk=loadStreak(); if(!sk.lastTs) return ''; return sk.count>=2 ? '<div class="streak-home active">🔥 '+sk.count+' jours de suite</div>' : '<div class="streak-home cold">🔥 Lance ta série !</div>'; }())+
+    '<div class="mode-cards" id="modeCards"></div>'+
+    '<div class="home-links">'+
+      '<button class="home-action-btn" id="bSub"><span class="hab-icon">🧩</span><span class="hab-text">Exercices thématiques</span><span class="hab-arrow">→</span></button>'+
+      '<button class="home-action-btn" id="bCustom"><span class="hab-icon">✏️</span><span class="hab-text">Session personnalisée</span><span class="hab-arrow">→</span></button>'+
+      '<button class="home-action-btn" id="bRef"><span class="hab-icon">📚</span><span class="hab-text">Voir tous les accords</span><span class="hab-arrow">→</span></button>'+
+    '</div>'+
+    '<div class="home-data-bar">'+
+      '<button class="btn-data" id="bExport">⬇ Exporter ma progression</button>'+
+      '<button class="btn-data" id="bImport">⬆ Importer une sauvegarde</button>'+
+      '<input type="file" id="importFile" accept=".json" style="display:none">'+
+    '</div>';
+  root.appendChild(div);
+
+  var modeCards = div.querySelector('#modeCards');
+  ['essentials','complementary','all'].forEach(function(modeId) {
+    var mode = MODES[modeId];
+    var st   = getModeStats(modeId);
+    var totalFaces = getModeItems(modeId).length;
+    var card = document.createElement('div');
+    card.className = 'mode-card ' + mode.cls;
+    card.innerHTML =
+      '<div class="mode-icon-box '+mode.cls+'">'+mode.icon+'</div>'+
+      '<div class="mode-info">'+
+        '<div class="mode-name">'+mode.name+'</div>'+
+        '<div class="mode-desc">'+mode.desc+'</div>'+
+        '<div class="mode-prog-row"><div class="mode-prog-fill '+mode.cls+'" style="width:'+st.pct+'%"></div></div>'+
+      '</div>'+
+      '<div class="mode-stat">'+
+        '<span class="mode-stat-n '+mode.cls+'">'+st.mastered+'</span>'+
+        '<span class="mode-stat-l">/ '+totalFaces+'</span>'+
+      '</div>';
+    card.onclick = function() {
+      var st0 = getModeStats(modeId);
+      app.modeId  = modeId;
+      app.session = { correct:0, total:0, masteryAtStart:st0.mastered, streak:0 };
+      app.item    = nextItem(modeId, app.lastChordId);
+      app.screen  = 'session';
+      render();
+    };
+    modeCards.appendChild(card);
+  });
+
+  div.querySelector('#bSub').onclick    = function() { app.screen = 'submode-select'; render(); };
+  div.querySelector('#bCustom').onclick = function() { app.screen = 'custom-select';  render(); };
+  div.querySelector('#bRef').onclick    = function() { app.screen = 'reference';       render(); };
+  div.querySelector('#bExport').onclick = exportProgress;
+  div.querySelector('#bImport').onclick = function() { div.querySelector('#importFile').click(); };
+  div.querySelector('#importFile').onchange = function(e) { if (e.target.files[0]) importProgress(e.target.files[0]); };
+}
+
+/* ════════════════════════════════════════════════════════════
+   SOUS-MODES THÉMATIQUES
+════════════════════════════════════════════════════════════ */
+function renderSubModes(root) {
+  var div = document.createElement('div');
+  div.className = 'sub-screen fadein';
+
+  var top = document.createElement('div');
+  top.className = 'sub-top';
+  top.innerHTML = '<button class="btn-circ" id="bBack">←</button><h2 class="sub-h">Exercices</h2>';
+  div.appendChild(top);
+
+  var intro = document.createElement('p');
+  intro.className = 'sub-intro';
+  intro.textContent = 'Travaille un type d\'accord à la fois. Les progrès s\'intègrent à ta progression globale.';
+  div.appendChild(intro);
+
+  var grid = document.createElement('div');
+  grid.className = 'sub-grid';
+
+  SUB_MODES.forEach(function(mode) {
+    var st         = getModeStats(mode.id);
+    var totalFaces = getModeItems(mode.id).length;
+    var card       = document.createElement('div');
+    card.className = 'sub-card';
+    card.style.borderLeftColor = mode.progColor;
+    card.innerHTML =
+      '<div class="sub-card-head">'+
+        '<span class="sub-card-icon">'+mode.icon+'</span>'+
+        '<span class="sub-card-name">'+mode.name+'</span>'+
+      '</div>'+
+      '<div class="sub-card-desc">'+mode.desc+'</div>'+
+      '<div class="sub-prog-row"><div class="sub-prog-fill" style="width:'+st.pct+'%;background:'+mode.progColor+'"></div></div>'+
+      '<div class="sub-stat">'+st.mastered+' / '+totalFaces+' maîtrisées</div>';
+    card.onclick = function() {
+      var st0 = getModeStats(mode.id);
+      app.modeId  = mode.id;
+      app.session = { correct:0, total:0, masteryAtStart:st0.mastered, streak:0 };
+      app.item    = nextItem(mode.id, app.lastChordId);
+      app.screen  = 'session';
+      render();
+    };
+    grid.appendChild(card);
+  });
+
+  div.appendChild(grid);
+  root.appendChild(div);
+  document.getElementById('bBack').onclick = function() { app.screen = 'home'; render(); };
+}
+
+/* ════════════════════════════════════════════════════════════
+   SESSION
+════════════════════════════════════════════════════════════ */
+function renderSession(root) {
+  var item  = app.item;
+  var chord = byId(item.chordId);
+  var mode  = ALL_MODES[app.modeId];
+  var tryNum = app.session.total + 1;
+  var pct    = Math.round((app.session.total / SESSION_LENGTH) * 100);
+
+  // Header
+  var hdr = document.createElement('div');
+  hdr.className = 'header';
+  hdr.innerHTML =
+    '<div class="header-title">Accords <b>Guitare</b></div>'+
+    '<button class="btn-ghost" id="bHome">⌂ Accueil</button>';
+  root.appendChild(hdr);
+  document.getElementById('bHome').onclick = function() { app.screen = 'home'; render(); };
+
+  // Barre de progression
+  var pg = document.createElement('div');
+  pg.className = 'prog-wrap';
+  pg.innerHTML =
+    '<div class="prog-meta">'+
+      '<span style="color:'+mode.progColor+';font-weight:500;">'+mode.icon+' '+mode.name+'</span>'+
+      '<span class="tries-count">'+tryNum+' / '+SESSION_LENGTH+'</span>'+
+    '</div>'+
+    '<div class="prog-track"><div class="prog-fill" style="width:'+pct+'%;background:'+mode.progColor+'"></div></div>';
+  root.appendChild(pg);
+
+  // Contenu des faces
+  var frontHTML, backHTML;
+  if (item.side === 'name') {
+    frontHTML =
+      '<div class="face-tag">Trouve la position</div>'+
+      '<div class="chord-big '+sizeClass(chord.name)+'">'+chord.name+'</div>'+
+      '<div class="card-hint">Joue cet accord sur ta guitare</div>';
+    backHTML =
+      '<div class="face-tag hi">Position correcte</div>'+
+      '<div class="diag-holder">'+drawDiagram(chord,'lg')+'</div>';
+  } else {
+    frontHTML =
+      '<div class="face-tag">Quel est cet accord ?</div>'+
+      '<div class="diag-holder">'+drawDiagram(chord,'lg')+'</div>'+
+      '<div class="card-hint">Trouve le nom de cet accord</div>';
+    backHTML =
+      '<div class="face-tag hi">La réponse !</div>'+
+      '<div class="chord-big '+sizeClass(chord.name)+'">'+chord.name+'</div>';
+  }
+
+  var scene = document.createElement('div');
+  scene.className = 'card-scene fadein';
+  scene.innerHTML =
+    '<div class="card-body" id="cBody">'+
+      '<div class="card-face front">'+frontHTML+'</div>'+
+      '<div class="card-face back">'+backHTML+'</div>'+
+    '</div>';
+  root.appendChild(scene);
+  if (item.side === 'diagram') setTimeout(function() { playChordAudio(chord); }, 350);
+
+  var btnReveal = document.createElement('button');
+  btnReveal.className = 'btn-main';
+  btnReveal.textContent = 'Voir la réponse';
+  root.appendChild(btnReveal);
+
+  var btnRow = document.createElement('div');
+  btnRow.className = 'btn-row';
+  btnRow.id = 'bRow';
+  btnRow.innerHTML =
+    '<button class="btn-ko" id="bKo">✗&nbsp;&nbsp;À revoir</button>'+
+    '<button class="btn-ok" id="bOk">✓&nbsp;&nbsp;Je savais !</button>';
+  root.appendChild(btnRow);
+
+  btnReveal.onclick = function() {
+    document.getElementById('cBody').classList.add('flipped');
+    btnReveal.style.display = 'none';
+    if (item.side === 'name') playChordAudio(chord);
+    setTimeout(function() {
+      var row = document.getElementById('bRow');
+      if (row) row.classList.add('vis');
+    }, 490);
+  };
+
+  function advance(correct) {
+    var isSandbox = mode.sandboxCorrect;
+    if (correct && !isSandbox) recordAnswer(item.key, true);
+    if (!correct)              recordAnswer(item.key, false);
+    if (correct) { playSuccess(app.session.streak); app.session.streak++; }
+    else         { playFail();                       app.session.streak = 0; }
+    app.lastChordId = item.chordId;
+    app.session.total++;
+    if (correct) app.session.correct++;
+    if (app.session.total >= SESSION_LENGTH) {
+      if (!isSandbox) app.streakResult = recordStreak();
+      app.screen = 'end';
+    } else {
+      app.item   = nextItem(app.modeId, item.chordId);
+      app.screen = 'session';
+    }
+    render();
+  }
+  document.getElementById('bOk').onclick = function() { advance(true);  };
+  document.getElementById('bKo').onclick = function() { advance(false); };
+}
+
+/* ════════════════════════════════════════════════════════════
+   FIN DE SESSION
+════════════════════════════════════════════════════════════ */
+function renderEnd(root) {
+  var mode    = ALL_MODES[app.modeId];
+  var st      = getModeStats(app.modeId);
+  var delta   = st.mastered - app.session.masteryAtStart;
+  var correct = app.session.correct;
+
+  var div = document.createElement('div');
+  div.className = 'end-screen fadein';
+
+  var isSandbox = mode.sandboxCorrect;
+  var masteryBlock;
+  if (isSandbox) {
+    var errors = SESSION_LENGTH - correct;
+    masteryBlock =
+      '<div class="end-sandbox-card">'+
+        '<div class="end-sandbox-title">✏️ Session libre</div>'+
+        '<div class="end-sandbox-body">'+
+          (errors > 0
+            ? errors+' erreur'+(errors>1?'s':'')+' enregistrée'+(errors>1?'s':'')+' dans ta progression.<br>Les bonnes réponses ne comptent pas en mode libre.'
+            : 'Aucune erreur — lance un vrai mode pour que tes réussites comptent !')+
+        '</div>'+
+      '</div>';
+  } else {
+    masteryBlock =
+      '<div class="end-mastery-card">'+
+        '<div class="end-mastery-title">Progression globale</div>'+
+        '<div class="end-mastery-row">'+
+          '<div class="end-m-val">'+st.mastered+'<span class="slash"> / '+st.total+'</span></div>'+
+          '<div class="end-track">'+
+            '<div class="end-prog-track"><div class="end-prog-fill" id="endFill" style="width:0%;background:'+mode.progColor+'"></div></div>'+
+            '<div class="end-prog-pct">'+st.pct+'% maîtrisé</div>'+
+          '</div>'+
+        '</div>'+
+        (delta > 0
+          ? '<div class="end-m-delta up">+'+delta+' face'+(delta>1?'s':'')+' maîtrisée'+(delta>1?'s':'')+' cette session 🎉</div>'
+          : '<div class="end-m-delta same">Continue pour progresser !</div>')+
+      '</div>';
+  }
+
+  var badgeStyle = 'background:'+mode.progColor+'22;color:'+mode.progColor+';';
+  div.innerHTML =
+    '<div class="end-badge" style="'+badgeStyle+'">'+mode.icon+' '+mode.name+'</div>'+
+    '<div class="end-score-wrap popin">'+
+      '<span class="end-emoji">'+sessionEmoji(correct)+'</span>'+
+      '<div class="end-score">'+correct+'<span> / '+SESSION_LENGTH+'</span></div>'+
+      '<div class="end-label">'+sessionMsg(correct)+'</div>'+
+    '</div>'+
+    masteryBlock+
+    (function(){
+      var sk = app.streakResult;
+      if (!sk || sk.count < 1) return '';
+      var dayWord = sk.count > 1 ? 'jours de suite' : '1er jour';
+      return '<div class="end-streak-card">'+
+        '<div class="end-streak-left">'+
+          '<div class="end-streak-flame">🔥</div>'+
+          '<div><div class="end-streak-count">'+sk.count+'</div>'+
+          '<div class="end-streak-lbl">'+dayWord+'</div></div>'+
+        '</div>'+
+        '<div class="end-streak-best"><strong>'+sk.best+'</strong>record</div>'+
+      '</div>';
+    }())+
+    '<div class="end-btn-row">'+
+      '<button class="btn-home-end" id="bEndHome">⌂ Accueil</button>'+
+      '<button class="btn-replay" id="bReplay" style="background:'+mode.progColor+'">↺ Rejouer</button>'+
+    '</div>';
+  root.appendChild(div);
+
+  if (!isSandbox) {
+    setTimeout(function() { var f = document.getElementById('endFill'); if(f) f.style.width = st.pct+'%'; }, 120);
+  }
+  if (correct === SESSION_LENGTH) setTimeout(function() { playVictory(); }, 200);
+
+  document.getElementById('bEndHome').onclick = function() { app.screen = 'home'; render(); };
+  document.getElementById('bReplay').onclick  = function() {
+    if (app.modeId === 'custom') { app.screen = 'custom-select'; render(); return; }
+    var st0 = getModeStats(app.modeId);
+    app.session = { correct:0, total:0, masteryAtStart:st0.mastered, streak:0 };
+    app.item    = nextItem(app.modeId, app.lastChordId);
+    app.screen  = 'session';
+    render();
+  };
+}
+
+/* ════════════════════════════════════════════════════════════
+   SESSION PERSONNALISÉE — sélection des accords
+════════════════════════════════════════════════════════════ */
+var MIN_CUSTOM = 5;
+function renderCustomSelect(root) {
+  var sel = app.customChordIds.slice();
+
+  function rebuild() {
+    root.innerHTML = '';
+    var div = document.createElement('div');
+    div.className = 'sel-screen fadein';
+
+    var top = document.createElement('div');
+    top.className = 'sel-top';
+    top.innerHTML = '<button class="btn-circ" id="sBk">←</button><h2 class="ref-h">Session personnalisée</h2>';
+    div.appendChild(top);
+
+    var n   = sel.length;
+    var cls = n >= MIN_CUSTOM ? 'ok' : n > 0 ? 'warn' : 'bad';
+    var lbl = n >= MIN_CUSTOM
+      ? n+' accord'+(n>1?'s':'')+' sélectionné'+(n>1?'s':'')+' ✓'
+      : n+' / '+MIN_CUSTOM+' minimum';
+    var meta = document.createElement('div');
+    meta.className = 'sel-meta';
+    meta.innerHTML =
+      '<span class="sel-count '+cls+'">'+lbl+'</span>'+
+      '<div class="sel-actions">'+
+        '<button class="btn-sel-link" id="sAll">Tout</button>'+
+        '<button class="btn-sel-link" id="sClear">Effacer</button>'+
+      '</div>';
+    div.appendChild(meta);
+
+    var grid = document.createElement('div');
+    grid.className = 'sel-grid';
+    CHORDS.forEach(function(c) {
+      var isSelected = sel.indexOf(c.id) !== -1;
+      var item = document.createElement('div');
+      item.className = 'sel-item' + (isSelected ? ' selected' : '');
+      item.innerHTML =
+        '<div class="sel-check">✓</div>'+
+        drawDiagram(c,'sm')+
+        '<div class="sel-item-name">'+c.name+'</div>';
+      item.onclick = function() {
+        var idx = sel.indexOf(c.id);
+        if (idx === -1) sel.push(c.id); else sel.splice(idx, 1);
+        rebuild();
+      };
+      grid.appendChild(item);
+    });
+    div.appendChild(grid);
+
+    var btnStart = document.createElement('button');
+    btnStart.className = 'btn-start-custom';
+    btnStart.textContent = 'Démarrer →';
+    btnStart.disabled = sel.length < MIN_CUSTOM;
+    div.appendChild(btnStart);
+
+    var note = document.createElement('p');
+    note.className = 'custom-sandbox-note';
+    note.innerHTML = 'Mode libre · Les erreurs affectent ta progression,<br>les bonnes réponses ne la modifient pas';
+    div.appendChild(note);
+
+    root.appendChild(div);
+
+    document.getElementById('sBk').onclick    = function() { app.screen = 'home'; render(); };
+    document.getElementById('sAll').onclick   = function() { sel = CHORDS.map(function(c){return c.id;}); rebuild(); };
+    document.getElementById('sClear').onclick = function() { sel = []; rebuild(); };
+
+    btnStart.onclick = function() {
+      if (sel.length < MIN_CUSTOM) return;
+      app.customChordIds = sel.slice();
+      saveCustomSel(app.customChordIds);
+      app.modeId  = 'custom';
+      app.session = { correct:0, total:0, masteryAtStart:0, streak:0 };
+      app.item    = nextItem('custom', app.lastChordId);
+      app.screen  = 'session';
+      render();
+    };
+  }
+
+  rebuild();
+}
+
+/* ════════════════════════════════════════════════════════════
+   RÉFÉRENTIEL COMPLET
+════════════════════════════════════════════════════════════ */
+function renderReference(root) {
+  var div = document.createElement('div');
+  div.className = 'ref-screen fadein';
+
+  var top = document.createElement('div');
+  top.className = 'ref-top';
+  top.innerHTML = '<button class="btn-circ" id="bBack">←</button><h2 class="ref-h">Tous les accords</h2>';
+  div.appendChild(top);
+
+  var sortBar = document.createElement('div');
+  sortBar.className = 'sort-bar';
+  [['alpha','A–Z'],['best','★ Mieux maîtrisés'],['worst','⚠ À travailler']].forEach(function(s) {
+    var b = document.createElement('button');
+    b.className = 'sort-btn' + (app.refSort === s[0] ? ' active' : '');
+    b.textContent = s[1];
+    b.onclick = function() { app.refSort = s[0]; root.innerHTML=''; renderReference(root); };
+    sortBar.appendChild(b);
+  });
+  div.appendChild(sortBar);
+
+  var sorted = CHORDS.slice();
+  if (app.refSort === 'alpha') sorted.sort(function(a,b){ return a.name.localeCompare(b.name); });
+  else if (app.refSort === 'best')  sorted.sort(function(a,b){ return chordMastery(b.id) - chordMastery(a.id); });
+  else sorted.sort(function(a,b){ return chordMastery(a.id) - chordMastery(b.id); });
+
+  var grid = document.createElement('div');
+  grid.className = 'ref-grid';
+  sorted.forEach(function(c, idx) {
+    var m   = chordMastery(c.id);
+    var pct = Math.round(m * 100);
+    var col = pct === 100 ? '#12B558'
+            : m >= 0.75   ? '#7A9A35'
+            : m >= 0.4    ? '#C49225'
+            :               '#C04848';
+    var pctLabel = pct === 100 ? '✔️' : pct + '%';
+    var card = document.createElement('div');
+    card.className = 'ref-item';
+    card.innerHTML =
+      drawDiagram(c,'sm')+
+      '<div class="ref-name">'+c.name+'</div>'+
+      '<div class="ref-bar"><div class="ref-fill" style="width:'+pct+'%;background:'+col+'"></div></div>'+
+      '<div class="ref-pct">'+pctLabel+'</div>';
+    card.onclick = function() {
+      app.detailIds = sorted.map(function(x){ return x.id; });
+      app.detailIdx = idx;
+      app.screen    = 'chord-detail';
+      render();
+    };
+    grid.appendChild(card);
+  });
+  div.appendChild(grid);
+
+  var footer = document.createElement('div');
+  footer.className = 'ref-footer';
+  footer.innerHTML = '<button class="btn-reset" id="bReset">Réinitialiser toute la progression</button>';
+  div.appendChild(footer);
+
+  root.innerHTML = '';
+  root.appendChild(div);
+
+  document.getElementById('bBack').onclick = function() { app.screen = 'home'; render(); };
+  document.getElementById('bReset').onclick = function() {
+    if (confirm('Effacer toute la progression ? Cette action est irréversible.')) { resetSR(); render(); }
+  };
+}
+
+/* ── CHORD DETAIL ── */
+function renderChordDetail(root) {
+  var ids = app.detailIds;
+  var idx = app.detailIdx;
+  var c   = byId(ids[idx]);
+  var m   = chordMastery(c.id);
+  var pct = Math.round(m * 100);
+  var col = pct === 100 ? '#12B558' : m >= 0.75 ? '#7A9A35' : m >= 0.4 ? '#C49225' : '#C04848';
+  var pctLabel = pct === 100 ? '✔️' : pct + '%';
+
+  var div = document.createElement('div');
+  div.className = 'detail-screen fadein';
+
+  var top = document.createElement('div');
+  top.className = 'detail-top';
+  top.innerHTML =
+    '<button class="btn-circ" id="dBack">←</button>'+
+    '<h2 class="ref-h">Dictionnaire</h2>'+
+    '<span class="detail-counter">'+(idx+1)+' / '+ids.length+'</span>';
+  div.appendChild(top);
+
+  var card = document.createElement('div');
+  card.className = 'detail-card popin';
+  card.innerHTML =
+    '<div class="detail-name">'+c.name+'</div>'+
+    '<div class="detail-diag">'+drawDiagram(c,'lg')+'</div>'+
+    '<div class="detail-prog-row">'+
+      '<div class="detail-bar"><div class="detail-fill" style="width:'+pct+'%;background:'+col+'"></div></div>'+
+      '<div class="detail-pct">'+pctLabel+' maîtrisé</div>'+
+    '</div>';
+  div.appendChild(card);
+
+  var leg = document.createElement('div');
+  leg.className = 'detail-legend';
+  [['1','index'],['2','majeur'],['3','annulaire'],['4','auriculaire'],['P','pouce']].forEach(function(p) {
+    leg.innerHTML += '<span><div class="det-dot">'+p[0]+'</div>'+p[1]+'</span>';
+  });
+  div.appendChild(leg);
+
+  var nav = document.createElement('div');
+  nav.className = 'detail-nav';
+  var bPrev = document.createElement('button');
+  bPrev.className = 'btn-nav';
+  bPrev.innerHTML = '← Précédent';
+  bPrev.disabled = (idx === 0);
+  var bNext = document.createElement('button');
+  bNext.className = 'btn-nav';
+  bNext.innerHTML = 'Suivant →';
+  bNext.disabled = (idx === ids.length - 1);
+  nav.appendChild(bPrev);
+  nav.appendChild(bNext);
+  div.appendChild(nav);
+
+  root.appendChild(div);
+
+  document.getElementById('dBack').onclick = function() { app.screen = 'reference'; render(); };
+  bPrev.onclick = function() { app.detailIdx = Math.max(0, idx - 1); _chordDetailNav = true; render(); };
+  bNext.onclick = function() { app.detailIdx = Math.min(ids.length - 1, idx + 1); _chordDetailNav = true; render(); };
+}
+
+render();
+history.replaceState({ screen: 'home' }, '');
+_historyReady = true;
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() { navigator.serviceWorker.register('./sw.js'); });
+}
+</script>
+</body>
+</html>
