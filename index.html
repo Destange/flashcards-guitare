@@ -73,6 +73,49 @@
     .btn-end-free:hover  { opacity: .85; }
     .btn-end-free:active { transform: scale(.985); }
 
+    /* ── POPUP MISE À JOUR (bloquante, centrée, overlay) ── */
+    .update-overlay {
+      position: fixed; inset: 0;
+      background: rgba(28, 28, 28, .55);
+      backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 10000;
+      animation: fadeUp .3s ease;
+      padding: 20px;
+    }
+    .update-popup {
+      background: var(--card);
+      border-radius: 22px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, .25);
+      padding: 32px 28px 26px;
+      max-width: 360px; width: 100%;
+      text-align: center;
+      animation: popIn .42s cubic-bezier(.34, 1.56, .64, 1);
+    }
+    .update-popup-icon { font-size: 44px; margin-bottom: 10px; }
+    .update-popup-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px; letter-spacing: -.5px;
+      margin-bottom: 10px;
+    }
+    .update-popup-body {
+      font-size: 14px; color: var(--muted);
+      font-weight: 300; line-height: 1.5;
+      margin-bottom: 22px;
+    }
+    .update-popup-btn {
+      width: 100%; padding: 16px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px; font-weight: 600;
+      background: var(--accent); color: #FFF;
+      border: none; border-radius: 14px;
+      cursor: pointer;
+      transition: opacity .12s, transform .1s;
+      box-shadow: 0 4px 16px rgba(184, 92, 42, .3);
+    }
+    .update-popup-btn:hover  { opacity: .88; }
+    .update-popup-btn:active { transform: scale(.985); }
+
     /* ── CARD ── */
     .card-scene { width: 100%; perspective: 900px; margin-bottom: 20px; }
     .card-body { width: 100%; height: 400px; position: relative; transform-style: preserve-3d; transition: transform .52s cubic-bezier(.4,0,.2,1); }
@@ -369,7 +412,7 @@
 </head>
 <body>
 <div id="app"></div>
-<footer class="app-footer">Réalisé par <a href="https://www.instagram.com/juliendestange/" target="_blank" rel="noopener" class="footer-link">Julien Destange</a> · v1.5</footer>
+<footer class="app-footer">Réalisé par <a href="https://www.instagram.com/juliendestange/" target="_blank" rel="noopener" class="footer-link">Julien Destange</a> · v1.6</footer>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 
 /* ════════════════════════════════════════════════════════════
@@ -1124,6 +1167,9 @@ function renderHome(root) {
   div.querySelector('#bExport').onclick = exportProgress;
   div.querySelector('#bImport').onclick = function() { div.querySelector('#importFile').click(); };
   div.querySelector('#importFile').onchange = function(e) { if (e.target.files[0]) importProgress(e.target.files[0]); };
+
+  // Si une mise à jour était en attente pendant une session, on l'affiche maintenant
+  maybeShowUpdate();
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -1835,8 +1881,77 @@ function renderChordDetail(root) {
 render();
 history.replaceState({ screen: 'home' }, '');
 _historyReady = true;
+/* ════════════════════════════════════════════════════════════
+   SERVICE WORKER + DÉTECTION MISE À JOUR
+   - Popup centrée bloquante, sans dismiss
+   - Affichée uniquement sur l'accueil (jamais pendant une session)
+   - Si update détectée pendant une session : attend le retour à l'accueil
+════════════════════════════════════════════════════════════ */
+var _updatePending  = false;  // true quand une nouvelle version est prête mais pas encore montrée
+var _updateShown    = false;  // true quand la popup est affichée → évite doublon
+var _reloading      = false;  // évite double reload si controllerchange + click simultanés
+
+function showUpdatePopup() {
+  if (_updateShown) return;
+  _updateShown = true;
+  var overlay = document.createElement('div');
+  overlay.className = 'update-overlay';
+  overlay.id = 'updateOverlay';
+  overlay.innerHTML =
+    '<div class="update-popup">'+
+      '<div class="update-popup-icon">🎸</div>'+
+      '<div class="update-popup-title">Nouvelle version disponible</div>'+
+      '<div class="update-popup-body">Une mise à jour de l\'app est prête.</div>'+
+      '<button class="update-popup-btn" id="updateBtn">Actualiser maintenant</button>'+
+    '</div>';
+  document.body.appendChild(overlay);
+  document.getElementById('updateBtn').onclick = function() {
+    if (_reloading) return;
+    _reloading = true;
+    // skipWaiting() est déjà dans sw.js → le nouveau SW prend le contrôle dès l'install.
+    // controllerchange déclenchera le reload, mais on force aussi ici en filet de sécurité.
+    window.location.reload();
+  };
+}
+
+// Tente d'afficher la popup si pertinent : update prête + sur l'accueil
+function maybeShowUpdate() {
+  if (_updatePending && !_updateShown && app.screen === 'home') {
+    showUpdatePopup();
+  }
+}
+
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() { navigator.serviceWorker.register('./sw.js'); });
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('./sw.js').then(function(reg) {
+      // Détecter qu'un nouveau SW est en cours d'installation
+      reg.addEventListener('updatefound', function() {
+        var newSW = reg.installing;
+        if (!newSW) return;
+        newSW.addEventListener('statechange', function() {
+          // Nouveau SW installé ET un ancien existait → vraie mise à jour (pas premier install)
+          if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
+            _updatePending = true;
+            maybeShowUpdate();
+          }
+        });
+      });
+    });
+
+    // Re-check des updates au focus de la fenêtre (utile pour PWA gardée ouverte plusieurs jours)
+    window.addEventListener('focus', function() {
+      navigator.serviceWorker.getRegistration().then(function(reg) {
+        if (reg) reg.update();
+      });
+    });
+  });
+
+  // Quand le nouveau SW prend le contrôle → reload pour servir les nouveaux assets
+  navigator.serviceWorker.addEventListener('controllerchange', function() {
+    if (_reloading) return;
+    _reloading = true;
+    window.location.reload();
+  });
 }
 </script>
 </body>
