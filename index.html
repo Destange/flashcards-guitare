@@ -75,7 +75,12 @@
     .diag-holder svg { width: 200px; height: auto; }
 
     /* ── BUTTONS ── */
-    .btn-main { width: 100%; padding: 18px; font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 500; background: var(--accent); color: #FFF; border: none; border-radius: 16px; cursor: pointer; transition: opacity .12s, transform .1s; margin-bottom: 12px; box-shadow: 0 4px 14px rgba(184,92,42,.22); display: inline-flex; align-items: center; justify-content: center; }
+    .btn-main { width: 100%; padding: 18px; font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 500; background: var(--accent); color: #FFF; border: none; border-radius: 16px; cursor: pointer; transition: opacity .15s ease, visibility 0s .15s, transform .1s; margin-bottom: 12px; box-shadow: 0 4px 14px rgba(184,92,42,.22); display: flex; align-items: center; justify-content: center; gap: 8px; visibility: visible; }
+    .btn-main.hidden { opacity: 0; pointer-events: none; visibility: hidden; }
+    /* Stack reveal-btn + ok/ko-row dans la même cellule grid : hauteur stable, pas de saut */
+    .actions-stack { width: 100%; display: grid; grid-template-areas: 'a'; }
+    .actions-stack > .btn-main { grid-area: a; margin-bottom: 0; }
+    .actions-stack > .btn-row  { grid-area: a; margin-bottom: 0; align-self: stretch; }
     .btn-main:hover { opacity: .84; }
     .btn-main:active { transform: scale(.985); }
     .btn-row { width: 100%; display: flex; gap: 12px; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
@@ -122,9 +127,11 @@
     .home-action-btn { width: 100%; display: flex; align-items: center; gap: 12px; background: var(--card); border: 1.5px solid var(--border); border-radius: 14px; padding: 14px 18px; cursor: pointer; font-family: 'Outfit', sans-serif; transition: border-color .15s, box-shadow .15s, transform .1s; text-align: left; }
     .home-action-btn:hover { border-color: var(--accent); box-shadow: 0 3px 14px rgba(184,92,42,.12); transform: translateY(-1px); }
     .home-action-btn:active { transform: scale(.988); }
-    .hab-icon { font-size: 20px; flex-shrink: 0; }
+    .hab-icon { font-size: 20px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .hab-icon svg { width: 22px; height: 22px; color: var(--accent); }
     .hab-text { flex: 1; font-size: 14px; font-weight: 500; color: var(--text); }
-    .hab-arrow { font-size: 16px; color: var(--muted); flex-shrink: 0; transition: transform .15s; }
+    .hab-arrow { flex-shrink: 0; display: inline-flex; align-items: center; color: var(--muted); transition: transform .15s, color .15s; }
+    .hab-arrow svg { width: 18px; height: 18px; }
     .home-action-btn:hover .hab-arrow { transform: translateX(3px); color: var(--accent); }
     .home-data-bar { width: 100%; display: flex; gap: 8px; margin-top: 10px; }
     .btn-data { flex: 1; font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 500; color: var(--muted); background: var(--card); border: 1.5px solid var(--border); border-radius: 12px; padding: 11px 10px; cursor: pointer; transition: border-color .15s, color .15s; display: flex; align-items: center; justify-content: center; gap: 6px; }
@@ -192,35 +199,50 @@
 
     /* ── BOUTONS PILULES (Retour / Accueil) ── */
     .btn-nav-back, .btn-nav-home {
-      display: inline-flex; align-items: center; gap: 6px;
-      height: 44px; padding: 0 16px;
+      display: inline-flex; align-items: center; gap: 7px;
+      height: 44px; padding: 0 16px 0 12px;
       background: var(--card); border: 1.5px solid var(--border); border-radius: 22px;
       cursor: pointer; flex-shrink: 0;
       font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; color: var(--text);
-      transition: border-color .15s, background .12s, transform .1s;
+      transition: background .12s, border-color .12s, color .12s, transform .1s;
+      box-shadow: 0 1px 3px rgba(0,0,0,.04);
+      -webkit-tap-highlight-color: transparent;
     }
-    .btn-nav-back svg, .btn-nav-home svg { width: 18px; height: 18px; flex-shrink: 0; }
-    .btn-nav-back:hover, .btn-nav-home:hover { border-color: var(--accent); background: var(--accent-light); }
+    .btn-nav-back:hover, .btn-nav-home:hover { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
     .btn-nav-back:active, .btn-nav-home:active { transform: scale(.96); }
+    .btn-nav-back svg, .btn-nav-home svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .nav-label { line-height: 1; }
     @media (max-width: 360px) {
       .btn-nav-back .nav-label, .btn-nav-home .nav-label { display: none; }
-      .btn-nav-back, .btn-nav-home { padding: 0; width: 44px; justify-content: center; }
+      .btn-nav-back, .btn-nav-home { width: 44px; padding: 0; justify-content: center; border-radius: 50%; }
     }
 
     /* ── SVG SIZING dans les boutons existants ── */
     .btn-ghost { display: inline-flex; align-items: center; gap: 5px; }
     .btn-ghost svg { width: 14px; height: 14px; }
-    .btn-data svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .btn-data svg { width: 16px; height: 16px; flex-shrink: 0; color: var(--accent); }
     .btn-main { gap: 8px; }
     .btn-main svg { width: 18px; height: 18px; flex-shrink: 0; }
     .btn-replay { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
     .btn-replay svg { width: 16px; height: 16px; flex-shrink: 0; }
-    .hab-arrow { display: inline-flex; align-items: center; }
-    .hab-arrow svg { width: 16px; height: 16px; }
-    .home-action-btn:hover .hab-arrow { transform: translateX(3px); color: var(--accent); }
-    .btn-nav { display: inline-flex; align-items: center; justify-content: center; gap: 6px; transition: background .12s, border-color .12s, transform .1s; }
-    .btn-nav svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .hab-arrow svg { color: inherit; }
     .btn-nav:not(:disabled):active { transform: scale(.97); }
+
+    /* ── MODE PREVIEW ── */
+    .preview-screen { width: 100%; }
+    .preview-top { display: flex; align-items: center; gap: 14px; padding: 18px 0 12px; }
+    .preview-h { font-family: 'Playfair Display', serif; font-size: 21px; line-height: 1.2; }
+    .preview-sub { font-size: 13px; color: var(--muted); margin-bottom: 16px; font-weight: 300; line-height: 1.5; }
+    .preview-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 22px; }
+    .preview-item { background: var(--card); border-radius: 14px; padding: 12px 6px 10px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 1px 6px rgba(0,0,0,.05); cursor: pointer; transition: box-shadow .14s, transform .1s; -webkit-tap-highlight-color: transparent; }
+    .preview-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+    .preview-item:active { transform: scale(.94); }
+    .preview-item svg { width: 72px; height: auto; }
+    .preview-name { font-family: 'Playfair Display', serif; font-size: 13px; margin-top: 5px; text-align: center; line-height: 1.3; }
+    .btn-start-preview { width: 100%; padding: 18px; font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 600; color: #FFF; border: none; border-radius: 16px; cursor: pointer; transition: opacity .12s, transform .1s; margin-bottom: 10px; box-shadow: 0 5px 20px rgba(0,0,0,.14); display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-start-preview svg { width: 20px; height: 20px; color: #FFF; flex-shrink: 0; }
+    .btn-start-preview:hover { opacity: .88; }
+    .btn-start-preview:active { transform: scale(.985); }
     .ref-h { font-family: 'Playfair Display', serif; font-size: 21px; }
     .sort-bar { width: 100%; display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
     .sort-btn { font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 500; padding: 7px 13px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--card); color: var(--muted); cursor: pointer; transition: all .14s; white-space: nowrap; }
@@ -271,13 +293,18 @@
     .detail-screen { width: 100%; display: flex; flex-direction: column; align-items: center; }
     .detail-top { width: 100%; display: flex; align-items: center; gap: 14px; padding: 18px 0 10px; }
     .detail-counter { font-size: 12px; color: var(--muted); margin-left: auto; }
-    /* Stage pour empilement Tinder des cartes */
-    .detail-stage { width: 100%; display: grid; grid-template-areas: 'card'; margin-bottom: 16px; }
-    .detail-card { grid-area: card; width: 100%; background: var(--card); border-radius: 22px; box-shadow: 0 2px 10px rgba(0,0,0,.06), 0 8px 28px rgba(0,0,0,.07); display: flex; flex-direction: column; align-items: center; padding: 28px 24px 24px; transition: transform .45s cubic-bezier(.4,0,.2,1), opacity .45s cubic-bezier(.4,0,.2,1); will-change: transform, opacity; }
-    .detail-card.current      { z-index: 1; }
-    .detail-card.incoming     { z-index: 0; transform: scale(.92); opacity: .55; }
-    .detail-card.leaving-left  { z-index: 2; transform: translateX(-130%) rotate(-16deg); opacity: 0; }
-    .detail-card.leaving-right { z-index: 2; transform: translateX(130%)  rotate(16deg);  opacity: 0; }
+    /* Stack chord-detail : grid stacking, les 2 cartes restent dans le flow */
+    .detail-card-stack { display: grid; grid-template-areas: 'card'; width: 100%; margin-bottom: 16px; }
+    .detail-card-stack > .detail-card { grid-area: card; align-self: start; margin-bottom: 0; }
+    .detail-card { width: 100%; background: var(--card); border-radius: 22px; box-shadow: 0 2px 10px rgba(0,0,0,.06), 0 8px 28px rgba(0,0,0,.07); display: flex; flex-direction: column; align-items: center; padding: 28px 24px 24px; touch-action: pan-y; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+    .detail-card.behind     { transform: scale(.92); opacity: .55; z-index: 1; }
+    .detail-card.front-anim { z-index: 2; transform-origin: 50% 110%; }
+    .fly-out-left  { animation: flyOutLeft  .45s cubic-bezier(.45,.05,.55,.95) forwards; }
+    .fly-out-right { animation: flyOutRight .45s cubic-bezier(.45,.05,.55,.95) forwards; }
+    .coming-in     { animation: comeIn      .45s cubic-bezier(.4,.1,.4,1)       forwards; }
+    @keyframes flyOutLeft  { to   { transform: translateX(-130%) rotate(-16deg); opacity: 0; } }
+    @keyframes flyOutRight { to   { transform: translateX( 130%) rotate( 16deg); opacity: 0; } }
+    @keyframes comeIn      { from { transform: scale(.92); opacity: .55; } to { transform: scale(1); opacity: 1; } }
     .detail-name { font-family: 'Playfair Display', serif; font-size: 52px; line-height: 1; letter-spacing: -2px; margin-bottom: 20px; }
     .detail-diag svg { width: 220px; height: auto; }
     .detail-prog-row { width: 80%; display: flex; flex-direction: column; align-items: center; gap: 5px; margin-top: 22px; }
@@ -288,9 +315,14 @@
     .detail-legend span { display: flex; align-items: center; gap: 4px; }
     .det-dot { width: 16px; height: 16px; background: #1C1C1C; border-radius: 50%; color: white; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif; flex-shrink: 0; }
     .detail-nav { width: 100%; display: flex; gap: 10px; }
-    .btn-nav { flex: 1; padding: 15px; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; border: 1.5px solid var(--border); border-radius: 14px; cursor: pointer; background: var(--card); color: var(--text); transition: background .12s, border-color .12s; }
+    .btn-nav { flex: 1; padding: 15px; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; border: 1.5px solid var(--border); border-radius: 14px; cursor: pointer; background: var(--card); color: var(--text); transition: background .12s, border-color .12s, opacity .12s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-nav-ic { display: flex; align-items: center; flex-shrink: 0; color: var(--accent); transition: transform .15s, color .15s; }
+    .btn-nav-ic svg { width: 20px; height: 20px; }
     .btn-nav:hover:not(:disabled) { border-color: var(--accent); }
+    .btn-nav:hover:not(:disabled) .btn-nav-ic.prev { transform: translateX(-3px); }
+    .btn-nav:hover:not(:disabled) .btn-nav-ic.next { transform: translateX(3px); }
     .btn-nav:disabled { opacity: .3; cursor: not-allowed; }
+    .btn-nav:disabled .btn-nav-ic { color: var(--muted); }
 
     /* ── ANIMATIONS ── */
     @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
@@ -319,7 +351,7 @@
 </head>
 <body>
 <div id="app"></div>
-<footer class="app-footer">Réalisé par <a href="https://www.instagram.com/juliendestange/" target="_blank" rel="noopener" class="footer-link">Julien Destange</a> · v1.2</footer>
+<footer class="app-footer">Réalisé par <a href="https://www.instagram.com/juliendestange/" target="_blank" rel="noopener" class="footer-link">Julien Destange</a> · v1.3</footer>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 
 /* ════════════════════════════════════════════════════════════
@@ -758,6 +790,7 @@ var app = {
   customChordIds: loadCustomSel(),
   detailIds:     [],
   detailIdx:     0,
+  detailContext: 'reference',
   session:       { correct:0, total:0, masteryAtStart:0, streak:0 },
   streakResult:  null
 };
@@ -878,6 +911,7 @@ function navHome() {
 function _doRender(root) {
   if      (app.screen === 'home')           renderHome(root);
   else if (app.screen === 'submode-select') renderSubModes(root);
+  else if (app.screen === 'mode-preview')   renderModePreview(root);
   else if (app.screen === 'custom-select')  renderCustomSelect(root);
   else if (app.screen === 'session')        renderSession(root);
   else if (app.screen === 'end')            renderEnd(root);
@@ -890,8 +924,8 @@ function render() {
   root.innerHTML = '';
   if (_historyReady) {
     var curDepth = (history.state && history.state.depth) || 0;
-    var st = { screen: app.screen, detailIds: app.detailIds, detailIdx: app.detailIdx, depth: curDepth };
-    var pushable = ['reference', 'submode-select', 'custom-select'];
+    var st = { screen: app.screen, detailIds: app.detailIds, detailIdx: app.detailIdx, detailContext: app.detailContext, depth: curDepth };
+    var pushable = ['reference', 'submode-select', 'custom-select', 'mode-preview'];
     if (app.screen === 'home') {
       st.depth = 0;
       history.replaceState(st, '');
@@ -923,6 +957,7 @@ window.addEventListener('popstate', function(e) {
   if (e.state) {
     if (e.state.detailIds)            app.detailIds = e.state.detailIds;
     if (e.state.detailIdx != null)    app.detailIdx = e.state.detailIdx;
+    if (e.state.detailContext)        app.detailContext = e.state.detailContext;
   }
   var root = document.getElementById('app');
   root.innerHTML = '';
@@ -972,12 +1007,18 @@ function renderHome(root) {
         '<span class="mode-stat-l">/ '+totalFaces+'</span>'+
       '</div>';
     card.onclick = function() {
-      var st0 = getModeStats(modeId);
-      app.modeId  = modeId;
-      app.session = { correct:0, total:0, masteryAtStart:st0.mastered, streak:0 };
-      app.recentChordIds = [];
-      app.item    = nextItem(modeId, app.recentChordIds);
-      app.screen  = 'session';
+      app.modeId = modeId;
+      if (modeId === 'all') {
+        // Grande Révision : démarrage direct (30 accords, preview lourd)
+        var st0 = getModeStats(modeId);
+        app.session = { correct:0, total:0, masteryAtStart:st0.mastered, streak:0 };
+        app.recentChordIds = [];
+        app.item = nextItem(modeId, app.recentChordIds);
+        app.screen = 'session';
+      } else {
+        // Essentiels / Complémentaires → preview
+        app.screen = 'mode-preview';
+      }
       render();
     };
     modeCards.appendChild(card);
@@ -1026,12 +1067,8 @@ function renderSubModes(root) {
       '<div class="sub-prog-row"><div class="sub-prog-fill" style="width:'+st.pct+'%;background:'+mode.progColor+'"></div></div>'+
       '<div class="sub-stat">'+st.mastered+' / '+totalFaces+' maîtrisées</div>';
     card.onclick = function() {
-      var st0 = getModeStats(mode.id);
-      app.modeId  = mode.id;
-      app.session = { correct:0, total:0, masteryAtStart:st0.mastered, streak:0 };
-      app.recentChordIds = [];
-      app.item    = nextItem(mode.id, app.recentChordIds);
-      app.screen  = 'session';
+      app.modeId = mode.id;
+      app.screen = 'mode-preview';
       render();
     };
     grid.appendChild(card);
@@ -1102,10 +1139,14 @@ function renderSession(root) {
   root.appendChild(scene);
   if (item.side === 'diagram') setTimeout(function() { playChordAudio(chord); }, 350);
 
+  // ── Actions stack (grid stacking : bouton reveal + ok/ko à la même place) ──
+  var actions = document.createElement('div');
+  actions.className = 'actions-stack';
+
   var btnReveal = document.createElement('button');
   btnReveal.className = 'btn-main';
   btnReveal.innerHTML = '<span>Voir la réponse</span>' + ICON_ARROW_RIGHT;
-  root.appendChild(btnReveal);
+  actions.appendChild(btnReveal);
 
   var btnRow = document.createElement('div');
   btnRow.className = 'btn-row';
@@ -1113,17 +1154,61 @@ function renderSession(root) {
   btnRow.innerHTML =
     '<button class="btn-ko" id="bKo">✗&nbsp;&nbsp;À revoir</button>'+
     '<button class="btn-ok" id="bOk">✓&nbsp;&nbsp;Je savais !</button>';
-  root.appendChild(btnRow);
+  actions.appendChild(btnRow);
 
-  btnReveal.onclick = function() {
-    document.getElementById('cBody').classList.add('flipped');
-    btnReveal.style.display = 'none';
+  root.appendChild(actions);
+
+  var cBody = document.getElementById('cBody');
+  var revealed = false;
+
+  function reveal() {
+    if (revealed) return;
+    cBody.classList.add('flipped');
+    btnReveal.classList.add('hidden');
+    revealed = true;
+    cBody.style.cursor = 'pointer';
     if (item.side === 'name') playChordAudio(chord);
+    // Retire du DOM après le fade pour éviter tout résidu visuel (notamment sur mobile)
+    setTimeout(function() {
+      if (btnReveal && btnReveal.parentNode) btnReveal.parentNode.removeChild(btnReveal);
+    }, 200);
     setTimeout(function() {
       var row = document.getElementById('bRow');
       if (row) row.classList.add('vis');
     }, 490);
-  };
+  }
+
+  btnReveal.onclick = reveal;
+
+  // Après reveal : tap sur la carte = toggle question/réponse
+  // Les boutons OK/KO restent visibles → pas de "triche" possible
+  cBody.addEventListener('click', function() {
+    if (!revealed) return;
+    cBody.classList.toggle('flipped');
+  });
+
+  // ── Swipe tactile ────────────────────────────────────────
+  // Avant reveal : swipe gauche = révéler la réponse
+  // Après reveal : swipe gauche ou droite = toggle question/réponse
+  var sStartX = 0, sStartY = 0, sActive = false;
+  cBody.addEventListener('touchstart', function(e) {
+    var t = e.changedTouches[0];
+    sStartX = t.clientX; sStartY = t.clientY; sActive = true;
+  }, { passive: true });
+  cBody.addEventListener('touchend', function(e) {
+    if (!sActive) return;
+    sActive = false;
+    var t = e.changedTouches[0];
+    var dx = t.clientX - sStartX;
+    var dy = t.clientY - sStartY;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      if (!revealed && dx < 0) {
+        reveal();
+      } else if (revealed) {
+        cBody.classList.toggle('flipped');
+      }
+    }
+  }, { passive: true });
 
   function advance(correct) {
     var isSandbox = mode.sandboxCorrect;
@@ -1227,6 +1312,69 @@ function renderEnd(root) {
   document.getElementById('bEndHome').onclick = navHome;
   document.getElementById('bReplay').onclick  = function() {
     if (app.modeId === 'custom') { app.screen = 'custom-select'; render(); return; }
+    var st0 = getModeStats(app.modeId);
+    app.session = { correct:0, total:0, masteryAtStart:st0.mastered, streak:0 };
+    app.recentChordIds = [];
+    app.item    = nextItem(app.modeId, app.recentChordIds);
+    app.screen  = 'session';
+    render();
+  };
+}
+
+/* ════════════════════════════════════════════════════════════
+   APERÇU D'EXERCICE — grille des accords avant la session
+════════════════════════════════════════════════════════════ */
+function renderModePreview(root) {
+  var mode     = ALL_MODES[app.modeId];
+  var chordIds = (mode.chordIds || CHORDS.map(function(c){ return c.id; }));
+
+  var div = document.createElement('div');
+  div.className = 'preview-screen fadein';
+
+  var top = document.createElement('div');
+  top.className = 'preview-top';
+  top.innerHTML =
+    '<button class="btn-nav-back" id="pBack">'+ICON_BACK+'<span class="nav-label">Retour</span></button>'+
+    '<h2 class="preview-h">'+mode.icon+' '+mode.name+'</h2>';
+  div.appendChild(top);
+
+  var sub = document.createElement('div');
+  sub.className = 'preview-sub';
+  sub.textContent = chordIds.length + ' accords à réviser — appuie sur un diagramme pour l\'agrandir';
+  div.appendChild(sub);
+
+  var grid = document.createElement('div');
+  grid.className = 'preview-grid';
+  chordIds.forEach(function(id, idx) {
+    var c = byId(id);
+    if (!c) return;
+    var item = document.createElement('div');
+    item.className = 'preview-item';
+    item.innerHTML = drawDiagram(c, 'sm') + '<div class="preview-name">'+c.name+'</div>';
+    item.onclick = function() {
+      // Réutilise l'écran chord-detail (animation Tinder + swipe)
+      app.detailIds     = chordIds.slice();
+      app.detailIdx     = idx;
+      app.detailContext = 'mode-preview';
+      app.screen        = 'chord-detail';
+      render();
+    };
+    grid.appendChild(item);
+  });
+  div.appendChild(grid);
+
+  var btn = document.createElement('button');
+  btn.className = 'btn-start-preview';
+  btn.style.background = mode.progColor;
+  btn.style.boxShadow = '0 5px 20px ' + mode.progColor + '4D';
+  btn.innerHTML = '<span>Démarrer la session</span>' + ICON_ARROW_RIGHT;
+  div.appendChild(btn);
+
+  root.appendChild(div);
+
+  document.getElementById('pBack').onclick = navBack;
+
+  btn.onclick = function() {
     var st0 = getModeStats(app.modeId);
     app.session = { correct:0, total:0, masteryAtStart:st0.mastered, streak:0 };
     app.recentChordIds = [];
@@ -1380,9 +1528,10 @@ function renderReference(root) {
       '<div class="ref-bar"><div class="ref-fill" style="width:'+pct+'%;background:'+col+'"></div></div>'+
       '<div class="ref-pct">'+pctLabel+'</div>';
     card.onclick = function() {
-      app.detailIds = sorted.map(function(x){ return x.id; });
-      app.detailIdx = idx;
-      app.screen    = 'chord-detail';
+      app.detailIds     = sorted.map(function(x){ return x.id; });
+      app.detailIdx     = idx;
+      app.detailContext = 'reference';
+      app.screen        = 'chord-detail';
       render();
     };
     grid.appendChild(card);
@@ -1407,21 +1556,33 @@ function renderReference(root) {
 function renderChordDetail(root) {
   var ids = app.detailIds;
 
-  // ── Frame UNIQUE (top + stage + legende + nav) ────────────
+  // ── Frame UNIQUE (top + stack + legende + nav) ────────────
   var div = document.createElement('div');
   div.className = 'detail-screen fadein';
 
   var top = document.createElement('div');
   top.className = 'detail-top';
+  var counterSpan = document.createElement('span');
+  counterSpan.className = 'detail-counter';
+  // Titre : "Dictionnaire" depuis le référentiel, nom du mode depuis un preview
+  var title = 'Dictionnaire';
+  if (app.detailContext === 'mode-preview' && ALL_MODES[app.modeId]) {
+    title = ALL_MODES[app.modeId].icon + ' ' + ALL_MODES[app.modeId].name;
+  }
   top.innerHTML =
     '<button class="btn-nav-back" id="dBack">'+ICON_BACK+'<span class="nav-label">Retour</span></button>'+
-    '<h2 class="ref-h">Dictionnaire</h2>'+
-    '<span class="detail-counter" id="dCounter"></span>';
+    '<h2 class="ref-h">'+title+'</h2>';
+  top.appendChild(counterSpan);
   div.appendChild(top);
 
-  var stage = document.createElement('div');
-  stage.className = 'detail-stage';
-  div.appendChild(stage);
+  // Stack : conteneur grid stable, cartes en grid-area: card
+  var stack = document.createElement('div');
+  stack.className = 'detail-card-stack';
+  var currentCard = document.createElement('div');
+  currentCard.className = 'detail-card';
+  if (!_chordDetailNav) currentCard.classList.add('popin'); // popin uniquement à l'entrée
+  stack.appendChild(currentCard);
+  div.appendChild(stack);
 
   var leg = document.createElement('div');
   leg.className = 'detail-legend';
@@ -1434,17 +1595,17 @@ function renderChordDetail(root) {
   nav.className = 'detail-nav';
   var bPrev = document.createElement('button');
   bPrev.className = 'btn-nav';
-  bPrev.innerHTML = ICON_ARROW_LEFT + '<span>Précédent</span>';
+  bPrev.innerHTML = '<span class="btn-nav-ic prev">'+ICON_BACK+'</span><span>Précédent</span>';
   var bNext = document.createElement('button');
   bNext.className = 'btn-nav';
-  bNext.innerHTML = '<span>Suivant</span>' + ICON_ARROW_RIGHT;
+  bNext.innerHTML = '<span>Suivant</span><span class="btn-nav-ic next">'+ICON_ARROW_RIGHT+'</span>';
   nav.appendChild(bPrev);
   nav.appendChild(bNext);
   div.appendChild(nav);
 
   root.appendChild(div);
 
-  // ── Construit le contenu HTML d'une carte ────────────────
+  // ── Builder du contenu d'une carte ────────────────────────
   function buildCardHTML(chordId) {
     var c = byId(chordId);
     var m = chordMastery(c.id);
@@ -1458,80 +1619,86 @@ function renderChordDetail(root) {
         '<div class="detail-pct">'+pctLabel+' maîtrisé</div>'+
       '</div>';
   }
-  function buildCard(chordId) {
-    var card = document.createElement('div');
-    card.className = 'detail-card';
-    card.innerHTML = buildCardHTML(chordId);
-    return card;
+
+  function syncUI(idx) {
+    counterSpan.textContent = (idx + 1) + ' / ' + ids.length;
+    bPrev.disabled = (idx === 0);
+    bNext.disabled = (idx === ids.length - 1);
+    // History replace pour que back ramène à la reference (pas aux cartes précédentes)
+    if (_historyReady && history.state && history.state.screen === 'chord-detail') {
+      var st = Object.assign({}, history.state, { detailIdx: idx });
+      history.replaceState(st, '');
+    }
   }
 
-  // ── Carte initiale ────────────────────────────────────────
-  var currentCard = buildCard(ids[app.detailIdx]);
-  currentCard.classList.add('current', 'popin');
-  stage.appendChild(currentCard);
+  // Render initial
+  currentCard.innerHTML = buildCardHTML(ids[app.detailIdx]);
+  syncUI(app.detailIdx);
+  _chordDetailNav = false;
 
-  var counterEl = document.getElementById('dCounter');
+  // ── Navigation avec animation Tinder (via keyframes) ─────
   var animating = false;
-
-  function updateCounter() { counterEl.textContent = (app.detailIdx + 1) + ' / ' + ids.length; }
-  function updateNavButtons() {
-    bPrev.disabled = (app.detailIdx === 0);
-    bNext.disabled = (app.detailIdx === ids.length - 1);
-  }
-  updateCounter();
-  updateNavButtons();
-
-  function syncHistoryState() {
-    if (!_historyReady) return;
-    var curDepth = (history.state && history.state.depth) || 0;
-    history.replaceState({
-      screen: 'chord-detail',
-      detailIds: app.detailIds,
-      detailIdx: app.detailIdx,
-      depth: curDepth
-    }, '');
-  }
-
-  function goDetail(direction) {
+  function navigateTo(newIdx, dir) {
     if (animating) return;
-    var nextIdx = app.detailIdx + direction;
-    if (nextIdx < 0 || nextIdx >= ids.length) return;
-
+    if (newIdx < 0 || newIdx >= ids.length) return;
     animating = true;
 
-    // Nouvelle carte derriere (incoming)
-    var newCard = buildCard(ids[nextIdx]);
-    newCard.classList.add('incoming');
-    stage.appendChild(newCard);
+    app.detailIdx = newIdx;
 
-    // Force reflow pour que les transitions partent du bon point
-    void newCard.offsetWidth;
+    // Nouvelle carte insérée DERRIÈRE (insertBefore + classe `behind`)
+    var newCard = document.createElement('div');
+    newCard.className = 'detail-card behind';
+    newCard.innerHTML = buildCardHTML(ids[newIdx]);
+    stack.insertBefore(newCard, currentCard);
 
-    // Ancienne sort (sens oppose au mouvement de navigation)
+    // Carte courante : monte en couche supérieure puis s'envole
+    currentCard.classList.remove('popin');
+    currentCard.classList.add('front-anim');
+    void currentCard.offsetWidth; // force reflow avant l'animation
+    currentCard.classList.add(dir > 0 ? 'fly-out-left' : 'fly-out-right');
+
+    // Nouvelle carte : remonte au premier plan via @keyframes
+    newCard.classList.remove('behind');
+    newCard.classList.add('coming-in');
+
+    syncUI(newIdx);
+
     var oldCard = currentCard;
-    oldCard.classList.remove('current', 'popin');
-    oldCard.classList.add(direction > 0 ? 'leaving-left' : 'leaving-right');
-
-    // Nouvelle remonte au premier plan
-    newCard.classList.remove('incoming');
-    newCard.classList.add('current');
-
-    app.detailIdx = nextIdx;
-    updateCounter();
-    updateNavButtons();
-    syncHistoryState();
-
     currentCard = newCard;
 
     setTimeout(function() {
       if (oldCard && oldCard.parentNode) oldCard.parentNode.removeChild(oldCard);
+      currentCard.classList.remove('coming-in');
       animating = false;
     }, 460);
   }
 
+  function goPrev() { navigateTo(app.detailIdx - 1, -1); }
+  function goNext() { navigateTo(app.detailIdx + 1,  1); }
+
+  // ── Swipe tactile (gauche = suivant, droite = précédent) ─
+  var touchStartX = 0, touchStartY = 0, touchActive = false;
+  stack.addEventListener('touchstart', function(e) {
+    if (animating) return;
+    var t = e.changedTouches[0];
+    touchStartX = t.clientX; touchStartY = t.clientY; touchActive = true;
+  }, { passive: true });
+  stack.addEventListener('touchend', function(e) {
+    if (!touchActive) return;
+    touchActive = false;
+    var t = e.changedTouches[0];
+    var dx = t.clientX - touchStartX;
+    var dy = t.clientY - touchStartY;
+    // Seuil 50px et mouvement principalement horizontal
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      if (dx < 0) goNext();
+      else        goPrev();
+    }
+  }, { passive: true });
+
   document.getElementById('dBack').onclick = navBack;
-  bPrev.onclick = function() { goDetail(-1); };
-  bNext.onclick = function() { goDetail(+1); };
+  bPrev.onclick = goPrev;
+  bNext.onclick = goNext;
 }
 
 render();
