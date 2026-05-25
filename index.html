@@ -62,17 +62,22 @@
 
     /* ── CARD ── */
     .card-scene { width: 100%; perspective: 900px; margin-bottom: 20px; }
-    .card-body { width: 100%; height: 300px; position: relative; transform-style: preserve-3d; transition: transform .52s cubic-bezier(.4,0,.2,1); }
+    .card-body { width: 100%; height: 400px; position: relative; transform-style: preserve-3d; transition: transform .52s cubic-bezier(.4,0,.2,1); }
     .card-body.flipped { transform: rotateY(180deg); }
     .card-face { position: absolute; inset: 0; background: var(--card); border-radius: 22px; box-shadow: 0 2px 10px rgba(0,0,0,.06), 0 8px 28px rgba(0,0,0,.07); backface-visibility: hidden; -webkit-backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 18px 24px; overflow: hidden; }
     .card-face.back { transform: rotateY(180deg); }
-    .face-tag { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+    /* Face réponse avec diagramme : tag (1 ligne) + diagramme centrés en bloc */
+    .card-face.has-diag { justify-content: center; padding-top: 30px; padding-bottom: 30px; }
+    .card-face.has-diag .face-tag { margin-bottom: -10px !important; }
+    /* Question avec diagramme : tag (2 lignes) + diagramme, ancrage haut */
+    .card-face.has-diag-q { justify-content: flex-start; padding-top: 32px; padding-bottom: 20px; }
+    .card-face.has-diag-q .face-tag { margin-bottom: -10px !important; }
+    .face-tag { font-size: 20px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; text-align: center; line-height: 1.3; }
     .face-tag.hi { color: var(--accent); }
-    .chord-big { font-family: 'Playfair Display', serif; font-size: 92px; line-height: 1; letter-spacing: -3px; text-align: center; }
-    .chord-big.md { font-size: 72px; letter-spacing: -2px; }
-    .chord-big.sm { font-size: 56px; letter-spacing: -1px; }
-    .card-hint { font-size: 13px; color: var(--muted); margin-top: 10px; text-align: center; font-weight: 300; }
-    .diag-holder svg { width: 200px; height: auto; }
+    .chord-big { font-family: 'Playfair Display', serif; font-size: 120px; line-height: 1; letter-spacing: -3.5px; text-align: center; }
+    .chord-big.md { font-size: 95px; letter-spacing: -2.5px; }
+    .chord-big.sm { font-size: 72px; letter-spacing: -1.5px; }
+    .diag-holder svg { width: 170px; height: auto; }
 
     /* ── BUTTONS ── */
     .btn-main { width: 100%; padding: 18px; font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 500; background: var(--accent); color: #FFF; border: none; border-radius: 16px; cursor: pointer; transition: opacity .15s ease, visibility 0s .15s, transform .1s; margin-bottom: 12px; box-shadow: 0 4px 14px rgba(184,92,42,.22); display: flex; align-items: center; justify-content: center; gap: 8px; visibility: visible; }
@@ -134,8 +139,8 @@
     .hab-arrow svg { width: 18px; height: 18px; }
     .home-action-btn:hover .hab-arrow { transform: translateX(3px); color: var(--accent); }
     .home-data-bar { width: 100%; display: flex; gap: 8px; margin-top: 10px; }
-    .btn-data { flex: 1; font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 500; color: var(--muted); background: var(--card); border: 1.5px solid var(--border); border-radius: 12px; padding: 11px 10px; cursor: pointer; transition: border-color .15s, color .15s; display: flex; align-items: center; justify-content: center; gap: 6px; }
-    .btn-data:hover { border-color: var(--accent); color: var(--text); }
+    .btn-data { flex: 1; font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 500; color: var(--text); background: var(--card); border: 1.5px solid var(--border); border-radius: 12px; padding: 11px 10px; cursor: pointer; transition: border-color .15s, color .15s, background .15s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-data:hover { border-color: var(--accent); background: var(--accent-light); }
     .streak-home { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 13px; font-weight: 500; margin-top: -6px; margin-bottom: 16px; }
     .streak-home.active { color: var(--accent); }
     .streak-home.cold { color: var(--muted); font-weight: 300; }
@@ -220,7 +225,7 @@
     /* ── SVG SIZING dans les boutons existants ── */
     .btn-ghost { display: inline-flex; align-items: center; gap: 5px; }
     .btn-ghost svg { width: 14px; height: 14px; }
-    .btn-data svg { width: 16px; height: 16px; flex-shrink: 0; color: var(--accent); }
+    .btn-data svg { width: 18px; height: 18px; flex-shrink: 0; color: var(--accent); }
     .btn-main { gap: 8px; }
     .btn-main svg { width: 18px; height: 18px; flex-shrink: 0; }
     .btn-replay { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
@@ -306,7 +311,7 @@
     @keyframes flyOutRight { to   { transform: translateX( 130%) rotate( 16deg); opacity: 0; } }
     @keyframes comeIn      { from { transform: scale(.92); opacity: .55; } to { transform: scale(1); opacity: 1; } }
     .detail-name { font-family: 'Playfair Display', serif; font-size: 52px; line-height: 1; letter-spacing: -2px; margin-bottom: 20px; }
-    .detail-diag svg { width: 220px; height: auto; }
+    .detail-diag svg { width: 190px; height: auto; }
     .detail-prog-row { width: 80%; display: flex; flex-direction: column; align-items: center; gap: 5px; margin-top: 22px; }
     .detail-bar { width: 100%; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
     .detail-fill { height: 100%; border-radius: 3px; }
@@ -332,18 +337,20 @@
 
     /* ── RESPONSIVE ── */
     @media (min-width: 400px) {
-      .card-body { height: 340px; }
-      .chord-big { font-size: 100px; }
-      .chord-big.md { font-size: 78px; }
-      .chord-big.sm { font-size: 62px; }
-      .diag-holder svg { width: 215px; }
+      .card-body { height: 450px; }
+      .chord-big { font-size: 130px; }
+      .chord-big.md { font-size: 105px; }
+      .chord-big.sm { font-size: 80px; }
+      .face-tag { font-size: 23px; margin-bottom: 24px; }
+      .diag-holder svg { width: 185px; }
     }
     @media (max-width: 340px) {
-      .card-body { height: 270px; }
-      .chord-big { font-size: 76px; }
-      .chord-big.md { font-size: 60px; }
-      .chord-big.sm { font-size: 48px; }
-      .diag-holder svg { width: 180px; }
+      .card-body { height: 360px; }
+      .chord-big { font-size: 100px; }
+      .chord-big.md { font-size: 80px; }
+      .chord-big.sm { font-size: 60px; }
+      .face-tag { font-size: 17px; margin-bottom: 16px; }
+      .diag-holder svg { width: 150px; }
       .ref-grid { grid-template-columns: repeat(2, 1fr); }
       .sub-grid { grid-template-columns: 1fr; }
     }
@@ -351,7 +358,7 @@
 </head>
 <body>
 <div id="app"></div>
-<footer class="app-footer">Réalisé par <a href="https://www.instagram.com/juliendestange/" target="_blank" rel="noopener" class="footer-link">Julien Destange</a> · v1.3</footer>
+<footer class="app-footer">Réalisé par <a href="https://www.instagram.com/juliendestange/" target="_blank" rel="noopener" class="footer-link">Julien Destange</a> · v1.4</footer>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 
 /* ════════════════════════════════════════════════════════════
@@ -532,8 +539,48 @@ function playFail() {
   tone(196, 0.22, 0.10, 'sawtooth', 0.08);
 }
 function playVictory() {
-  var notes = [523, 659, 784, 1047];
-  notes.forEach(function(n, i){ tone(n, 0.35, 0.14, 'sine', i * 0.12); });
+  var c = ctx();
+  if (!c) return;
+  var now = c.currentTime;
+  // Arpège rapide C4 → E4 → G4 → C5
+  var arp = [[261.63, 0], [329.63, 0.07], [392.00, 0.14], [523.25, 0.21]];
+  arp.forEach(function(p) {
+    var o = c.createOscillator(), g = c.createGain();
+    o.connect(g); g.connect(c.destination);
+    o.type = 'triangle';
+    o.frequency.value = p[0];
+    var t = now + p[1];
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(0.18, t + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.28);
+    o.start(t); o.stop(t + 0.30);
+  });
+  // Accord final tenu C5 + E5 + G5 + C6
+  var chord = [[523.25, 0.16], [659.25, 0.13], [784.00, 0.10], [1046.50, 0.07]];
+  chord.forEach(function(p) {
+    var o = c.createOscillator(), g = c.createGain();
+    o.connect(g); g.connect(c.destination);
+    o.type = 'sine';
+    o.frequency.value = p[0];
+    var t = now + 0.30;
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(p[1], t + 0.025);
+    g.gain.setValueAtTime(p[1], t + 0.30);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.90);
+    o.start(t); o.stop(t + 0.92);
+  });
+  // Scintille finale C6 + E6 (une octave au-dessus)
+  [1046.50, 1318.51].forEach(function(freq, i) {
+    var o = c.createOscillator(), g = c.createGain();
+    o.connect(g); g.connect(c.destination);
+    o.type = 'sine';
+    o.frequency.value = freq;
+    var t = now + 0.65 + i * 0.07;
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(0.06, t + 0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.35);
+    o.start(t); o.stop(t + 0.36);
+  });
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -549,14 +596,14 @@ function drawDiagram(chord, size) {
   var fingers  = chord.fingers || null;
   var sm       = (size === 'sm');
 
-  // ── Dimensions ───────────────────────────────────────────
-  var W    = sm ? 90  : 140;
-  var H    = sm ? 100 : 156;
-  var pL   = sm ? 14  : 20;   // symétrique → grille centrée
-  var pR   = sm ? 14  : 20;   // symétrique → grille centrée
-  var pTop = sm ? 20  : 28;
-  var nutH = sm ? 5   : 7;
-  var pBot = sm ? 6   : 8;
+  // ── Dimensions — format portrait (ratio ~0.76) ───────────
+  var W    = sm ? 80  : 130;
+  var H    = sm ? 105 : 170;
+  var pL   = sm ? 11  : 18;   // symétrique → grille centrée
+  var pR   = sm ? 11  : 18;
+  var pTop = sm ? 19  : 31;
+  var nutH = sm ? 5   : 8;
+  var pBot = sm ? 5   : 8;
 
   var nutY = pTop + nutH;
   var gW   = W - pL - pR;     // largeur zone cordes
@@ -564,8 +611,8 @@ function drawDiagram(chord, size) {
   var sw   = gW / 5;           // espacement inter-cordes (6c = 5 gaps)
   var fh   = gH / 4;           // hauteur d'une frette
   var r    = Math.min(sw, fh) * 0.44; // rayon des points
-  var fnSz    = sm ? 7  : 11;  // taille police doigtés dans les points
-  var fnSzBar = sm ? 8  : 13;  // taille police "1" dans l'ovale (légèrement plus grand)
+  var fnSz    = sm ? 7  : 10;  // taille police doigtés dans les points
+  var fnSzBar = sm ? 8  : 12;  // taille police "1" dans l'ovale (légèrement plus grand)
 
   var sw_str  = sm ? 0.9 : 1.2;
   var sw_fret = sm ? 0.6 : 0.8;
@@ -1110,31 +1157,31 @@ function renderSession(root) {
   root.appendChild(pg);
 
   // Contenu des faces
-  var frontHTML, backHTML;
+  var frontHTML, backHTML, frontClass = 'front', backClass = 'back';
   if (item.side === 'name') {
     frontHTML =
-      '<div class="face-tag">Trouve la position</div>'+
-      '<div class="chord-big '+sizeClass(chord.name)+'">'+chord.name+'</div>'+
-      '<div class="card-hint">Joue cet accord sur ta guitare</div>';
+      '<div class="face-tag">Joue cet accord<br>sur ta guitare</div>'+
+      '<div class="chord-big '+sizeClass(chord.name)+'">'+chord.name+'</div>';
     backHTML =
       '<div class="face-tag hi">LA RÉPONSE !</div>'+
       '<div class="diag-holder">'+drawDiagram(chord,'lg')+'</div>';
+    backClass += ' has-diag';
   } else {
     frontHTML =
-      '<div class="face-tag">Quel est cet accord ?</div>'+
-      '<div class="diag-holder">'+drawDiagram(chord,'lg')+'</div>'+
-      '<div class="card-hint">Trouve le nom de cet accord</div>';
+      '<div class="face-tag">Trouve le nom<br>de cet accord</div>'+
+      '<div class="diag-holder">'+drawDiagram(chord,'lg')+'</div>';
     backHTML =
       '<div class="face-tag hi">LA RÉPONSE !</div>'+
       '<div class="chord-big '+sizeClass(chord.name)+'">'+chord.name+'</div>';
+    frontClass += ' has-diag-q';
   }
 
   var scene = document.createElement('div');
   scene.className = 'card-scene fadein';
   scene.innerHTML =
     '<div class="card-body" id="cBody">'+
-      '<div class="card-face front">'+frontHTML+'</div>'+
-      '<div class="card-face back">'+backHTML+'</div>'+
+      '<div class="card-face '+frontClass+'">'+frontHTML+'</div>'+
+      '<div class="card-face '+backClass+'">'+backHTML+'</div>'+
     '</div>';
   root.appendChild(scene);
   if (item.side === 'diagram') setTimeout(function() { playChordAudio(chord); }, 350);
