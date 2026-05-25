@@ -66,18 +66,21 @@
     .card-body.flipped { transform: rotateY(180deg); }
     .card-face { position: absolute; inset: 0; background: var(--card); border-radius: 22px; box-shadow: 0 2px 10px rgba(0,0,0,.06), 0 8px 28px rgba(0,0,0,.07); backface-visibility: hidden; -webkit-backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 18px 24px; overflow: hidden; }
     .card-face.back { transform: rotateY(180deg); }
-    /* Face réponse avec diagramme : tag (1 ligne) + diagramme centrés en bloc */
-    .card-face.has-diag { justify-content: center; padding-top: 30px; padding-bottom: 30px; }
-    .card-face.has-diag .face-tag { margin-bottom: -10px !important; }
-    /* Question avec diagramme : tag (2 lignes) + diagramme, ancrage haut */
-    .card-face.has-diag-q { justify-content: flex-start; padding-top: 32px; padding-bottom: 20px; }
-    .card-face.has-diag-q .face-tag { margin-bottom: -10px !important; }
-    .face-tag { font-size: 20px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; text-align: center; line-height: 1.3; }
+    /* Face avec diagramme (question OU réponse) : layout strictement identique */
+    .card-face.has-diag { justify-content: center; padding-top: 18px; padding-bottom: 18px; }
+    .face-tag {
+      font-size: 22px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--muted); text-align: center; line-height: 1.3;
+      /* Hauteur reservee 2 lignes : tag 1L et tag 2L commencent en haut du meme slot,
+         donc le diagramme/nom qui suit est strictement a la meme position dans les 2 cas */
+      min-height: 2.6em;
+      margin-bottom: 16px;
+    }
     .face-tag.hi { color: var(--accent); }
     .chord-big { font-family: 'Playfair Display', serif; font-size: 120px; line-height: 1; letter-spacing: -3.5px; text-align: center; }
     .chord-big.md { font-size: 95px; letter-spacing: -2.5px; }
     .chord-big.sm { font-size: 72px; letter-spacing: -1.5px; }
-    .diag-holder svg { width: 170px; height: auto; }
+    .diag-holder svg { width: 200px; height: auto; }
 
     /* ── BUTTONS ── */
     .btn-main { width: 100%; padding: 18px; font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 500; background: var(--accent); color: #FFF; border: none; border-radius: 16px; cursor: pointer; transition: opacity .15s ease, visibility 0s .15s, transform .1s; margin-bottom: 12px; box-shadow: 0 4px 14px rgba(184,92,42,.22); display: flex; align-items: center; justify-content: center; gap: 8px; visibility: visible; }
@@ -336,16 +339,16 @@
       .chord-big { font-size: 130px; }
       .chord-big.md { font-size: 105px; }
       .chord-big.sm { font-size: 80px; }
-      .face-tag { font-size: 23px; margin-bottom: 24px; }
-      .diag-holder svg { width: 185px; }
+      .face-tag { font-size: 25px; }
+      .diag-holder svg { width: 220px; }
     }
     @media (max-width: 340px) {
       .card-body { height: 360px; }
       .chord-big { font-size: 100px; }
       .chord-big.md { font-size: 80px; }
       .chord-big.sm { font-size: 60px; }
-      .face-tag { font-size: 17px; margin-bottom: 16px; }
-      .diag-holder svg { width: 150px; }
+      .face-tag { font-size: 18px; }
+      .diag-holder svg { width: 175px; }
       .ref-grid { grid-template-columns: repeat(2, 1fr); }
       .sub-grid { grid-template-columns: 1fr; }
     }
@@ -353,7 +356,7 @@
 </head>
 <body>
 <div id="app"></div>
-<footer class="app-footer">Réalisé par <a href="https://www.instagram.com/juliendestange/" target="_blank" rel="noopener" class="footer-link">Julien Destange</a> · v1.4.1</footer>
+<footer class="app-footer">Réalisé par <a href="https://www.instagram.com/juliendestange/" target="_blank" rel="noopener" class="footer-link">Julien Destange</a> · v1.4.2</footer>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 
 /* ════════════════════════════════════════════════════════════
@@ -1167,7 +1170,7 @@ function renderSession(root) {
     backHTML =
       '<div class="face-tag hi">LA RÉPONSE !</div>'+
       '<div class="chord-big '+sizeClass(chord.name)+'">'+chord.name+'</div>';
-    frontClass += ' has-diag-q';
+    frontClass += ' has-diag';
   }
 
   var scene = document.createElement('div');
