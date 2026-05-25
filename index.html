@@ -64,7 +64,7 @@
     .card-scene { width: 100%; perspective: 900px; margin-bottom: 20px; }
     .card-body { width: 100%; height: 300px; position: relative; transform-style: preserve-3d; transition: transform .52s cubic-bezier(.4,0,.2,1); }
     .card-body.flipped { transform: rotateY(180deg); }
-    .card-face { position: absolute; inset: 0; background: var(--card); border-radius: 22px; box-shadow: 0 2px 10px rgba(0,0,0,.06), 0 8px 28px rgba(0,0,0,.07); backface-visibility: hidden; -webkit-backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 18px 24px; }
+    .card-face { position: absolute; inset: 0; background: var(--card); border-radius: 22px; box-shadow: 0 2px 10px rgba(0,0,0,.06), 0 8px 28px rgba(0,0,0,.07); backface-visibility: hidden; -webkit-backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 18px 24px; overflow: hidden; }
     .card-face.back { transform: rotateY(180deg); }
     .face-tag { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
     .face-tag.hi { color: var(--accent); }
@@ -75,7 +75,7 @@
     .diag-holder svg { width: 200px; height: auto; }
 
     /* ── BUTTONS ── */
-    .btn-main { width: 100%; padding: 18px; font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 500; background: var(--text); color: #FFF; border: none; border-radius: 16px; cursor: pointer; transition: opacity .12s, transform .1s; margin-bottom: 12px; }
+    .btn-main { width: 100%; padding: 18px; font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 500; background: var(--accent); color: #FFF; border: none; border-radius: 16px; cursor: pointer; transition: opacity .12s, transform .1s; margin-bottom: 12px; box-shadow: 0 4px 14px rgba(184,92,42,.22); }
     .btn-main:hover { opacity: .84; }
     .btn-main:active { transform: scale(.985); }
     .btn-row { width: 100%; display: flex; gap: 12px; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
@@ -279,7 +279,7 @@
 </head>
 <body>
 <div id="app"></div>
-<footer class="app-footer">Réalisé par <a href="https://www.instagram.com/juliendestange/" target="_blank" rel="noopener" class="footer-link">Julien Destange</a></footer>
+<footer class="app-footer">Réalisé par <a href="https://www.instagram.com/juliendestange/" target="_blank" rel="noopener" class="footer-link">Julien Destange</a> · v1.1</footer>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 
 /* ════════════════════════════════════════════════════════════
@@ -633,10 +633,18 @@ function getModeItems(modeId) {
   return ALL_ITEMS.filter(function(it) { return ids.indexOf(it.chordId) !== -1; });
 }
 
-function nextItem(modeId, lastChordId) {
-  var now  = Date.now();
-  var pool = getModeItems(modeId).filter(function(i) { return i.chordId !== lastChordId; });
-  if (!pool.length) pool = getModeItems(modeId);
+function nextItem(modeId, recentIds) {
+  var now    = Date.now();
+  var recent = recentIds || [];
+  var all    = getModeItems(modeId);
+
+  // Filtre cascade : exclut les N derniers, relâche si pool vide
+  var pool = all.filter(function(i) { return recent.indexOf(i.chordId) === -1; });
+  if (!pool.length && recent.length > 0) {
+    var lastOnly = recent[recent.length - 1];
+    pool = all.filter(function(i) { return i.chordId !== lastOnly; });
+  }
+  if (!pool.length) pool = all;
 
   var overdue = pool.filter(function(i) { return (sr.items[i.key] || freshItem()).due <= now; });
   if (overdue.length > 0) return overdue[Math.floor(Math.random() * overdue.length)];
@@ -693,7 +701,7 @@ function getModeStats(modeId) {
 var app = {
   screen:        'home',
   item:          null,
-  lastChordId:   null,
+  recentChordIds: [],
   modeId:        null,
   refSort:       'alpha',
   customChordIds: loadCustomSel(),
@@ -802,6 +810,20 @@ function playChordAudio(chord) {
 var _historyReady = false;
 var _chordDetailNav = false; // true quand prev/next dans chord-detail
 
+function navBack() {
+  if (_historyReady) history.back();
+  else { app.screen = 'home'; render(); }
+}
+function navHome() {
+  var d = (history.state && history.state.depth) || 0;
+  if (_historyReady && d > 0) {
+    history.go(-d);
+  } else {
+    app.screen = 'home';
+    render();
+  }
+}
+
 function _doRender(root) {
   if      (app.screen === 'home')           renderHome(root);
   else if (app.screen === 'submode-select') renderSubModes(root);
@@ -816,25 +838,36 @@ function render() {
   var root = document.getElementById('app');
   root.innerHTML = '';
   if (_historyReady) {
-    var st = { screen: app.screen, detailIds: app.detailIds, detailIdx: app.detailIdx };
+    var curDepth = (history.state && history.state.depth) || 0;
+    var st = { screen: app.screen, detailIds: app.detailIds, detailIdx: app.detailIdx, depth: curDepth };
+    var pushable = ['reference', 'submode-select', 'custom-select'];
     if (app.screen === 'home') {
-      history.replaceState(st, '');                         // home = pas de retour en arrière → quitte l'app
-    } else if (app.screen === 'reference') {
-      history.pushState(st, '');                            // reference : retour → home
+      st.depth = 0;
+      history.replaceState(st, '');
+    } else if (pushable.indexOf(app.screen) !== -1) {
+      st.depth = curDepth + 1;
+      history.pushState(st, '');
     } else if (app.screen === 'chord-detail') {
-      if (_chordDetailNav) { history.replaceState(st, ''); } // prev/next : retour → reference (1 clic)
-      else                 { history.pushState(st, '');    } // entrée dans chord-detail : empile
+      if (_chordDetailNav) {
+        // prev/next : navigation latérale, garde la depth
+        history.replaceState(st, '');
+      } else {
+        st.depth = curDepth + 1;
+        history.pushState(st, '');
+      }
       _chordDetailNav = false;
+    } else {
+      // session, end : remplace l'entrée courante (une seule slot pour toute la "vie" du quiz)
+      history.replaceState(st, '');
     }
-    // session, end, submode-select, custom-select → pas d'entrée dans l'historique → retour = home
   }
   _doRender(root);
 }
 
 window.addEventListener('popstate', function(e) {
   var s = (e.state && e.state.screen) || 'home';
-  // Les écrans transitoires ne doivent jamais être restaurés → home
-  if (s === 'session' || s === 'end' || s === 'submode-select' || s === 'custom-select') s = 'home';
+  // Filet de sécurité : session/end ne doivent jamais être restaurés via popstate
+  if (s === 'session' || s === 'end') s = 'home';
   app.screen = s;
   if (e.state) {
     if (e.state.detailIds)            app.detailIds = e.state.detailIds;
@@ -863,8 +896,8 @@ function renderHome(root) {
       '<button class="home-action-btn" id="bRef"><span class="hab-icon">📚</span><span class="hab-text">Voir tous les accords</span><span class="hab-arrow">→</span></button>'+
     '</div>'+
     '<div class="home-data-bar">'+
-      '<button class="btn-data" id="bExport">⬇ Exporter ma progression</button>'+
-      '<button class="btn-data" id="bImport">⬆ Importer une sauvegarde</button>'+
+      '<button class="btn-data" id="bExport">⬆ Exporter ma progression</button>'+
+      '<button class="btn-data" id="bImport">⬇ Importer une sauvegarde</button>'+
       '<input type="file" id="importFile" accept=".json" style="display:none">'+
     '</div>';
   root.appendChild(div);
@@ -891,7 +924,8 @@ function renderHome(root) {
       var st0 = getModeStats(modeId);
       app.modeId  = modeId;
       app.session = { correct:0, total:0, masteryAtStart:st0.mastered, streak:0 };
-      app.item    = nextItem(modeId, app.lastChordId);
+      app.recentChordIds = [];
+      app.item    = nextItem(modeId, app.recentChordIds);
       app.screen  = 'session';
       render();
     };
@@ -944,7 +978,8 @@ function renderSubModes(root) {
       var st0 = getModeStats(mode.id);
       app.modeId  = mode.id;
       app.session = { correct:0, total:0, masteryAtStart:st0.mastered, streak:0 };
-      app.item    = nextItem(mode.id, app.lastChordId);
+      app.recentChordIds = [];
+      app.item    = nextItem(mode.id, app.recentChordIds);
       app.screen  = 'session';
       render();
     };
@@ -953,7 +988,7 @@ function renderSubModes(root) {
 
   div.appendChild(grid);
   root.appendChild(div);
-  document.getElementById('bBack').onclick = function() { app.screen = 'home'; render(); };
+  document.getElementById('bBack').onclick = navBack;
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -973,7 +1008,7 @@ function renderSession(root) {
     '<div class="header-title">Accords <b>Guitare</b></div>'+
     '<button class="btn-ghost" id="bHome">⌂ Accueil</button>';
   root.appendChild(hdr);
-  document.getElementById('bHome').onclick = function() { app.screen = 'home'; render(); };
+  document.getElementById('bHome').onclick = navHome;
 
   // Barre de progression
   var pg = document.createElement('div');
@@ -994,7 +1029,7 @@ function renderSession(root) {
       '<div class="chord-big '+sizeClass(chord.name)+'">'+chord.name+'</div>'+
       '<div class="card-hint">Joue cet accord sur ta guitare</div>';
     backHTML =
-      '<div class="face-tag hi">Position correcte</div>'+
+      '<div class="face-tag hi">LA RÉPONSE !</div>'+
       '<div class="diag-holder">'+drawDiagram(chord,'lg')+'</div>';
   } else {
     frontHTML =
@@ -1002,7 +1037,7 @@ function renderSession(root) {
       '<div class="diag-holder">'+drawDiagram(chord,'lg')+'</div>'+
       '<div class="card-hint">Trouve le nom de cet accord</div>';
     backHTML =
-      '<div class="face-tag hi">La réponse !</div>'+
+      '<div class="face-tag hi">LA RÉPONSE !</div>'+
       '<div class="chord-big '+sizeClass(chord.name)+'">'+chord.name+'</div>';
   }
 
@@ -1045,14 +1080,16 @@ function renderSession(root) {
     if (!correct)              recordAnswer(item.key, false);
     if (correct) { playSuccess(app.session.streak); app.session.streak++; }
     else         { playFail();                       app.session.streak = 0; }
-    app.lastChordId = item.chordId;
+    // Buffer anti-repetition FIFO de 2
+    app.recentChordIds.push(item.chordId);
+    if (app.recentChordIds.length > 2) app.recentChordIds.shift();
     app.session.total++;
     if (correct) app.session.correct++;
     if (app.session.total >= SESSION_LENGTH) {
       if (!isSandbox) app.streakResult = recordStreak();
       app.screen = 'end';
     } else {
-      app.item   = nextItem(app.modeId, item.chordId);
+      app.item   = nextItem(app.modeId, app.recentChordIds);
       app.screen = 'session';
     }
     render();
@@ -1136,12 +1173,13 @@ function renderEnd(root) {
   }
   if (correct === SESSION_LENGTH) setTimeout(function() { playVictory(); }, 200);
 
-  document.getElementById('bEndHome').onclick = function() { app.screen = 'home'; render(); };
+  document.getElementById('bEndHome').onclick = navHome;
   document.getElementById('bReplay').onclick  = function() {
     if (app.modeId === 'custom') { app.screen = 'custom-select'; render(); return; }
     var st0 = getModeStats(app.modeId);
     app.session = { correct:0, total:0, masteryAtStart:st0.mastered, streak:0 };
-    app.item    = nextItem(app.modeId, app.lastChordId);
+    app.recentChordIds = [];
+    app.item    = nextItem(app.modeId, app.recentChordIds);
     app.screen  = 'session';
     render();
   };
@@ -1154,80 +1192,95 @@ var MIN_CUSTOM = 5;
 function renderCustomSelect(root) {
   var sel = app.customChordIds.slice();
 
-  function rebuild() {
-    root.innerHTML = '';
-    var div = document.createElement('div');
-    div.className = 'sel-screen fadein';
+  // ── Frame construit UNE FOIS ──────────────────────────────
+  var div = document.createElement('div');
+  div.className = 'sel-screen fadein';
 
-    var top = document.createElement('div');
-    top.className = 'sel-top';
-    top.innerHTML = '<button class="btn-circ" id="sBk">←</button><h2 class="ref-h">Session personnalisée</h2>';
-    div.appendChild(top);
+  var top = document.createElement('div');
+  top.className = 'sel-top';
+  top.innerHTML = '<button class="btn-circ" id="sBk">←</button><h2 class="ref-h">Session personnalisée</h2>';
+  div.appendChild(top);
 
+  var meta = document.createElement('div');
+  meta.className = 'sel-meta';
+  div.appendChild(meta);
+
+  var grid = document.createElement('div');
+  grid.className = 'sel-grid';
+
+  // Référencer chaque carte pour toggle direct sans rebuild
+  var cardRefs = [];
+  CHORDS.forEach(function(c) {
+    var isSelected = sel.indexOf(c.id) !== -1;
+    var item = document.createElement('div');
+    item.className = 'sel-item' + (isSelected ? ' selected' : '');
+    item.innerHTML =
+      '<div class="sel-check">✓</div>'+
+      drawDiagram(c,'sm')+
+      '<div class="sel-item-name">'+c.name+'</div>';
+    item.onclick = function() {
+      var idx = sel.indexOf(c.id);
+      if (idx === -1) { sel.push(c.id); item.classList.add('selected'); }
+      else            { sel.splice(idx, 1); item.classList.remove('selected'); }
+      updateMeta();
+    };
+    grid.appendChild(item);
+    cardRefs.push({ id: c.id, el: item });
+  });
+  div.appendChild(grid);
+
+  var btnStart = document.createElement('button');
+  btnStart.className = 'btn-start-custom';
+  btnStart.textContent = 'Démarrer →';
+  div.appendChild(btnStart);
+
+  var note = document.createElement('p');
+  note.className = 'custom-sandbox-note';
+  note.innerHTML = 'Mode libre · Les erreurs affectent ta progression,<br>les bonnes réponses ne la modifient pas';
+  div.appendChild(note);
+
+  root.appendChild(div);
+
+  // ── Update partiel : meta + état du bouton uniquement ────
+  function updateMeta() {
     var n   = sel.length;
     var cls = n >= MIN_CUSTOM ? 'ok' : n > 0 ? 'warn' : 'bad';
     var lbl = n >= MIN_CUSTOM
       ? n+' accord'+(n>1?'s':'')+' sélectionné'+(n>1?'s':'')+' ✓'
       : n+' / '+MIN_CUSTOM+' minimum';
-    var meta = document.createElement('div');
-    meta.className = 'sel-meta';
     meta.innerHTML =
       '<span class="sel-count '+cls+'">'+lbl+'</span>'+
       '<div class="sel-actions">'+
         '<button class="btn-sel-link" id="sAll">Tout</button>'+
         '<button class="btn-sel-link" id="sClear">Effacer</button>'+
       '</div>';
-    div.appendChild(meta);
-
-    var grid = document.createElement('div');
-    grid.className = 'sel-grid';
-    CHORDS.forEach(function(c) {
-      var isSelected = sel.indexOf(c.id) !== -1;
-      var item = document.createElement('div');
-      item.className = 'sel-item' + (isSelected ? ' selected' : '');
-      item.innerHTML =
-        '<div class="sel-check">✓</div>'+
-        drawDiagram(c,'sm')+
-        '<div class="sel-item-name">'+c.name+'</div>';
-      item.onclick = function() {
-        var idx = sel.indexOf(c.id);
-        if (idx === -1) sel.push(c.id); else sel.splice(idx, 1);
-        rebuild();
-      };
-      grid.appendChild(item);
-    });
-    div.appendChild(grid);
-
-    var btnStart = document.createElement('button');
-    btnStart.className = 'btn-start-custom';
-    btnStart.textContent = 'Démarrer →';
-    btnStart.disabled = sel.length < MIN_CUSTOM;
-    div.appendChild(btnStart);
-
-    var note = document.createElement('p');
-    note.className = 'custom-sandbox-note';
-    note.innerHTML = 'Mode libre · Les erreurs affectent ta progression,<br>les bonnes réponses ne la modifient pas';
-    div.appendChild(note);
-
-    root.appendChild(div);
-
-    document.getElementById('sBk').onclick    = function() { app.screen = 'home'; render(); };
-    document.getElementById('sAll').onclick   = function() { sel = CHORDS.map(function(c){return c.id;}); rebuild(); };
-    document.getElementById('sClear').onclick = function() { sel = []; rebuild(); };
-
-    btnStart.onclick = function() {
-      if (sel.length < MIN_CUSTOM) return;
-      app.customChordIds = sel.slice();
-      saveCustomSel(app.customChordIds);
-      app.modeId  = 'custom';
-      app.session = { correct:0, total:0, masteryAtStart:0, streak:0 };
-      app.item    = nextItem('custom', app.lastChordId);
-      app.screen  = 'session';
-      render();
+    document.getElementById('sAll').onclick = function() {
+      sel = CHORDS.map(function(c){ return c.id; });
+      cardRefs.forEach(function(r){ r.el.classList.add('selected'); });
+      updateMeta();
     };
+    document.getElementById('sClear').onclick = function() {
+      sel = [];
+      cardRefs.forEach(function(r){ r.el.classList.remove('selected'); });
+      updateMeta();
+    };
+    btnStart.disabled = sel.length < MIN_CUSTOM;
   }
+  updateMeta();
 
-  rebuild();
+  document.getElementById('sBk').onclick = navBack;
+
+  btnStart.onclick = function() {
+    if (sel.length < MIN_CUSTOM) return;
+    app.customChordIds = sel.slice();
+    saveCustomSel(app.customChordIds);
+    app.modeId  = 'custom';
+    app.session = { correct:0, total:0, masteryAtStart:0, streak:0 };
+    app.recentChordIds = [];
+    app.item    = nextItem('custom', app.recentChordIds);
+    app.screen  = 'session';
+    render();
+  };
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -1293,7 +1346,7 @@ function renderReference(root) {
   root.innerHTML = '';
   root.appendChild(div);
 
-  document.getElementById('bBack').onclick = function() { app.screen = 'home'; render(); };
+  document.getElementById('bBack').onclick = navBack;
   document.getElementById('bReset').onclick = function() {
     if (confirm('Effacer toute la progression ? Cette action est irréversible.')) { resetSR(); render(); }
   };
@@ -1354,7 +1407,7 @@ function renderChordDetail(root) {
 
   root.appendChild(div);
 
-  document.getElementById('dBack').onclick = function() { app.screen = 'reference'; render(); };
+  document.getElementById('dBack').onclick = navBack;
   bPrev.onclick = function() { app.detailIdx = Math.max(0, idx - 1); _chordDetailNav = true; render(); };
   bNext.onclick = function() { app.detailIdx = Math.min(ids.length - 1, idx + 1); _chordDetailNav = true; render(); };
 }
