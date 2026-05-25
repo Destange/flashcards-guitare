@@ -58,7 +58,20 @@
     .prog-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 7px; }
     .prog-meta .tries-count { font-weight: 600; color: var(--text); }
     .prog-track { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
-    .prog-fill { height: 100%; border-radius: 3px; transition: width .4s ease; }
+    .prog-fill { height: 100%; border-radius: 3px; transition: width .35s ease, background .35s ease; }
+
+    /* Bouton "Fin de la session libre" — visible uniquement en mode libre */
+    .btn-end-free {
+      width: 100%; padding: 14px; margin-top: 14px;
+      font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600;
+      color: var(--accent); background: var(--accent-light);
+      border: 1.5px solid var(--accent); border-radius: 14px;
+      cursor: pointer; transition: opacity .12s, transform .1s;
+      box-shadow: 0 2px 8px rgba(184,92,42,.18);
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-end-free:hover  { opacity: .85; }
+    .btn-end-free:active { transform: scale(.985); }
 
     /* ── CARD ── */
     .card-scene { width: 100%; perspective: 900px; margin-bottom: 20px; }
@@ -356,7 +369,7 @@
 </head>
 <body>
 <div id="app"></div>
-<footer class="app-footer">Réalisé par <a href="https://www.instagram.com/juliendestange/" target="_blank" rel="noopener" class="footer-link">Julien Destange</a> · v1.4.2</footer>
+<footer class="app-footer">Réalisé par <a href="https://www.instagram.com/juliendestange/" target="_blank" rel="noopener" class="footer-link">Julien Destange</a> · v1.5</footer>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 
 /* ════════════════════════════════════════════════════════════
@@ -455,7 +468,7 @@ var MODES = {
 })();
 
 MODES.custom = {
-  id:'custom', cls:'cust', icon:'✏️', name:'Personnalisé',
+  id:'custom', cls:'cust', icon:'✏️', name:'Libre',
   desc:'', chordIds:null, progColor:'#B85C2A',
   hidden:true, sandboxCorrect:true
 };
@@ -842,11 +855,34 @@ var app = {
 function byId(id) { return CHORDS.find(function(c) { return c.id === id; }); }
 function sizeClass(n) { return n.length >= 5 ? 'sm' : n.length >= 4 ? 'md' : ''; }
 
-function sessionEmoji(c) {
-  return c===10?'🥇':c===9?'🏆':c>=7?'⭐':c>=5?'👍':c>=3?'💪':'🎯';
+function sessionEmoji(correct, total) {
+  total = total || 10;
+  if (total === 0) return '🎯';
+  var pct = correct / total;
+  if (pct === 1 && total >= 5) return '🥇';  // perfect : seuil min 5 questions
+  if (pct >= 0.9)              return '🏆';
+  if (pct >= 0.7)              return '⭐';
+  if (pct >= 0.5)              return '👍';
+  if (pct >= 0.3)              return '💪';
+  return '🎯';
 }
-function sessionMsg(c) {
-  return c===10?'Série parfaite !':c>=9?'Excellent !':c>=7?'Très bien !':c>=5?"On s'accroche !":c>=3?'Continue !':'On y retourne !';
+function sessionMsg(correct, total) {
+  total = total || 10;
+  if (total === 0) return 'Session vide';
+  var pct = correct / total;
+  if (pct === 1 && total >= 5) return 'Série Parfaite !';
+  if (pct >= 0.9)              return 'Excellent !';
+  if (pct >= 0.7)              return 'Très bien !';
+  if (pct >= 0.5)              return "On s'accroche !";
+  if (pct >= 0.3)              return 'Continue !';
+  return 'On y retourne !';
+}
+
+// Helper : detecte si on est dans une session libre (sandbox) en cours
+function isInFreeSession() {
+  return app.screen === 'session'
+      && ALL_MODES[app.modeId] && ALL_MODES[app.modeId].sandboxCorrect
+      && app.session && app.session.total > 0;
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -939,10 +975,12 @@ var _historyReady = false;
 var _chordDetailNav = false; // true quand prev/next dans chord-detail
 
 function navBack() {
+  if (isInFreeSession()) { app.screen = 'end'; render(); return; }
   if (_historyReady) history.back();
   else { app.screen = 'home'; render(); }
 }
 function navHome() {
+  if (isInFreeSession()) { app.screen = 'end'; render(); return; }
   var d = (history.state && history.state.depth) || 0;
   if (_historyReady && d > 0) {
     history.go(-d);
@@ -995,6 +1033,18 @@ function render() {
 
 window.addEventListener('popstate', function(e) {
   var s = (e.state && e.state.screen) || 'home';
+
+  // Mode libre en cours : back système → écran de fin (pas de sortie brutale)
+  if (isInFreeSession() && s !== 'session') {
+    // Re-pousse une entrée pour rester navigable
+    history.pushState({ screen: 'end', depth: ((e.state && e.state.depth) || 0) + 1 }, '');
+    app.screen = 'end';
+    var rootFree = document.getElementById('app');
+    rootFree.innerHTML = '';
+    _doRender(rootFree);
+    return;
+  }
+
   // Filet de sécurité : session/end ne doivent jamais être restaurés via popstate
   if (s === 'session' || s === 'end') s = 'home';
   app.screen = s;
@@ -1017,12 +1067,12 @@ function renderHome(root) {
   div.innerHTML =
     '<div class="home-icon">🎸</div>'+
     '<h1 class="home-h1">Premiers accords<br><em>Guitare</em></h1>'+
-    '<p class="home-sub">Mémorise tes accords avec la répétition espacée<br>Sessions de '+SESSION_LENGTH+' questions · 30 accords</p>'+
+    '<p class="home-sub">Mémorise tes accords avec la répétition espacée<br>'+SESSION_LENGTH+' questions par session — ou choisis le mode Libre</p>'+
     (function(){ var sk=loadStreak(); if(!sk.lastTs) return ''; return sk.count>=2 ? '<div class="streak-home active">🔥 '+sk.count+' jours de suite</div>' : '<div class="streak-home cold">🔥 Lance ta série !</div>'; }())+
     '<div class="mode-cards" id="modeCards"></div>'+
     '<div class="home-links">'+
       '<button class="home-action-btn" id="bSub"><span class="hab-icon">🧩</span><span class="hab-text">Exercices thématiques</span><span class="hab-arrow">'+ICON_ARROW_RIGHT+'</span></button>'+
-      '<button class="home-action-btn" id="bCustom"><span class="hab-icon">✏️</span><span class="hab-text">Session personnalisée</span><span class="hab-arrow">'+ICON_ARROW_RIGHT+'</span></button>'+
+      '<button class="home-action-btn" id="bCustom"><span class="hab-icon">✏️</span><span class="hab-text">Session libre</span><span class="hab-arrow">'+ICON_ARROW_RIGHT+'</span></button>'+
       '<button class="home-action-btn" id="bRef"><span class="hab-icon">📚</span><span class="hab-text">Voir tous les accords</span><span class="hab-arrow">'+ICON_ARROW_RIGHT+'</span></button>'+
     '</div>'+
     '<div class="home-data-bar">'+
@@ -1130,8 +1180,21 @@ function renderSession(root) {
   var item  = app.item;
   var chord = byId(item.chordId);
   var mode  = ALL_MODES[app.modeId];
-  var tryNum = app.session.total + 1;
-  var pct    = Math.round((app.session.total / SESSION_LENGTH) * 100);
+  var isFree = mode && mode.sandboxCorrect;
+
+  // Barre + compteur : mode normal = X/10 fixe, mode libre = ratio corrects/total dynamique
+  var progPct, progColor, counterText;
+  if (isFree) {
+    var total   = app.session.total;
+    var correct = app.session.correct;
+    progPct   = total === 0 ? 100 : Math.round((correct / total) * 100);
+    progColor = progPct >= 75 ? '#7A9A35' : progPct >= 40 ? '#C49225' : '#C04848';
+    counterText = correct + ' / ' + total;
+  } else {
+    progPct     = Math.round((app.session.total / SESSION_LENGTH) * 100);
+    progColor   = mode.progColor;
+    counterText = (app.session.total + 1) + ' / ' + SESSION_LENGTH;
+  }
 
   // Header
   var hdr = document.createElement('div');
@@ -1148,9 +1211,9 @@ function renderSession(root) {
   pg.innerHTML =
     '<div class="prog-meta">'+
       '<span style="color:'+mode.progColor+';font-weight:500;">'+mode.icon+' '+mode.name+'</span>'+
-      '<span class="tries-count">'+tryNum+' / '+SESSION_LENGTH+'</span>'+
+      '<span class="tries-count">'+counterText+'</span>'+
     '</div>'+
-    '<div class="prog-track"><div class="prog-fill" style="width:'+pct+'%;background:'+mode.progColor+'"></div></div>';
+    '<div class="prog-track"><div class="prog-fill" style="width:'+progPct+'%;background:'+progColor+'"></div></div>';
   root.appendChild(pg);
 
   // Contenu des faces
@@ -1265,8 +1328,9 @@ function renderSession(root) {
     if (app.recentChordIds.length > 2) app.recentChordIds.shift();
     app.session.total++;
     if (correct) app.session.correct++;
-    if (app.session.total >= SESSION_LENGTH) {
-      if (!isSandbox) app.streakResult = recordStreak();
+    // Mode normal : fin a SESSION_LENGTH. Mode libre : continue jusqu'a ce que l'utilisateur clique Fin
+    if (!isSandbox && app.session.total >= SESSION_LENGTH) {
+      app.streakResult = recordStreak();
       app.screen = 'end';
     } else {
       app.item   = nextItem(app.modeId, app.recentChordIds);
@@ -1276,6 +1340,23 @@ function renderSession(root) {
   }
   document.getElementById('bOk').onclick = function() { advance(true);  };
   document.getElementById('bKo').onclick = function() { advance(false); };
+
+  // Bouton "Fin de la session libre" — visible uniquement en mode libre
+  if (isFree) {
+    var btnEndFree = document.createElement('button');
+    btnEndFree.className = 'btn-end-free';
+    btnEndFree.innerHTML = '🏁 <span>Fin de la session libre</span>';
+    root.appendChild(btnEndFree);
+    btnEndFree.onclick = function() {
+      if (app.session.total === 0) {
+        // Aucune réponse → retour selection (sinon end screen vide)
+        app.screen = 'custom-select';
+      } else {
+        app.screen = 'end';
+      }
+      render();
+    };
+  }
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -1286,21 +1367,26 @@ function renderEnd(root) {
   var st      = getModeStats(app.modeId);
   var delta   = st.mastered - app.session.masteryAtStart;
   var correct = app.session.correct;
+  var isSandbox    = mode.sandboxCorrect;
+  // Mode normal : 10 questions fixes. Mode libre : total réel.
+  var sessionTotal = isSandbox ? app.session.total : SESSION_LENGTH;
 
   var div = document.createElement('div');
   div.className = 'end-screen fadein';
 
-  var isSandbox = mode.sandboxCorrect;
   var masteryBlock;
   if (isSandbox) {
-    var errors = SESSION_LENGTH - correct;
+    var errors = sessionTotal - correct;
+    var pctOk  = sessionTotal === 0 ? 0 : Math.round(correct / sessionTotal * 100);
     masteryBlock =
       '<div class="end-sandbox-card">'+
-        '<div class="end-sandbox-title">✏️ Session libre</div>'+
+        '<div class="end-sandbox-title">✏️ Session libre — '+pctOk+'% de réussite</div>'+
         '<div class="end-sandbox-body">'+
-          (errors > 0
-            ? errors+' erreur'+(errors>1?'s':'')+' enregistrée'+(errors>1?'s':'')+' dans ta progression.<br>Les bonnes réponses ne comptent pas en mode libre.'
-            : 'Aucune erreur — lance un vrai mode pour que tes réussites comptent !')+
+          (sessionTotal === 0
+            ? 'Tu n\'as répondu à aucune question — rien n\'a été enregistré.'
+            : (errors > 0
+                ? errors+' erreur'+(errors>1?'s':'')+' enregistrée'+(errors>1?'s':'')+' dans ta progression.<br>Les bonnes réponses ne comptent pas en mode libre — elles ne faussent pas ton score réel.'
+                : 'Aucune erreur — rien n\'a changé dans ta progression.<br>Lance un vrai mode pour que tes réussites comptent !'))+
         '</div>'+
       '</div>';
   } else {
@@ -1324,9 +1410,9 @@ function renderEnd(root) {
   div.innerHTML =
     '<div class="end-badge" style="'+badgeStyle+'">'+mode.icon+' '+mode.name+'</div>'+
     '<div class="end-score-wrap popin">'+
-      '<span class="end-emoji">'+sessionEmoji(correct)+'</span>'+
-      '<div class="end-score">'+correct+'<span> / '+SESSION_LENGTH+'</span></div>'+
-      '<div class="end-label">'+sessionMsg(correct)+'</div>'+
+      '<span class="end-emoji">'+sessionEmoji(correct, sessionTotal)+'</span>'+
+      '<div class="end-score">'+correct+'<span> / '+sessionTotal+'</span></div>'+
+      '<div class="end-label">'+sessionMsg(correct, sessionTotal)+'</div>'+
     '</div>'+
     masteryBlock+
     (function(){
@@ -1351,7 +1437,8 @@ function renderEnd(root) {
   if (!isSandbox) {
     setTimeout(function() { var f = document.getElementById('endFill'); if(f) f.style.width = st.pct+'%'; }, 120);
   }
-  if (correct === SESSION_LENGTH) setTimeout(function() { playVictory(); }, 200);
+  // Fanfare : uniquement mode normal et série parfaite. Pas en mode libre (drill, pas compétition).
+  if (!isSandbox && correct === SESSION_LENGTH) setTimeout(function() { playVictory(); }, 200);
 
   document.getElementById('bEndHome').onclick = navHome;
   document.getElementById('bReplay').onclick  = function() {
@@ -1431,7 +1518,7 @@ function renderModePreview(root) {
 /* ════════════════════════════════════════════════════════════
    SESSION PERSONNALISÉE — sélection des accords
 ════════════════════════════════════════════════════════════ */
-var MIN_CUSTOM = 5;
+var MIN_CUSTOM = 3;
 function renderCustomSelect(root) {
   var sel = app.customChordIds.slice();
 
@@ -1441,7 +1528,7 @@ function renderCustomSelect(root) {
 
   var top = document.createElement('div');
   top.className = 'sel-top';
-  top.innerHTML = '<button class="btn-nav-back" id="sBk">'+ICON_BACK+'<span class="nav-label">Retour</span></button><h2 class="ref-h">Session personnalisée</h2>';
+  top.innerHTML = '<button class="btn-nav-back" id="sBk">'+ICON_BACK+'<span class="nav-label">Retour</span></button><h2 class="ref-h">Session libre</h2>';
   div.appendChild(top);
 
   var meta = document.createElement('div');
@@ -1479,7 +1566,7 @@ function renderCustomSelect(root) {
 
   var note = document.createElement('p');
   note.className = 'custom-sandbox-note';
-  note.innerHTML = 'Mode libre · Les erreurs affectent ta progression,<br>les bonnes réponses ne la modifient pas';
+  note.innerHTML = 'Session sans fin · Les erreurs affectent ta progression,<br>les bonnes réponses ne la modifient pas';
   div.appendChild(note);
 
   root.appendChild(div);
