@@ -1,4 +1,4 @@
-var CACHE = 'guitare-v3.0';
+var CACHE = 'guitare-v1.2';
 var ASSETS = ['./', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', function(e) {
