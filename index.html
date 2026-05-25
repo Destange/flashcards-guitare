@@ -126,8 +126,6 @@
     .mode-stat-n.comp { color: var(--mode-comp); }
     .mode-stat-n.all  { color: var(--mode-all); }
     .mode-stat-l { font-size: 10px; color: var(--muted); }
-    .btn-ref-link { background: none; border: none; font-family: 'Outfit', sans-serif; font-size: 14px; color: var(--muted); cursor: pointer; padding: 8px; text-decoration: underline; text-decoration-color: var(--border); transition: color .12s; }
-    .btn-ref-link:hover { color: var(--text); }
     .home-links { display: flex; flex-direction: column; gap: 8px; width: 100%; margin-top: 4px; }
     .home-action-btn { width: 100%; display: flex; align-items: center; gap: 12px; background: var(--card); border: 1.5px solid var(--border); border-radius: 14px; padding: 14px 18px; cursor: pointer; font-family: 'Outfit', sans-serif; transition: border-color .15s, box-shadow .15s, transform .1s; text-align: left; }
     .home-action-btn:hover { border-color: var(--accent); box-shadow: 0 3px 14px rgba(184,92,42,.12); transform: translateY(-1px); }
@@ -199,11 +197,8 @@
     /* ── REFERENCE ── */
     .ref-screen { width: 100%; }
     .ref-top { display: flex; align-items: center; gap: 14px; padding: 18px 0 14px; }
-    .btn-circ { width: 36px; height: 36px; flex-shrink: 0; background: var(--card); border: 1.5px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 15px; transition: background .12s; }
-    .btn-circ:hover { background: var(--border); }
-
     /* ── BOUTONS PILULES (Retour / Accueil) ── */
-    .btn-nav-back, .btn-nav-home {
+    .btn-nav-back {
       display: inline-flex; align-items: center; gap: 7px;
       height: 44px; padding: 0 16px 0 12px;
       background: var(--card); border: 1.5px solid var(--border); border-radius: 22px;
@@ -213,13 +208,13 @@
       box-shadow: 0 1px 3px rgba(0,0,0,.04);
       -webkit-tap-highlight-color: transparent;
     }
-    .btn-nav-back:hover, .btn-nav-home:hover { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
-    .btn-nav-back:active, .btn-nav-home:active { transform: scale(.96); }
-    .btn-nav-back svg, .btn-nav-home svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .btn-nav-back:hover { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+    .btn-nav-back:active { transform: scale(.96); }
+    .btn-nav-back svg { width: 20px; height: 20px; flex-shrink: 0; }
     .nav-label { line-height: 1; }
     @media (max-width: 360px) {
-      .btn-nav-back .nav-label, .btn-nav-home .nav-label { display: none; }
-      .btn-nav-back, .btn-nav-home { width: 44px; padding: 0; justify-content: center; border-radius: 50%; }
+      .btn-nav-back .nav-label { display: none; }
+      .btn-nav-back { width: 44px; padding: 0; justify-content: center; border-radius: 50%; }
     }
 
     /* ── SVG SIZING dans les boutons existants ── */
@@ -358,7 +353,7 @@
 </head>
 <body>
 <div id="app"></div>
-<footer class="app-footer">Réalisé par <a href="https://www.instagram.com/juliendestange/" target="_blank" rel="noopener" class="footer-link">Julien Destange</a> · v1.4</footer>
+<footer class="app-footer">Réalisé par <a href="https://www.instagram.com/juliendestange/" target="_blank" rel="noopener" class="footer-link">Julien Destange</a> · v1.4.1</footer>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 
 /* ════════════════════════════════════════════════════════════
@@ -419,7 +414,6 @@ var SESSION_LENGTH = 10;
 var ICON_BACK         = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>';
 var ICON_HOME         = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>';
 var ICON_ARROW_RIGHT  = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
-var ICON_ARROW_LEFT   = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>';
 var ICON_DOWNLOAD     = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>';
 var ICON_UPLOAD       = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>';
 var ICON_RELOAD       = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>';
