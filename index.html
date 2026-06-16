@@ -408,12 +408,48 @@
       .ref-grid { grid-template-columns: repeat(2, 1fr); }
       .sub-grid { grid-template-columns: 1fr; }
     }
+    /* ════════ ONBOARDING (premier lancement) ════════ */
+    .ob-overlay{position:fixed;inset:0;background:rgba(28,28,28,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;z-index:10001;animation:fadeUp .3s ease;padding:18px;}
+    .ob-card{background:var(--card);border-radius:24px;box-shadow:0 8px 40px rgba(0,0,0,.28);padding:24px 22px 20px;max-width:380px;width:100%;max-height:92vh;overflow-y:auto;animation:popIn .42s cubic-bezier(.34,1.56,.64,1);}
+    .ob-kicker{font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent);text-align:center;margin-bottom:6px;}
+    .ob-title{font-family:'Playfair Display',serif;font-size:25px;line-height:1.15;letter-spacing:-.5px;text-align:center;margin-bottom:6px;}
+    .ob-sub{font-size:13px;color:var(--muted);font-weight:300;line-height:1.5;text-align:center;margin-bottom:16px;}
+    .ob-tabs{display:flex;gap:6px;margin-bottom:16px;}
+    .ob-tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;border:1.5px solid var(--border);border-radius:13px;background:var(--card);cursor:pointer;font-family:'Outfit',sans-serif;font-size:11px;font-weight:500;color:var(--muted);transition:border-color .14s,background .14s,color .14s;-webkit-tap-highlight-color:transparent;}
+    .ob-tab .ob-tab-ic{font-size:18px;line-height:1;}
+    .ob-tab.active{border-color:var(--accent);background:var(--accent-light);color:var(--accent);}
+    .ob-step{display:flex;gap:13px;align-items:flex-start;margin-bottom:14px;}
+    .ob-step-n{flex-shrink:0;width:27px;height:27px;border-radius:50%;background:var(--accent);color:#fff;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;}
+    .ob-step-tt{font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;margin-bottom:2px;}
+    .ob-step-bd{font-size:12.5px;color:var(--muted);font-weight:300;line-height:1.45;}
+    .ob-native{width:100%;padding:14px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;background:var(--accent);color:#fff;border:none;border-radius:13px;cursor:pointer;margin:2px 0 14px;box-shadow:0 4px 16px rgba(184,92,42,.3);}
+    .ob-qr-wrap{display:flex;flex-direction:column;align-items:center;gap:8px;background:var(--bg);border-radius:16px;padding:16px;margin:6px 0 4px;}
+    .ob-qr{width:158px;height:158px;background:#fff;border-radius:10px;padding:8px;box-shadow:0 2px 10px rgba(0,0,0,.08);}
+    .ob-qr svg{width:100%;height:100%;display:block;}
+    .ob-qr-cap{font-size:12px;color:var(--muted);text-align:center;font-weight:300;line-height:1.4;}
+    .ob-actions{display:flex;gap:10px;margin-top:8px;}
+    .ob-btn-primary{flex:2;padding:15px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;background:var(--accent);color:#fff;border:none;border-radius:14px;cursor:pointer;transition:opacity .12s,transform .1s;box-shadow:0 4px 16px rgba(184,92,42,.3);}
+    .ob-btn-primary:active{transform:scale(.985);}
+    .ob-btn-ghost{flex:1;padding:15px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;background:var(--card);color:var(--muted);border:1.5px solid var(--border);border-radius:14px;cursor:pointer;}
+    .ob-tour-spot{position:fixed;border-radius:16px;box-shadow:0 0 0 9999px rgba(28,28,28,.62);border:2.5px solid var(--accent);z-index:10002;pointer-events:none;transition:top .2s ease,left .2s ease,width .2s ease,height .2s ease;}
+    .ob-tour-tip{position:fixed;z-index:10003;background:var(--card);border-radius:18px;box-shadow:0 8px 36px rgba(0,0,0,.3);padding:18px 18px 16px;width:290px;max-width:calc(100vw - 28px);animation:popIn .32s cubic-bezier(.34,1.56,.64,1);}
+    .ob-tip-count{font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;letter-spacing:1px;color:var(--accent);margin-bottom:5px;}
+    .ob-tip-title{font-family:'Playfair Display',serif;font-size:19px;margin-bottom:5px;letter-spacing:-.3px;}
+    .ob-tip-body{font-size:13px;color:var(--muted);font-weight:300;line-height:1.5;margin-bottom:14px;}
+    .ob-tip-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .ob-tip-skip{background:none;border:none;color:var(--muted);font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;padding:6px;}
+    .ob-tip-next{padding:11px 20px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;background:var(--accent);color:#fff;border:none;border-radius:12px;cursor:pointer;}
+    .ob-help-btn{width:100%;margin-top:10px;padding:12px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;background:transparent;color:var(--muted);border:1.5px dashed var(--border);border-radius:13px;cursor:pointer;transition:border-color .14s,color .14s;-webkit-tap-highlight-color:transparent;}
+    .ob-help-btn:hover{border-color:var(--accent);color:var(--accent);}
   </style>
 </head>
 <body>
 <div id="app"></div>
-<footer class="app-footer">Réalisé par <a href="https://www.instagram.com/juliendestange/" target="_blank" rel="noopener" class="footer-link">Julien Destange</a> · v1.6</footer>
+<div id="obQrSrc" style="display:none"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 132" shape-rendering="crispEdges"><rect width="132" height="132" fill="#fff"/><g fill="#1C1C1C"><rect x="0" y="0" width="4" height="4"/><rect x="4" y="0" width="4" height="4"/><rect x="8" y="0" width="4" height="4"/><rect x="12" y="0" width="4" height="4"/><rect x="16" y="0" width="4" height="4"/><rect x="20" y="0" width="4" height="4"/><rect x="24" y="0" width="4" height="4"/><rect x="32" y="0" width="4" height="4"/><rect x="48" y="0" width="4" height="4"/><rect x="56" y="0" width="4" height="4"/><rect x="60" y="0" width="4" height="4"/><rect x="64" y="0" width="4" height="4"/><rect x="68" y="0" width="4" height="4"/><rect x="92" y="0" width="4" height="4"/><rect x="104" y="0" width="4" height="4"/><rect x="108" y="0" width="4" height="4"/><rect x="112" y="0" width="4" height="4"/><rect x="116" y="0" width="4" height="4"/><rect x="120" y="0" width="4" height="4"/><rect x="124" y="0" width="4" height="4"/><rect x="128" y="0" width="4" height="4"/><rect x="0" y="4" width="4" height="4"/><rect x="24" y="4" width="4" height="4"/><rect x="36" y="4" width="4" height="4"/><rect x="40" y="4" width="4" height="4"/><rect x="48" y="4" width="4" height="4"/><rect x="68" y="4" width="4" height="4"/><rect x="76" y="4" width="4" height="4"/><rect x="80" y="4" width="4" height="4"/><rect x="88" y="4" width="4" height="4"/><rect x="104" y="4" width="4" height="4"/><rect x="128" y="4" width="4" height="4"/><rect x="0" y="8" width="4" height="4"/><rect x="8" y="8" width="4" height="4"/><rect x="12" y="8" width="4" height="4"/><rect x="16" y="8" width="4" height="4"/><rect x="24" y="8" width="4" height="4"/><rect x="40" y="8" width="4" height="4"/><rect x="48" y="8" width="4" height="4"/><rect x="52" y="8" width="4" height="4"/><rect x="60" y="8" width="4" height="4"/><rect x="84" y="8" width="4" height="4"/><rect x="92" y="8" width="4" height="4"/><rect x="104" y="8" width="4" height="4"/><rect x="112" y="8" width="4" height="4"/><rect x="116" y="8" width="4" height="4"/><rect x="120" y="8" width="4" height="4"/><rect x="128" y="8" width="4" height="4"/><rect x="0" y="12" width="4" height="4"/><rect x="8" y="12" width="4" height="4"/><rect x="12" y="12" width="4" height="4"/><rect x="16" y="12" width="4" height="4"/><rect x="24" y="12" width="4" height="4"/><rect x="32" y="12" width="4" height="4"/><rect x="36" y="12" width="4" height="4"/><rect x="40" y="12" width="4" height="4"/><rect x="44" y="12" width="4" height="4"/><rect x="56" y="12" width="4" height="4"/><rect x="68" y="12" width="4" height="4"/><rect x="72" y="12" width="4" height="4"/><rect x="76" y="12" width="4" height="4"/><rect x="80" y="12" width="4" height="4"/><rect x="88" y="12" width="4" height="4"/><rect x="92" y="12" width="4" height="4"/><rect x="104" y="12" width="4" height="4"/><rect x="112" y="12" width="4" height="4"/><rect x="116" y="12" width="4" height="4"/><rect x="120" y="12" width="4" height="4"/><rect x="128" y="12" width="4" height="4"/><rect x="0" y="16" width="4" height="4"/><rect x="8" y="16" width="4" height="4"/><rect x="12" y="16" width="4" height="4"/><rect x="16" y="16" width="4" height="4"/><rect x="24" y="16" width="4" height="4"/><rect x="32" y="16" width="4" height="4"/><rect x="36" y="16" width="4" height="4"/><rect x="52" y="16" width="4" height="4"/><rect x="56" y="16" width="4" height="4"/><rect x="72" y="16" width="4" height="4"/><rect x="76" y="16" width="4" height="4"/><rect x="80" y="16" width="4" height="4"/><rect x="84" y="16" width="4" height="4"/><rect x="92" y="16" width="4" height="4"/><rect x="104" y="16" width="4" height="4"/><rect x="112" y="16" width="4" height="4"/><rect x="116" y="16" width="4" height="4"/><rect x="120" y="16" width="4" height="4"/><rect x="128" y="16" width="4" height="4"/><rect x="0" y="20" width="4" height="4"/><rect x="24" y="20" width="4" height="4"/><rect x="32" y="20" width="4" height="4"/><rect x="52" y="20" width="4" height="4"/><rect x="56" y="20" width="4" height="4"/><rect x="64" y="20" width="4" height="4"/><rect x="76" y="20" width="4" height="4"/><rect x="84" y="20" width="4" height="4"/><rect x="88" y="20" width="4" height="4"/><rect x="96" y="20" width="4" height="4"/><rect x="104" y="20" width="4" height="4"/><rect x="128" y="20" width="4" height="4"/><rect x="0" y="24" width="4" height="4"/><rect x="4" y="24" width="4" height="4"/><rect x="8" y="24" width="4" height="4"/><rect x="12" y="24" width="4" height="4"/><rect x="16" y="24" width="4" height="4"/><rect x="20" y="24" width="4" height="4"/><rect x="24" y="24" width="4" height="4"/><rect x="32" y="24" width="4" height="4"/><rect x="40" y="24" width="4" height="4"/><rect x="48" y="24" width="4" height="4"/><rect x="56" y="24" width="4" height="4"/><rect x="64" y="24" width="4" height="4"/><rect x="72" y="24" width="4" height="4"/><rect x="80" y="24" width="4" height="4"/><rect x="88" y="24" width="4" height="4"/><rect x="96" y="24" width="4" height="4"/><rect x="104" y="24" width="4" height="4"/><rect x="108" y="24" width="4" height="4"/><rect x="112" y="24" width="4" height="4"/><rect x="116" y="24" width="4" height="4"/><rect x="120" y="24" width="4" height="4"/><rect x="124" y="24" width="4" height="4"/><rect x="128" y="24" width="4" height="4"/><rect x="32" y="28" width="4" height="4"/><rect x="40" y="28" width="4" height="4"/><rect x="44" y="28" width="4" height="4"/><rect x="48" y="28" width="4" height="4"/><rect x="56" y="28" width="4" height="4"/><rect x="60" y="28" width="4" height="4"/><rect x="64" y="28" width="4" height="4"/><rect x="68" y="28" width="4" height="4"/><rect x="72" y="28" width="4" height="4"/><rect x="84" y="28" width="4" height="4"/><rect x="88" y="28" width="4" height="4"/><rect x="0" y="32" width="4" height="4"/><rect x="16" y="32" width="4" height="4"/><rect x="24" y="32" width="4" height="4"/><rect x="28" y="32" width="4" height="4"/><rect x="32" y="32" width="4" height="4"/><rect x="36" y="32" width="4" height="4"/><rect x="48" y="32" width="4" height="4"/><rect x="68" y="32" width="4" height="4"/><rect x="76" y="32" width="4" height="4"/><rect x="80" y="32" width="4" height="4"/><rect x="84" y="32" width="4" height="4"/><rect x="88" y="32" width="4" height="4"/><rect x="96" y="32" width="4" height="4"/><rect x="100" y="32" width="4" height="4"/><rect x="104" y="32" width="4" height="4"/><rect x="108" y="32" width="4" height="4"/><rect x="112" y="32" width="4" height="4"/><rect x="116" y="32" width="4" height="4"/><rect x="128" y="32" width="4" height="4"/><rect x="4" y="36" width="4" height="4"/><rect x="8" y="36" width="4" height="4"/><rect x="12" y="36" width="4" height="4"/><rect x="28" y="36" width="4" height="4"/><rect x="32" y="36" width="4" height="4"/><rect x="36" y="36" width="4" height="4"/><rect x="40" y="36" width="4" height="4"/><rect x="52" y="36" width="4" height="4"/><rect x="60" y="36" width="4" height="4"/><rect x="64" y="36" width="4" height="4"/><rect x="72" y="36" width="4" height="4"/><rect x="84" y="36" width="4" height="4"/><rect x="92" y="36" width="4" height="4"/><rect x="100" y="36" width="4" height="4"/><rect x="116" y="36" width="4" height="4"/><rect x="120" y="36" width="4" height="4"/><rect x="124" y="36" width="4" height="4"/><rect x="0" y="40" width="4" height="4"/><rect x="16" y="40" width="4" height="4"/><rect x="24" y="40" width="4" height="4"/><rect x="28" y="40" width="4" height="4"/><rect x="32" y="40" width="4" height="4"/><rect x="44" y="40" width="4" height="4"/><rect x="48" y="40" width="4" height="4"/><rect x="60" y="40" width="4" height="4"/><rect x="64" y="40" width="4" height="4"/><rect x="68" y="40" width="4" height="4"/><rect x="92" y="40" width="4" height="4"/><rect x="100" y="40" width="4" height="4"/><rect x="116" y="40" width="4" height="4"/><rect x="124" y="40" width="4" height="4"/><rect x="0" y="44" width="4" height="4"/><rect x="20" y="44" width="4" height="4"/><rect x="28" y="44" width="4" height="4"/><rect x="32" y="44" width="4" height="4"/><rect x="36" y="44" width="4" height="4"/><rect x="40" y="44" width="4" height="4"/><rect x="56" y="44" width="4" height="4"/><rect x="68" y="44" width="4" height="4"/><rect x="72" y="44" width="4" height="4"/><rect x="80" y="44" width="4" height="4"/><rect x="84" y="44" width="4" height="4"/><rect x="92" y="44" width="4" height="4"/><rect x="96" y="44" width="4" height="4"/><rect x="100" y="44" width="4" height="4"/><rect x="104" y="44" width="4" height="4"/><rect x="124" y="44" width="4" height="4"/><rect x="128" y="44" width="4" height="4"/><rect x="4" y="48" width="4" height="4"/><rect x="12" y="48" width="4" height="4"/><rect x="16" y="48" width="4" height="4"/><rect x="20" y="48" width="4" height="4"/><rect x="24" y="48" width="4" height="4"/><rect x="28" y="48" width="4" height="4"/><rect x="36" y="48" width="4" height="4"/><rect x="48" y="48" width="4" height="4"/><rect x="52" y="48" width="4" height="4"/><rect x="56" y="48" width="4" height="4"/><rect x="72" y="48" width="4" height="4"/><rect x="76" y="48" width="4" height="4"/><rect x="80" y="48" width="4" height="4"/><rect x="104" y="48" width="4" height="4"/><rect x="112" y="48" width="4" height="4"/><rect x="116" y="48" width="4" height="4"/><rect x="124" y="48" width="4" height="4"/><rect x="128" y="48" width="4" height="4"/><rect x="0" y="52" width="4" height="4"/><rect x="4" y="52" width="4" height="4"/><rect x="12" y="52" width="4" height="4"/><rect x="16" y="52" width="4" height="4"/><rect x="20" y="52" width="4" height="4"/><rect x="36" y="52" width="4" height="4"/><rect x="40" y="52" width="4" height="4"/><rect x="44" y="52" width="4" height="4"/><rect x="48" y="52" width="4" height="4"/><rect x="64" y="52" width="4" height="4"/><rect x="76" y="52" width="4" height="4"/><rect x="92" y="52" width="4" height="4"/><rect x="108" y="52" width="4" height="4"/><rect x="120" y="52" width="4" height="4"/><rect x="0" y="56" width="4" height="4"/><rect x="12" y="56" width="4" height="4"/><rect x="24" y="56" width="4" height="4"/><rect x="28" y="56" width="4" height="4"/><rect x="40" y="56" width="4" height="4"/><rect x="48" y="56" width="4" height="4"/><rect x="64" y="56" width="4" height="4"/><rect x="76" y="56" width="4" height="4"/><rect x="92" y="56" width="4" height="4"/><rect x="96" y="56" width="4" height="4"/><rect x="100" y="56" width="4" height="4"/><rect x="104" y="56" width="4" height="4"/><rect x="112" y="56" width="4" height="4"/><rect x="124" y="56" width="4" height="4"/><rect x="4" y="60" width="4" height="4"/><rect x="12" y="60" width="4" height="4"/><rect x="20" y="60" width="4" height="4"/><rect x="28" y="60" width="4" height="4"/><rect x="32" y="60" width="4" height="4"/><rect x="40" y="60" width="4" height="4"/><rect x="48" y="60" width="4" height="4"/><rect x="68" y="60" width="4" height="4"/><rect x="76" y="60" width="4" height="4"/><rect x="80" y="60" width="4" height="4"/><rect x="84" y="60" width="4" height="4"/><rect x="92" y="60" width="4" height="4"/><rect x="100" y="60" width="4" height="4"/><rect x="104" y="60" width="4" height="4"/><rect x="0" y="64" width="4" height="4"/><rect x="16" y="64" width="4" height="4"/><rect x="20" y="64" width="4" height="4"/><rect x="24" y="64" width="4" height="4"/><rect x="28" y="64" width="4" height="4"/><rect x="44" y="64" width="4" height="4"/><rect x="48" y="64" width="4" height="4"/><rect x="52" y="64" width="4" height="4"/><rect x="56" y="64" width="4" height="4"/><rect x="60" y="64" width="4" height="4"/><rect x="68" y="64" width="4" height="4"/><rect x="72" y="64" width="4" height="4"/><rect x="84" y="64" width="4" height="4"/><rect x="88" y="64" width="4" height="4"/><rect x="104" y="64" width="4" height="4"/><rect x="112" y="64" width="4" height="4"/><rect x="116" y="64" width="4" height="4"/><rect x="124" y="64" width="4" height="4"/><rect x="0" y="68" width="4" height="4"/><rect x="12" y="68" width="4" height="4"/><rect x="16" y="68" width="4" height="4"/><rect x="20" y="68" width="4" height="4"/><rect x="28" y="68" width="4" height="4"/><rect x="36" y="68" width="4" height="4"/><rect x="48" y="68" width="4" height="4"/><rect x="56" y="68" width="4" height="4"/><rect x="60" y="68" width="4" height="4"/><rect x="64" y="68" width="4" height="4"/><rect x="68" y="68" width="4" height="4"/><rect x="72" y="68" width="4" height="4"/><rect x="84" y="68" width="4" height="4"/><rect x="92" y="68" width="4" height="4"/><rect x="100" y="68" width="4" height="4"/><rect x="116" y="68" width="4" height="4"/><rect x="120" y="68" width="4" height="4"/><rect x="124" y="68" width="4" height="4"/><rect x="8" y="72" width="4" height="4"/><rect x="12" y="72" width="4" height="4"/><rect x="20" y="72" width="4" height="4"/><rect x="24" y="72" width="4" height="4"/><rect x="28" y="72" width="4" height="4"/><rect x="32" y="72" width="4" height="4"/><rect x="36" y="72" width="4" height="4"/><rect x="48" y="72" width="4" height="4"/><rect x="52" y="72" width="4" height="4"/><rect x="56" y="72" width="4" height="4"/><rect x="60" y="72" width="4" height="4"/><rect x="72" y="72" width="4" height="4"/><rect x="80" y="72" width="4" height="4"/><rect x="92" y="72" width="4" height="4"/><rect x="96" y="72" width="4" height="4"/><rect x="100" y="72" width="4" height="4"/><rect x="108" y="72" width="4" height="4"/><rect x="116" y="72" width="4" height="4"/><rect x="124" y="72" width="4" height="4"/><rect x="8" y="76" width="4" height="4"/><rect x="12" y="76" width="4" height="4"/><rect x="16" y="76" width="4" height="4"/><rect x="20" y="76" width="4" height="4"/><rect x="28" y="76" width="4" height="4"/><rect x="40" y="76" width="4" height="4"/><rect x="44" y="76" width="4" height="4"/><rect x="48" y="76" width="4" height="4"/><rect x="52" y="76" width="4" height="4"/><rect x="56" y="76" width="4" height="4"/><rect x="88" y="76" width="4" height="4"/><rect x="100" y="76" width="4" height="4"/><rect x="108" y="76" width="4" height="4"/><rect x="8" y="80" width="4" height="4"/><rect x="12" y="80" width="4" height="4"/><rect x="24" y="80" width="4" height="4"/><rect x="40" y="80" width="4" height="4"/><rect x="60" y="80" width="4" height="4"/><rect x="64" y="80" width="4" height="4"/><rect x="88" y="80" width="4" height="4"/><rect x="96" y="80" width="4" height="4"/><rect x="104" y="80" width="4" height="4"/><rect x="112" y="80" width="4" height="4"/><rect x="116" y="80" width="4" height="4"/><rect x="124" y="80" width="4" height="4"/><rect x="0" y="84" width="4" height="4"/><rect x="4" y="84" width="4" height="4"/><rect x="8" y="84" width="4" height="4"/><rect x="16" y="84" width="4" height="4"/><rect x="20" y="84" width="4" height="4"/><rect x="36" y="84" width="4" height="4"/><rect x="40" y="84" width="4" height="4"/><rect x="44" y="84" width="4" height="4"/><rect x="52" y="84" width="4" height="4"/><rect x="68" y="84" width="4" height="4"/><rect x="72" y="84" width="4" height="4"/><rect x="76" y="84" width="4" height="4"/><rect x="80" y="84" width="4" height="4"/><rect x="92" y="84" width="4" height="4"/><rect x="100" y="84" width="4" height="4"/><rect x="120" y="84" width="4" height="4"/><rect x="124" y="84" width="4" height="4"/><rect x="8" y="88" width="4" height="4"/><rect x="12" y="88" width="4" height="4"/><rect x="24" y="88" width="4" height="4"/><rect x="28" y="88" width="4" height="4"/><rect x="60" y="88" width="4" height="4"/><rect x="72" y="88" width="4" height="4"/><rect x="80" y="88" width="4" height="4"/><rect x="84" y="88" width="4" height="4"/><rect x="92" y="88" width="4" height="4"/><rect x="100" y="88" width="4" height="4"/><rect x="116" y="88" width="4" height="4"/><rect x="120" y="88" width="4" height="4"/><rect x="124" y="88" width="4" height="4"/><rect x="8" y="92" width="4" height="4"/><rect x="16" y="92" width="4" height="4"/><rect x="20" y="92" width="4" height="4"/><rect x="28" y="92" width="4" height="4"/><rect x="44" y="92" width="4" height="4"/><rect x="60" y="92" width="4" height="4"/><rect x="64" y="92" width="4" height="4"/><rect x="68" y="92" width="4" height="4"/><rect x="84" y="92" width="4" height="4"/><rect x="92" y="92" width="4" height="4"/><rect x="96" y="92" width="4" height="4"/><rect x="108" y="92" width="4" height="4"/><rect x="112" y="92" width="4" height="4"/><rect x="128" y="92" width="4" height="4"/><rect x="0" y="96" width="4" height="4"/><rect x="4" y="96" width="4" height="4"/><rect x="8" y="96" width="4" height="4"/><rect x="12" y="96" width="4" height="4"/><rect x="20" y="96" width="4" height="4"/><rect x="24" y="96" width="4" height="4"/><rect x="28" y="96" width="4" height="4"/><rect x="32" y="96" width="4" height="4"/><rect x="36" y="96" width="4" height="4"/><rect x="40" y="96" width="4" height="4"/><rect x="48" y="96" width="4" height="4"/><rect x="52" y="96" width="4" height="4"/><rect x="56" y="96" width="4" height="4"/><rect x="68" y="96" width="4" height="4"/><rect x="76" y="96" width="4" height="4"/><rect x="80" y="96" width="4" height="4"/><rect x="84" y="96" width="4" height="4"/><rect x="96" y="96" width="4" height="4"/><rect x="100" y="96" width="4" height="4"/><rect x="104" y="96" width="4" height="4"/><rect x="108" y="96" width="4" height="4"/><rect x="112" y="96" width="4" height="4"/><rect x="32" y="100" width="4" height="4"/><rect x="36" y="100" width="4" height="4"/><rect x="40" y="100" width="4" height="4"/><rect x="48" y="100" width="4" height="4"/><rect x="52" y="100" width="4" height="4"/><rect x="56" y="100" width="4" height="4"/><rect x="60" y="100" width="4" height="4"/><rect x="72" y="100" width="4" height="4"/><rect x="92" y="100" width="4" height="4"/><rect x="96" y="100" width="4" height="4"/><rect x="112" y="100" width="4" height="4"/><rect x="120" y="100" width="4" height="4"/><rect x="124" y="100" width="4" height="4"/><rect x="0" y="104" width="4" height="4"/><rect x="4" y="104" width="4" height="4"/><rect x="8" y="104" width="4" height="4"/><rect x="12" y="104" width="4" height="4"/><rect x="16" y="104" width="4" height="4"/><rect x="20" y="104" width="4" height="4"/><rect x="24" y="104" width="4" height="4"/><rect x="32" y="104" width="4" height="4"/><rect x="36" y="104" width="4" height="4"/><rect x="44" y="104" width="4" height="4"/><rect x="52" y="104" width="4" height="4"/><rect x="56" y="104" width="4" height="4"/><rect x="60" y="104" width="4" height="4"/><rect x="68" y="104" width="4" height="4"/><rect x="80" y="104" width="4" height="4"/><rect x="84" y="104" width="4" height="4"/><rect x="88" y="104" width="4" height="4"/><rect x="96" y="104" width="4" height="4"/><rect x="104" y="104" width="4" height="4"/><rect x="112" y="104" width="4" height="4"/><rect x="116" y="104" width="4" height="4"/><rect x="124" y="104" width="4" height="4"/><rect x="0" y="108" width="4" height="4"/><rect x="24" y="108" width="4" height="4"/><rect x="44" y="108" width="4" height="4"/><rect x="48" y="108" width="4" height="4"/><rect x="68" y="108" width="4" height="4"/><rect x="72" y="108" width="4" height="4"/><rect x="76" y="108" width="4" height="4"/><rect x="80" y="108" width="4" height="4"/><rect x="84" y="108" width="4" height="4"/><rect x="96" y="108" width="4" height="4"/><rect x="112" y="108" width="4" height="4"/><rect x="124" y="108" width="4" height="4"/><rect x="128" y="108" width="4" height="4"/><rect x="0" y="112" width="4" height="4"/><rect x="8" y="112" width="4" height="4"/><rect x="12" y="112" width="4" height="4"/><rect x="16" y="112" width="4" height="4"/><rect x="24" y="112" width="4" height="4"/><rect x="32" y="112" width="4" height="4"/><rect x="36" y="112" width="4" height="4"/><rect x="44" y="112" width="4" height="4"/><rect x="56" y="112" width="4" height="4"/><rect x="60" y="112" width="4" height="4"/><rect x="72" y="112" width="4" height="4"/><rect x="76" y="112" width="4" height="4"/><rect x="80" y="112" width="4" height="4"/><rect x="96" y="112" width="4" height="4"/><rect x="100" y="112" width="4" height="4"/><rect x="104" y="112" width="4" height="4"/><rect x="108" y="112" width="4" height="4"/><rect x="112" y="112" width="4" height="4"/><rect x="116" y="112" width="4" height="4"/><rect x="124" y="112" width="4" height="4"/><rect x="128" y="112" width="4" height="4"/><rect x="0" y="116" width="4" height="4"/><rect x="8" y="116" width="4" height="4"/><rect x="12" y="116" width="4" height="4"/><rect x="16" y="116" width="4" height="4"/><rect x="24" y="116" width="4" height="4"/><rect x="44" y="116" width="4" height="4"/><rect x="48" y="116" width="4" height="4"/><rect x="56" y="116" width="4" height="4"/><rect x="64" y="116" width="4" height="4"/><rect x="68" y="116" width="4" height="4"/><rect x="76" y="116" width="4" height="4"/><rect x="84" y="116" width="4" height="4"/><rect x="88" y="116" width="4" height="4"/><rect x="92" y="116" width="4" height="4"/><rect x="96" y="116" width="4" height="4"/><rect x="104" y="116" width="4" height="4"/><rect x="108" y="116" width="4" height="4"/><rect x="112" y="116" width="4" height="4"/><rect x="116" y="116" width="4" height="4"/><rect x="120" y="116" width="4" height="4"/><rect x="124" y="116" width="4" height="4"/><rect x="0" y="120" width="4" height="4"/><rect x="8" y="120" width="4" height="4"/><rect x="12" y="120" width="4" height="4"/><rect x="16" y="120" width="4" height="4"/><rect x="24" y="120" width="4" height="4"/><rect x="40" y="120" width="4" height="4"/><rect x="48" y="120" width="4" height="4"/><rect x="56" y="120" width="4" height="4"/><rect x="64" y="120" width="4" height="4"/><rect x="68" y="120" width="4" height="4"/><rect x="76" y="120" width="4" height="4"/><rect x="104" y="120" width="4" height="4"/><rect x="108" y="120" width="4" height="4"/><rect x="112" y="120" width="4" height="4"/><rect x="116" y="120" width="4" height="4"/><rect x="0" y="124" width="4" height="4"/><rect x="24" y="124" width="4" height="4"/><rect x="36" y="124" width="4" height="4"/><rect x="56" y="124" width="4" height="4"/><rect x="68" y="124" width="4" height="4"/><rect x="72" y="124" width="4" height="4"/><rect x="76" y="124" width="4" height="4"/><rect x="80" y="124" width="4" height="4"/><rect x="84" y="124" width="4" height="4"/><rect x="88" y="124" width="4" height="4"/><rect x="96" y="124" width="4" height="4"/><rect x="104" y="124" width="4" height="4"/><rect x="0" y="128" width="4" height="4"/><rect x="4" y="128" width="4" height="4"/><rect x="8" y="128" width="4" height="4"/><rect x="12" y="128" width="4" height="4"/><rect x="16" y="128" width="4" height="4"/><rect x="20" y="128" width="4" height="4"/><rect x="24" y="128" width="4" height="4"/><rect x="32" y="128" width="4" height="4"/><rect x="48" y="128" width="4" height="4"/><rect x="52" y="128" width="4" height="4"/><rect x="60" y="128" width="4" height="4"/><rect x="68" y="128" width="4" height="4"/><rect x="80" y="128" width="4" height="4"/><rect x="84" y="128" width="4" height="4"/><rect x="88" y="128" width="4" height="4"/><rect x="92" y="128" width="4" height="4"/><rect x="96" y="128" width="4" height="4"/><rect x="104" y="128" width="4" height="4"/><rect x="116" y="128" width="4" height="4"/><rect x="128" y="128" width="4" height="4"/></g></svg></div>
+<footer class="app-footer">Réalisé par <a href="https://www.instagram.com/juliendestange/" target="_blank" rel="noopener" class="footer-link">Julien Destange</a> · <span id="appVersion"></span></footer>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+var VERSION = '1.7.0';  // SOURCE UNIQUE de version - le footer affiche 'v'+VERSION (NE JAMAIS coder le footer en dur)
+(function(){var f=document.getElementById('appVersion'); if(f) f.textContent='v'+VERSION;})();
 
 /* ════════════════════════════════════════════════════════════
    DONNÉES ACCORDS — Accordage EADGBE (standard)
@@ -1167,6 +1203,7 @@ function renderHome(root) {
   div.querySelector('#bExport').onclick = exportProgress;
   div.querySelector('#bImport').onclick = function() { div.querySelector('#importFile').click(); };
   div.querySelector('#importFile').onchange = function(e) { if (e.target.files[0]) importProgress(e.target.files[0]); };
+  (function(){ var hb=document.createElement('button'); hb.className='ob-help-btn'; hb.id='bHelp'; hb.innerHTML='\u2753 Aide & installation'; hb.onclick=function(){ obStart(true); }; div.appendChild(hb); })();
 
   // Si une mise à jour était en attente pendant une session, on l'affiche maintenant
   maybeShowUpdate();
@@ -1878,9 +1915,141 @@ function renderChordDetail(root) {
   bNext.onclick = goNext;
 }
 
+/* ════════════════ ONBOARDING (premier lancement) ════════════════ */
+var OB_KEY='gtr_onboard_v1';
+var _obDeferredPrompt=null;
+window.addEventListener('beforeinstallprompt', function(e){
+  e.preventDefault(); _obDeferredPrompt=e;
+  var b=document.getElementById('obNative'); if(b) b.style.display='';
+});
+function obDone(){ try{ return localStorage.getItem(OB_KEY)==='1'; }catch(e){ return false; } }
+function obMarkDone(){ try{ localStorage.setItem(OB_KEY,'1'); }catch(e){} }
+function obIsStandalone(){ try{ return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone===true; }catch(e){ return false; } }
+function obPlatform(){
+  var ua=navigator.userAgent||'';
+  if(/iPad|iPhone|iPod/.test(ua) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1)) return 'ios';
+  if(/Android/i.test(ua)) return 'android';
+  return 'desktop';
+}
+function obEl(tag,cls){ var e=document.createElement(tag); if(cls) e.className=cls; return e; }
+function obRemove(id){ var e=document.getElementById(id); if(e&&e.parentNode) e.parentNode.removeChild(e); }
+function obQR(){ var q=document.getElementById('obQrSrc'); return q?q.innerHTML:''; }
+function obStepHTML(n,tt,bd){ return '<div class="ob-step"><div class="ob-step-n">'+n+'</div><div><div class="ob-step-tt">'+tt+'</div><div class="ob-step-bd">'+bd+'</div></div></div>'; }
+function obInstallContent(plat){
+  if(plat==='ios'){
+    return obStepHTML(1,'🧭 Ouvre dans Safari','Ouvre cette page dans Safari sur ton iPhone (pas dans une autre app).')
+      + obStepHTML(2,'⬆️ Touche Partager','Appuie sur le bouton Partager dans la barre de Safari.')
+      + obStepHTML(3,'➕ Sur l\'écran d\'accueil','Choisis « Sur l\'écran d\'accueil », puis valide avec Ajouter.');
+  }
+  if(plat==='android'){
+    return '<button class="ob-native" id="obNative" style="display:'+(_obDeferredPrompt?'':'none')+'">📲 Installer l\'application</button>'
+      + obStepHTML(1,'🌐 Ouvre dans Chrome','Ouvre cette page avec Google Chrome sur ton Android.')
+      + obStepHTML(2,'⋮ Ouvre le menu','Touche le menu en haut à droite de Chrome.')
+      + obStepHTML(3,'📲 Installe l\'application','Touche « Installer l\'application » ou « Ajouter à l\'écran d\'accueil », puis confirme.');
+  }
+  return '<button class="ob-native" id="obNative" style="display:'+(_obDeferredPrompt?'':'none')+'">💻 Installer sur cet ordinateur</button>'
+    + obStepHTML(1,'⊕ Icône d\'installation','Dans Chrome ou Edge, clique sur l\'icône d\'installation à droite de la barre d\'adresse.')
+    + '<div class="ob-qr-wrap"><div class="ob-qr">'+obQR()+'</div><div class="ob-qr-cap">Ou scanne ce code pour ouvrir l\'app sur ton téléphone</div></div>';
+}
+function obDoNativeInstall(){
+  if(!_obDeferredPrompt) return;
+  _obDeferredPrompt.prompt();
+  _obDeferredPrompt.userChoice.then(function(){ _obDeferredPrompt=null; var b=document.getElementById('obNative'); if(b) b.style.display='none'; });
+}
+function obShowInstall(){
+  obTourEnd(); obRemove('obOverlay');
+  var plat=obPlatform();
+  var ov=obEl('div','ob-overlay'); ov.id='obOverlay';
+  var card=obEl('div','ob-card');
+  card.innerHTML=
+    '<div class="ob-kicker">Installation</div>'+
+    '<div class="ob-title">Installe l\'app sur ton appareil</div>'+
+    '<div class="ob-sub">Premiers accords Guitare s\'installe comme une vraie app, directement depuis le site — sans store.</div>'+
+    '<div class="ob-tabs">'+
+      '<button class="ob-tab" data-p="ios"><span class="ob-tab-ic">🍏</span>iPhone</button>'+
+      '<button class="ob-tab" data-p="android"><span class="ob-tab-ic">🤖</span>Android</button>'+
+      '<button class="ob-tab" data-p="desktop"><span class="ob-tab-ic">💻</span>Ordinateur</button>'+
+    '</div>'+
+    '<div id="obTabContent"></div>'+
+    '<div class="ob-actions">'+
+      '<button class="ob-btn-ghost" id="obSkip">Passer</button>'+
+      '<button class="ob-btn-primary" id="obNext">Visite guidée →</button>'+
+    '</div>';
+  ov.appendChild(card); document.body.appendChild(ov);
+  function selectTab(p){
+    var tabs=card.querySelectorAll('.ob-tab');
+    for(var i=0;i<tabs.length;i++){ tabs[i].classList.toggle('active', tabs[i].getAttribute('data-p')===p); }
+    document.getElementById('obTabContent').innerHTML=obInstallContent(p);
+    var nb=document.getElementById('obNative'); if(nb) nb.onclick=obDoNativeInstall;
+  }
+  var tabs=card.querySelectorAll('.ob-tab');
+  for(var i=0;i<tabs.length;i++){ (function(t){ t.onclick=function(){ selectTab(t.getAttribute('data-p')); }; })(tabs[i]); }
+  selectTab(plat);
+  card.querySelector('#obSkip').onclick=function(){ obRemove('obOverlay'); obMarkDone(); };
+  card.querySelector('#obNext').onclick=function(){ obRemove('obOverlay'); obTourStart(); };
+}
+var _obTour=[], _obIdx=0;
+function obTourStart(){
+  if(app.screen!=='home'){ app.screen='home'; render(); }
+  var steps=[
+    {sel:'#modeCards', t:'Choisis un mode', b:'Sélectionne un niveau et révise tes accords avec les <b>flashcards</b> : l\'app te repropose chaque accord au bon moment pour bien le mémoriser, et retire les accords que tu as déjà mémorisés.'},
+    {sel:'#bCustom', t:'Session libre', b:'Crée ta propre session avec uniquement les accords que tu veux travailler. Minimum 3 accords. Progression non enregistrée.'},
+    {sel:'#bRef', t:'Tous les accords', b:'Ouvre la bibliothèque complète : chaque accord avec son diagramme de doigté, ainsi que ton niveau de maîtrise de celui-ci.'},
+    {sel:'.streak-home', t:'Ta série', b:'Reviens chaque jour pour entretenir ta série 🔥 et garder le rythme.'},
+    {sel:'.home-data-bar', t:'Ta sauvegarde', b:'Exporte ta progression et réimporte-la si tu changes de téléphone — rien n\'est perdu !'}
+  ];
+  _obTour=steps.filter(function(st){ return document.querySelector(st.sel); });
+  _obIdx=0;
+  if(!_obTour.length){ obFinish(); return; }
+  obTourShow();
+}
+function obPlaceTip(){
+  var spot=document.getElementById('obSpot'), tip=document.getElementById('obTip');
+  if(!spot||!_obTour[_obIdx]) return;
+  var el=document.querySelector(_obTour[_obIdx].sel); if(!el) return;
+  var r=el.getBoundingClientRect(), pad=8;
+  spot.style.left=(r.left-pad)+'px'; spot.style.top=(r.top-pad)+'px';
+  spot.style.width=(r.width+pad*2)+'px'; spot.style.height=(r.height+pad*2)+'px';
+  if(tip){
+    var th=tip.offsetHeight, tw=tip.offsetWidth, vh=window.innerHeight, vw=window.innerWidth;
+    var top=r.bottom+pad+10; if(top+th>vh-10) top=r.top-pad-10-th; if(top<10) top=10;
+    var left=r.left+r.width/2-tw/2; if(left<14) left=14; if(left+tw>vw-14) left=vw-14-tw;
+    tip.style.top=top+'px'; tip.style.left=left+'px';
+  }
+}
+function obTourShow(){
+  obRemove('obSpot'); obRemove('obTip');
+  var step=_obTour[_obIdx];
+  var el=document.querySelector(step.sel);
+  if(!el){ obTourNext(); return; }
+  el.scrollIntoView({block:'center', behavior:'smooth'});
+  setTimeout(function(){
+    var spot=obEl('div','ob-tour-spot'); spot.id='obSpot'; document.body.appendChild(spot);
+    var last=(_obIdx===_obTour.length-1);
+    var tip=obEl('div','ob-tour-tip'); tip.id='obTip';
+    tip.innerHTML='<div class="ob-tip-count">'+(_obIdx+1)+' / '+_obTour.length+'</div>'+
+      '<div class="ob-tip-title">'+step.t+'</div>'+
+      '<div class="ob-tip-body">'+step.b+'</div>'+
+      '<div class="ob-tip-actions"><button class="ob-tip-skip" id="obTipSkip">Passer la visite</button>'+
+      '<button class="ob-tip-next" id="obTipNext">'+(last?'Terminer ✓':'Suivant →')+'</button></div>';
+    document.body.appendChild(tip);
+    obPlaceTip();
+    document.getElementById('obTipSkip').onclick=obFinish;
+    document.getElementById('obTipNext').onclick=obTourNext;
+  }, 340);
+}
+function obTourNext(){ _obIdx++; if(_obIdx>=_obTour.length){ obFinish(); return; } obTourShow(); }
+function obTourEnd(){ obRemove('obSpot'); obRemove('obTip'); }
+function obFinish(){ obTourEnd(); obRemove('obOverlay'); obMarkDone(); }
+function obStart(force){ if(obIsStandalone() && !force){ obTourStart(); return; } obShowInstall(); }
+window.addEventListener('scroll', obPlaceTip, true);
+window.addEventListener('resize', obPlaceTip);
+
 render();
 history.replaceState({ screen: 'home' }, '');
 _historyReady = true;
+/* lancer l'onboarding au tout premier lancement */
+if(!obDone()){ setTimeout(function(){ obStart(false); }, 500); }
 /* ════════════════════════════════════════════════════════════
    SERVICE WORKER + DÉTECTION MISE À JOUR
    - Popup centrée bloquante, sans dismiss
