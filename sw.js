@@ -1,5 +1,9 @@
-var CACHE = 'guitare-v3.7';
-var ASSETS = ['./', './manifest.json', './icon-192.png', './icon-512.png'];
+var CACHE = 'guitare-v3.8';
+var ASSETS = ['./', './manifest.json',
+  './icon-192.png', './icon-512.png',
+  './icon-maskable-192.png', './icon-maskable-512.png',
+  './icon-round-192.png', './icon-round-512.png',
+  './apple-touch-icon.png', './favicon-32.png', './favicon-16.png', './favicon.ico'];
 
 self.addEventListener('install', function(e) {
   e.waitUntil(
