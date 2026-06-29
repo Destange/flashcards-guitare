@@ -1,8 +1,9 @@
-var CACHE = 'guitare-v3.9';
+var CACHE = 'guitare-v4.0';
 var ASSETS = ['./', './manifest.json',
   './icon-192.png', './icon-512.png',
   './icon-192-maskable.png', './icon-512-maskable.png',
-  './apple-touch-icon.png', './favicon-32.png'];
+  './apple-touch-icon.png', './favicon-32.png',
+  './audio/WebAudioFontPlayer.js', './audio/0240_FluidR3_GM_sf2_file.js'];
 
 self.addEventListener('install', function(e) {
   e.waitUntil(
@@ -23,12 +24,15 @@ self.addEventListener('activate', function(e) {
 self.addEventListener('fetch', function(e) {
   // Ne pas intercepter les requêtes CDN externes (audio, polices)
   if (!e.request.url.startsWith(self.location.origin)) return;
+  // Stale-while-revalidate : sert le cache tout de suite, met à jour en arrière-plan
   e.respondWith(
-    caches.match(e.request).then(function(cached) {
-      return cached || fetch(e.request).then(function(resp) {
-        var clone = resp.clone();
-        caches.open(CACHE).then(function(c) { c.put(e.request, clone); });
-        return resp;
+    caches.open(CACHE).then(function(c) {
+      return c.match(e.request).then(function(cached) {
+        var network = fetch(e.request).then(function(resp) {
+          if (resp && resp.status === 200) c.put(e.request, resp.clone());
+          return resp;
+        }).catch(function() { return cached; });
+        return cached || network;
       });
     })
   );
