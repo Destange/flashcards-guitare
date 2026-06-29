@@ -449,7 +449,54 @@
     #appSplash .splash-title em{color:var(--accent);font-style:italic;}
     #appSplash.splash-hide{opacity:0;pointer-events:none;}
     @keyframes splashPop{from{opacity:0;transform:scale(.86)}to{opacity:1;transform:scale(1)}}
-  </style>
+      /* ════════ RECO ACCORDS AU MICRO (beta) ════════ */
+    .cr-screen{width:100%;text-align:center;}
+    .cr-top{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+    .cr-badge-beta{font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#fff;background:var(--accent);border-radius:8px;padding:3px 8px;}
+    .cr-target{font-family:'Playfair Display',serif;font-size:60px;line-height:1;color:var(--text);margin:4px 0;transition:color .15s;}
+    .cr-target.ok{color:var(--correct);}
+    .cr-notes{font-family:'Outfit',sans-serif;font-size:12px;color:var(--muted);margin-bottom:4px;}
+    .cr-verdict{font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;min-height:22px;margin:4px 0;}
+    .cr-verdict.ok{color:var(--correct);}
+    .cr-verdict.no{color:var(--muted);}
+    .cr-score{font-family:'Outfit',sans-serif;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;min-height:16px;}
+    .cr-bars{display:flex;align-items:flex-end;justify-content:center;gap:4px;height:110px;margin:12px 0;}
+    .cr-bar{flex:1;max-width:24px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;}
+    .cr-bar-fill{width:100%;background:var(--border);border-radius:3px 3px 0 0;transition:height .08s linear;min-height:2px;}
+    .cr-bar.tgt .cr-bar-fill{background:var(--accent);}
+    .cr-bar.ok .cr-bar-fill{background:var(--correct);}
+    .cr-bar.bad .cr-bar-fill{background:#C04848;}
+    .cr-bar-lbl{font-family:'Outfit',sans-serif;font-size:9px;color:var(--muted);margin-top:3px;}
+    .cr-bar.tgt .cr-bar-lbl{color:var(--accent);font-weight:700;}
+    .cr-actions{display:flex;gap:10px;margin-top:6px;}
+    .cr-btn{flex:1;padding:13px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;border-radius:13px;cursor:pointer;border:1.5px solid var(--border);background:var(--card);color:var(--text);-webkit-tap-highlight-color:transparent;}
+    .cr-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent);}
+    .cr-hint{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.4;}
+    /* toggle reco en session (prêt pour l'intégration) */
+    .recog-row{display:flex;align-items:center;justify-content:center;gap:10px;margin:2px 0 8px;}
+    .recog-label{font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;color:var(--muted);display:flex;align-items:center;gap:6px;}
+    .recog-beta{font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#fff;background:var(--accent);border-radius:6px;padding:2px 5px;}
+    .recog-switch{position:relative;width:44px;height:24px;border-radius:13px;border:none;background:var(--border);cursor:pointer;transition:background .15s;-webkit-tap-highlight-color:transparent;padding:0;flex:none;}
+    .recog-switch.on{background:var(--accent);}
+    .recog-knob{position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left .15s;box-shadow:0 1px 3px rgba(0,0,0,.3);}
+    .recog-switch.on .recog-knob{left:22px;}
+    .recog-hint{text-align:center;font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;color:var(--muted);min-height:38px;margin:2px 0 10px;line-height:1.3;display:flex;align-items:center;justify-content:center;}
+    .recog-hint.ok{color:var(--correct);font-weight:600;}
+    .recog-diag-note{text-align:center;color:#fff;background:#C0392B;font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;line-height:1.35;margin:2px 0 12px;padding:12px 14px;border-radius:14px;box-shadow:0 4px 16px rgba(192,57,43,.35);overflow:hidden;max-height:160px;transition:opacity .35s ease,max-height .5s ease,margin .5s ease,padding .5s ease,box-shadow .35s ease;}
+    .recog-diag-note.hide{opacity:0;max-height:0;margin-top:0;margin-bottom:0;padding-top:0;padding-bottom:0;box-shadow:none;}
+    @keyframes softBlink{0%,100%{opacity:1}50%{opacity:.38}}
+    .face-tag.blink-smooth{animation:softBlink 1.3s ease-in-out infinite;}
+    .recog-perm-overlay{position:fixed;inset:0;background:rgba(28,28,28,.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:10050;padding:18px;}
+    .recog-perm-panel{background:var(--card);border-radius:22px;box-shadow:0 8px 44px rgba(0,0,0,.3);padding:24px 22px;max-width:380px;width:100%;text-align:left;}
+    .recog-perm-title{font-family:'Outfit',sans-serif;font-weight:600;font-size:16px;margin-bottom:4px;text-align:center;}
+    .recog-perm-sub{font-size:12px;color:var(--muted);text-align:center;margin-bottom:10px;}
+    .recog-steps{margin:0 0 8px;padding-left:20px;}
+    .recog-steps li{font-size:13px;line-height:1.5;color:var(--text);margin-bottom:8px;}
+    .recog-steps li b{color:var(--accent);}
+    .recog-perm-note{font-size:12px;color:var(--muted);line-height:1.45;margin:0 0 10px;font-style:italic;}
+    .recog-perm-btn{width:100%;padding:14px;margin-top:6px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;background:var(--accent);color:#fff;border:none;border-radius:13px;cursor:pointer;}
+
+</style>
 </head>
 <body>
 <div id="appSplash"><img src="icon-192.png" width="132" height="132" alt="Accords Guitare"><div class="splash-title">Premiers accords<br><em>Guitare</em></div></div>
@@ -457,7 +504,7 @@
 <div id="obQrSrc" style="display:none"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 132" shape-rendering="crispEdges"><rect width="132" height="132" fill="#fff"/><g fill="#1C1C1C"><rect x="0" y="0" width="4" height="4"/><rect x="4" y="0" width="4" height="4"/><rect x="8" y="0" width="4" height="4"/><rect x="12" y="0" width="4" height="4"/><rect x="16" y="0" width="4" height="4"/><rect x="20" y="0" width="4" height="4"/><rect x="24" y="0" width="4" height="4"/><rect x="32" y="0" width="4" height="4"/><rect x="48" y="0" width="4" height="4"/><rect x="56" y="0" width="4" height="4"/><rect x="60" y="0" width="4" height="4"/><rect x="64" y="0" width="4" height="4"/><rect x="68" y="0" width="4" height="4"/><rect x="92" y="0" width="4" height="4"/><rect x="104" y="0" width="4" height="4"/><rect x="108" y="0" width="4" height="4"/><rect x="112" y="0" width="4" height="4"/><rect x="116" y="0" width="4" height="4"/><rect x="120" y="0" width="4" height="4"/><rect x="124" y="0" width="4" height="4"/><rect x="128" y="0" width="4" height="4"/><rect x="0" y="4" width="4" height="4"/><rect x="24" y="4" width="4" height="4"/><rect x="36" y="4" width="4" height="4"/><rect x="40" y="4" width="4" height="4"/><rect x="48" y="4" width="4" height="4"/><rect x="68" y="4" width="4" height="4"/><rect x="76" y="4" width="4" height="4"/><rect x="80" y="4" width="4" height="4"/><rect x="88" y="4" width="4" height="4"/><rect x="104" y="4" width="4" height="4"/><rect x="128" y="4" width="4" height="4"/><rect x="0" y="8" width="4" height="4"/><rect x="8" y="8" width="4" height="4"/><rect x="12" y="8" width="4" height="4"/><rect x="16" y="8" width="4" height="4"/><rect x="24" y="8" width="4" height="4"/><rect x="40" y="8" width="4" height="4"/><rect x="48" y="8" width="4" height="4"/><rect x="52" y="8" width="4" height="4"/><rect x="60" y="8" width="4" height="4"/><rect x="84" y="8" width="4" height="4"/><rect x="92" y="8" width="4" height="4"/><rect x="104" y="8" width="4" height="4"/><rect x="112" y="8" width="4" height="4"/><rect x="116" y="8" width="4" height="4"/><rect x="120" y="8" width="4" height="4"/><rect x="128" y="8" width="4" height="4"/><rect x="0" y="12" width="4" height="4"/><rect x="8" y="12" width="4" height="4"/><rect x="12" y="12" width="4" height="4"/><rect x="16" y="12" width="4" height="4"/><rect x="24" y="12" width="4" height="4"/><rect x="32" y="12" width="4" height="4"/><rect x="36" y="12" width="4" height="4"/><rect x="40" y="12" width="4" height="4"/><rect x="44" y="12" width="4" height="4"/><rect x="56" y="12" width="4" height="4"/><rect x="68" y="12" width="4" height="4"/><rect x="72" y="12" width="4" height="4"/><rect x="76" y="12" width="4" height="4"/><rect x="80" y="12" width="4" height="4"/><rect x="88" y="12" width="4" height="4"/><rect x="92" y="12" width="4" height="4"/><rect x="104" y="12" width="4" height="4"/><rect x="112" y="12" width="4" height="4"/><rect x="116" y="12" width="4" height="4"/><rect x="120" y="12" width="4" height="4"/><rect x="128" y="12" width="4" height="4"/><rect x="0" y="16" width="4" height="4"/><rect x="8" y="16" width="4" height="4"/><rect x="12" y="16" width="4" height="4"/><rect x="16" y="16" width="4" height="4"/><rect x="24" y="16" width="4" height="4"/><rect x="32" y="16" width="4" height="4"/><rect x="36" y="16" width="4" height="4"/><rect x="52" y="16" width="4" height="4"/><rect x="56" y="16" width="4" height="4"/><rect x="72" y="16" width="4" height="4"/><rect x="76" y="16" width="4" height="4"/><rect x="80" y="16" width="4" height="4"/><rect x="84" y="16" width="4" height="4"/><rect x="92" y="16" width="4" height="4"/><rect x="104" y="16" width="4" height="4"/><rect x="112" y="16" width="4" height="4"/><rect x="116" y="16" width="4" height="4"/><rect x="120" y="16" width="4" height="4"/><rect x="128" y="16" width="4" height="4"/><rect x="0" y="20" width="4" height="4"/><rect x="24" y="20" width="4" height="4"/><rect x="32" y="20" width="4" height="4"/><rect x="52" y="20" width="4" height="4"/><rect x="56" y="20" width="4" height="4"/><rect x="64" y="20" width="4" height="4"/><rect x="76" y="20" width="4" height="4"/><rect x="84" y="20" width="4" height="4"/><rect x="88" y="20" width="4" height="4"/><rect x="96" y="20" width="4" height="4"/><rect x="104" y="20" width="4" height="4"/><rect x="128" y="20" width="4" height="4"/><rect x="0" y="24" width="4" height="4"/><rect x="4" y="24" width="4" height="4"/><rect x="8" y="24" width="4" height="4"/><rect x="12" y="24" width="4" height="4"/><rect x="16" y="24" width="4" height="4"/><rect x="20" y="24" width="4" height="4"/><rect x="24" y="24" width="4" height="4"/><rect x="32" y="24" width="4" height="4"/><rect x="40" y="24" width="4" height="4"/><rect x="48" y="24" width="4" height="4"/><rect x="56" y="24" width="4" height="4"/><rect x="64" y="24" width="4" height="4"/><rect x="72" y="24" width="4" height="4"/><rect x="80" y="24" width="4" height="4"/><rect x="88" y="24" width="4" height="4"/><rect x="96" y="24" width="4" height="4"/><rect x="104" y="24" width="4" height="4"/><rect x="108" y="24" width="4" height="4"/><rect x="112" y="24" width="4" height="4"/><rect x="116" y="24" width="4" height="4"/><rect x="120" y="24" width="4" height="4"/><rect x="124" y="24" width="4" height="4"/><rect x="128" y="24" width="4" height="4"/><rect x="32" y="28" width="4" height="4"/><rect x="40" y="28" width="4" height="4"/><rect x="44" y="28" width="4" height="4"/><rect x="48" y="28" width="4" height="4"/><rect x="56" y="28" width="4" height="4"/><rect x="60" y="28" width="4" height="4"/><rect x="64" y="28" width="4" height="4"/><rect x="68" y="28" width="4" height="4"/><rect x="72" y="28" width="4" height="4"/><rect x="84" y="28" width="4" height="4"/><rect x="88" y="28" width="4" height="4"/><rect x="0" y="32" width="4" height="4"/><rect x="16" y="32" width="4" height="4"/><rect x="24" y="32" width="4" height="4"/><rect x="28" y="32" width="4" height="4"/><rect x="32" y="32" width="4" height="4"/><rect x="36" y="32" width="4" height="4"/><rect x="48" y="32" width="4" height="4"/><rect x="68" y="32" width="4" height="4"/><rect x="76" y="32" width="4" height="4"/><rect x="80" y="32" width="4" height="4"/><rect x="84" y="32" width="4" height="4"/><rect x="88" y="32" width="4" height="4"/><rect x="96" y="32" width="4" height="4"/><rect x="100" y="32" width="4" height="4"/><rect x="104" y="32" width="4" height="4"/><rect x="108" y="32" width="4" height="4"/><rect x="112" y="32" width="4" height="4"/><rect x="116" y="32" width="4" height="4"/><rect x="128" y="32" width="4" height="4"/><rect x="4" y="36" width="4" height="4"/><rect x="8" y="36" width="4" height="4"/><rect x="12" y="36" width="4" height="4"/><rect x="28" y="36" width="4" height="4"/><rect x="32" y="36" width="4" height="4"/><rect x="36" y="36" width="4" height="4"/><rect x="40" y="36" width="4" height="4"/><rect x="52" y="36" width="4" height="4"/><rect x="60" y="36" width="4" height="4"/><rect x="64" y="36" width="4" height="4"/><rect x="72" y="36" width="4" height="4"/><rect x="84" y="36" width="4" height="4"/><rect x="92" y="36" width="4" height="4"/><rect x="100" y="36" width="4" height="4"/><rect x="116" y="36" width="4" height="4"/><rect x="120" y="36" width="4" height="4"/><rect x="124" y="36" width="4" height="4"/><rect x="0" y="40" width="4" height="4"/><rect x="16" y="40" width="4" height="4"/><rect x="24" y="40" width="4" height="4"/><rect x="28" y="40" width="4" height="4"/><rect x="32" y="40" width="4" height="4"/><rect x="44" y="40" width="4" height="4"/><rect x="48" y="40" width="4" height="4"/><rect x="60" y="40" width="4" height="4"/><rect x="64" y="40" width="4" height="4"/><rect x="68" y="40" width="4" height="4"/><rect x="92" y="40" width="4" height="4"/><rect x="100" y="40" width="4" height="4"/><rect x="116" y="40" width="4" height="4"/><rect x="124" y="40" width="4" height="4"/><rect x="0" y="44" width="4" height="4"/><rect x="20" y="44" width="4" height="4"/><rect x="28" y="44" width="4" height="4"/><rect x="32" y="44" width="4" height="4"/><rect x="36" y="44" width="4" height="4"/><rect x="40" y="44" width="4" height="4"/><rect x="56" y="44" width="4" height="4"/><rect x="68" y="44" width="4" height="4"/><rect x="72" y="44" width="4" height="4"/><rect x="80" y="44" width="4" height="4"/><rect x="84" y="44" width="4" height="4"/><rect x="92" y="44" width="4" height="4"/><rect x="96" y="44" width="4" height="4"/><rect x="100" y="44" width="4" height="4"/><rect x="104" y="44" width="4" height="4"/><rect x="124" y="44" width="4" height="4"/><rect x="128" y="44" width="4" height="4"/><rect x="4" y="48" width="4" height="4"/><rect x="12" y="48" width="4" height="4"/><rect x="16" y="48" width="4" height="4"/><rect x="20" y="48" width="4" height="4"/><rect x="24" y="48" width="4" height="4"/><rect x="28" y="48" width="4" height="4"/><rect x="36" y="48" width="4" height="4"/><rect x="48" y="48" width="4" height="4"/><rect x="52" y="48" width="4" height="4"/><rect x="56" y="48" width="4" height="4"/><rect x="72" y="48" width="4" height="4"/><rect x="76" y="48" width="4" height="4"/><rect x="80" y="48" width="4" height="4"/><rect x="104" y="48" width="4" height="4"/><rect x="112" y="48" width="4" height="4"/><rect x="116" y="48" width="4" height="4"/><rect x="124" y="48" width="4" height="4"/><rect x="128" y="48" width="4" height="4"/><rect x="0" y="52" width="4" height="4"/><rect x="4" y="52" width="4" height="4"/><rect x="12" y="52" width="4" height="4"/><rect x="16" y="52" width="4" height="4"/><rect x="20" y="52" width="4" height="4"/><rect x="36" y="52" width="4" height="4"/><rect x="40" y="52" width="4" height="4"/><rect x="44" y="52" width="4" height="4"/><rect x="48" y="52" width="4" height="4"/><rect x="64" y="52" width="4" height="4"/><rect x="76" y="52" width="4" height="4"/><rect x="92" y="52" width="4" height="4"/><rect x="108" y="52" width="4" height="4"/><rect x="120" y="52" width="4" height="4"/><rect x="0" y="56" width="4" height="4"/><rect x="12" y="56" width="4" height="4"/><rect x="24" y="56" width="4" height="4"/><rect x="28" y="56" width="4" height="4"/><rect x="40" y="56" width="4" height="4"/><rect x="48" y="56" width="4" height="4"/><rect x="64" y="56" width="4" height="4"/><rect x="76" y="56" width="4" height="4"/><rect x="92" y="56" width="4" height="4"/><rect x="96" y="56" width="4" height="4"/><rect x="100" y="56" width="4" height="4"/><rect x="104" y="56" width="4" height="4"/><rect x="112" y="56" width="4" height="4"/><rect x="124" y="56" width="4" height="4"/><rect x="4" y="60" width="4" height="4"/><rect x="12" y="60" width="4" height="4"/><rect x="20" y="60" width="4" height="4"/><rect x="28" y="60" width="4" height="4"/><rect x="32" y="60" width="4" height="4"/><rect x="40" y="60" width="4" height="4"/><rect x="48" y="60" width="4" height="4"/><rect x="68" y="60" width="4" height="4"/><rect x="76" y="60" width="4" height="4"/><rect x="80" y="60" width="4" height="4"/><rect x="84" y="60" width="4" height="4"/><rect x="92" y="60" width="4" height="4"/><rect x="100" y="60" width="4" height="4"/><rect x="104" y="60" width="4" height="4"/><rect x="0" y="64" width="4" height="4"/><rect x="16" y="64" width="4" height="4"/><rect x="20" y="64" width="4" height="4"/><rect x="24" y="64" width="4" height="4"/><rect x="28" y="64" width="4" height="4"/><rect x="44" y="64" width="4" height="4"/><rect x="48" y="64" width="4" height="4"/><rect x="52" y="64" width="4" height="4"/><rect x="56" y="64" width="4" height="4"/><rect x="60" y="64" width="4" height="4"/><rect x="68" y="64" width="4" height="4"/><rect x="72" y="64" width="4" height="4"/><rect x="84" y="64" width="4" height="4"/><rect x="88" y="64" width="4" height="4"/><rect x="104" y="64" width="4" height="4"/><rect x="112" y="64" width="4" height="4"/><rect x="116" y="64" width="4" height="4"/><rect x="124" y="64" width="4" height="4"/><rect x="0" y="68" width="4" height="4"/><rect x="12" y="68" width="4" height="4"/><rect x="16" y="68" width="4" height="4"/><rect x="20" y="68" width="4" height="4"/><rect x="28" y="68" width="4" height="4"/><rect x="36" y="68" width="4" height="4"/><rect x="48" y="68" width="4" height="4"/><rect x="56" y="68" width="4" height="4"/><rect x="60" y="68" width="4" height="4"/><rect x="64" y="68" width="4" height="4"/><rect x="68" y="68" width="4" height="4"/><rect x="72" y="68" width="4" height="4"/><rect x="84" y="68" width="4" height="4"/><rect x="92" y="68" width="4" height="4"/><rect x="100" y="68" width="4" height="4"/><rect x="116" y="68" width="4" height="4"/><rect x="120" y="68" width="4" height="4"/><rect x="124" y="68" width="4" height="4"/><rect x="8" y="72" width="4" height="4"/><rect x="12" y="72" width="4" height="4"/><rect x="20" y="72" width="4" height="4"/><rect x="24" y="72" width="4" height="4"/><rect x="28" y="72" width="4" height="4"/><rect x="32" y="72" width="4" height="4"/><rect x="36" y="72" width="4" height="4"/><rect x="48" y="72" width="4" height="4"/><rect x="52" y="72" width="4" height="4"/><rect x="56" y="72" width="4" height="4"/><rect x="60" y="72" width="4" height="4"/><rect x="72" y="72" width="4" height="4"/><rect x="80" y="72" width="4" height="4"/><rect x="92" y="72" width="4" height="4"/><rect x="96" y="72" width="4" height="4"/><rect x="100" y="72" width="4" height="4"/><rect x="108" y="72" width="4" height="4"/><rect x="116" y="72" width="4" height="4"/><rect x="124" y="72" width="4" height="4"/><rect x="8" y="76" width="4" height="4"/><rect x="12" y="76" width="4" height="4"/><rect x="16" y="76" width="4" height="4"/><rect x="20" y="76" width="4" height="4"/><rect x="28" y="76" width="4" height="4"/><rect x="40" y="76" width="4" height="4"/><rect x="44" y="76" width="4" height="4"/><rect x="48" y="76" width="4" height="4"/><rect x="52" y="76" width="4" height="4"/><rect x="56" y="76" width="4" height="4"/><rect x="88" y="76" width="4" height="4"/><rect x="100" y="76" width="4" height="4"/><rect x="108" y="76" width="4" height="4"/><rect x="8" y="80" width="4" height="4"/><rect x="12" y="80" width="4" height="4"/><rect x="24" y="80" width="4" height="4"/><rect x="40" y="80" width="4" height="4"/><rect x="60" y="80" width="4" height="4"/><rect x="64" y="80" width="4" height="4"/><rect x="88" y="80" width="4" height="4"/><rect x="96" y="80" width="4" height="4"/><rect x="104" y="80" width="4" height="4"/><rect x="112" y="80" width="4" height="4"/><rect x="116" y="80" width="4" height="4"/><rect x="124" y="80" width="4" height="4"/><rect x="0" y="84" width="4" height="4"/><rect x="4" y="84" width="4" height="4"/><rect x="8" y="84" width="4" height="4"/><rect x="16" y="84" width="4" height="4"/><rect x="20" y="84" width="4" height="4"/><rect x="36" y="84" width="4" height="4"/><rect x="40" y="84" width="4" height="4"/><rect x="44" y="84" width="4" height="4"/><rect x="52" y="84" width="4" height="4"/><rect x="68" y="84" width="4" height="4"/><rect x="72" y="84" width="4" height="4"/><rect x="76" y="84" width="4" height="4"/><rect x="80" y="84" width="4" height="4"/><rect x="92" y="84" width="4" height="4"/><rect x="100" y="84" width="4" height="4"/><rect x="120" y="84" width="4" height="4"/><rect x="124" y="84" width="4" height="4"/><rect x="8" y="88" width="4" height="4"/><rect x="12" y="88" width="4" height="4"/><rect x="24" y="88" width="4" height="4"/><rect x="28" y="88" width="4" height="4"/><rect x="60" y="88" width="4" height="4"/><rect x="72" y="88" width="4" height="4"/><rect x="80" y="88" width="4" height="4"/><rect x="84" y="88" width="4" height="4"/><rect x="92" y="88" width="4" height="4"/><rect x="100" y="88" width="4" height="4"/><rect x="116" y="88" width="4" height="4"/><rect x="120" y="88" width="4" height="4"/><rect x="124" y="88" width="4" height="4"/><rect x="8" y="92" width="4" height="4"/><rect x="16" y="92" width="4" height="4"/><rect x="20" y="92" width="4" height="4"/><rect x="28" y="92" width="4" height="4"/><rect x="44" y="92" width="4" height="4"/><rect x="60" y="92" width="4" height="4"/><rect x="64" y="92" width="4" height="4"/><rect x="68" y="92" width="4" height="4"/><rect x="84" y="92" width="4" height="4"/><rect x="92" y="92" width="4" height="4"/><rect x="96" y="92" width="4" height="4"/><rect x="108" y="92" width="4" height="4"/><rect x="112" y="92" width="4" height="4"/><rect x="128" y="92" width="4" height="4"/><rect x="0" y="96" width="4" height="4"/><rect x="4" y="96" width="4" height="4"/><rect x="8" y="96" width="4" height="4"/><rect x="12" y="96" width="4" height="4"/><rect x="20" y="96" width="4" height="4"/><rect x="24" y="96" width="4" height="4"/><rect x="28" y="96" width="4" height="4"/><rect x="32" y="96" width="4" height="4"/><rect x="36" y="96" width="4" height="4"/><rect x="40" y="96" width="4" height="4"/><rect x="48" y="96" width="4" height="4"/><rect x="52" y="96" width="4" height="4"/><rect x="56" y="96" width="4" height="4"/><rect x="68" y="96" width="4" height="4"/><rect x="76" y="96" width="4" height="4"/><rect x="80" y="96" width="4" height="4"/><rect x="84" y="96" width="4" height="4"/><rect x="96" y="96" width="4" height="4"/><rect x="100" y="96" width="4" height="4"/><rect x="104" y="96" width="4" height="4"/><rect x="108" y="96" width="4" height="4"/><rect x="112" y="96" width="4" height="4"/><rect x="32" y="100" width="4" height="4"/><rect x="36" y="100" width="4" height="4"/><rect x="40" y="100" width="4" height="4"/><rect x="48" y="100" width="4" height="4"/><rect x="52" y="100" width="4" height="4"/><rect x="56" y="100" width="4" height="4"/><rect x="60" y="100" width="4" height="4"/><rect x="72" y="100" width="4" height="4"/><rect x="92" y="100" width="4" height="4"/><rect x="96" y="100" width="4" height="4"/><rect x="112" y="100" width="4" height="4"/><rect x="120" y="100" width="4" height="4"/><rect x="124" y="100" width="4" height="4"/><rect x="0" y="104" width="4" height="4"/><rect x="4" y="104" width="4" height="4"/><rect x="8" y="104" width="4" height="4"/><rect x="12" y="104" width="4" height="4"/><rect x="16" y="104" width="4" height="4"/><rect x="20" y="104" width="4" height="4"/><rect x="24" y="104" width="4" height="4"/><rect x="32" y="104" width="4" height="4"/><rect x="36" y="104" width="4" height="4"/><rect x="44" y="104" width="4" height="4"/><rect x="52" y="104" width="4" height="4"/><rect x="56" y="104" width="4" height="4"/><rect x="60" y="104" width="4" height="4"/><rect x="68" y="104" width="4" height="4"/><rect x="80" y="104" width="4" height="4"/><rect x="84" y="104" width="4" height="4"/><rect x="88" y="104" width="4" height="4"/><rect x="96" y="104" width="4" height="4"/><rect x="104" y="104" width="4" height="4"/><rect x="112" y="104" width="4" height="4"/><rect x="116" y="104" width="4" height="4"/><rect x="124" y="104" width="4" height="4"/><rect x="0" y="108" width="4" height="4"/><rect x="24" y="108" width="4" height="4"/><rect x="44" y="108" width="4" height="4"/><rect x="48" y="108" width="4" height="4"/><rect x="68" y="108" width="4" height="4"/><rect x="72" y="108" width="4" height="4"/><rect x="76" y="108" width="4" height="4"/><rect x="80" y="108" width="4" height="4"/><rect x="84" y="108" width="4" height="4"/><rect x="96" y="108" width="4" height="4"/><rect x="112" y="108" width="4" height="4"/><rect x="124" y="108" width="4" height="4"/><rect x="128" y="108" width="4" height="4"/><rect x="0" y="112" width="4" height="4"/><rect x="8" y="112" width="4" height="4"/><rect x="12" y="112" width="4" height="4"/><rect x="16" y="112" width="4" height="4"/><rect x="24" y="112" width="4" height="4"/><rect x="32" y="112" width="4" height="4"/><rect x="36" y="112" width="4" height="4"/><rect x="44" y="112" width="4" height="4"/><rect x="56" y="112" width="4" height="4"/><rect x="60" y="112" width="4" height="4"/><rect x="72" y="112" width="4" height="4"/><rect x="76" y="112" width="4" height="4"/><rect x="80" y="112" width="4" height="4"/><rect x="96" y="112" width="4" height="4"/><rect x="100" y="112" width="4" height="4"/><rect x="104" y="112" width="4" height="4"/><rect x="108" y="112" width="4" height="4"/><rect x="112" y="112" width="4" height="4"/><rect x="116" y="112" width="4" height="4"/><rect x="124" y="112" width="4" height="4"/><rect x="128" y="112" width="4" height="4"/><rect x="0" y="116" width="4" height="4"/><rect x="8" y="116" width="4" height="4"/><rect x="12" y="116" width="4" height="4"/><rect x="16" y="116" width="4" height="4"/><rect x="24" y="116" width="4" height="4"/><rect x="44" y="116" width="4" height="4"/><rect x="48" y="116" width="4" height="4"/><rect x="56" y="116" width="4" height="4"/><rect x="64" y="116" width="4" height="4"/><rect x="68" y="116" width="4" height="4"/><rect x="76" y="116" width="4" height="4"/><rect x="84" y="116" width="4" height="4"/><rect x="88" y="116" width="4" height="4"/><rect x="92" y="116" width="4" height="4"/><rect x="96" y="116" width="4" height="4"/><rect x="104" y="116" width="4" height="4"/><rect x="108" y="116" width="4" height="4"/><rect x="112" y="116" width="4" height="4"/><rect x="116" y="116" width="4" height="4"/><rect x="120" y="116" width="4" height="4"/><rect x="124" y="116" width="4" height="4"/><rect x="0" y="120" width="4" height="4"/><rect x="8" y="120" width="4" height="4"/><rect x="12" y="120" width="4" height="4"/><rect x="16" y="120" width="4" height="4"/><rect x="24" y="120" width="4" height="4"/><rect x="40" y="120" width="4" height="4"/><rect x="48" y="120" width="4" height="4"/><rect x="56" y="120" width="4" height="4"/><rect x="64" y="120" width="4" height="4"/><rect x="68" y="120" width="4" height="4"/><rect x="76" y="120" width="4" height="4"/><rect x="104" y="120" width="4" height="4"/><rect x="108" y="120" width="4" height="4"/><rect x="112" y="120" width="4" height="4"/><rect x="116" y="120" width="4" height="4"/><rect x="0" y="124" width="4" height="4"/><rect x="24" y="124" width="4" height="4"/><rect x="36" y="124" width="4" height="4"/><rect x="56" y="124" width="4" height="4"/><rect x="68" y="124" width="4" height="4"/><rect x="72" y="124" width="4" height="4"/><rect x="76" y="124" width="4" height="4"/><rect x="80" y="124" width="4" height="4"/><rect x="84" y="124" width="4" height="4"/><rect x="88" y="124" width="4" height="4"/><rect x="96" y="124" width="4" height="4"/><rect x="104" y="124" width="4" height="4"/><rect x="0" y="128" width="4" height="4"/><rect x="4" y="128" width="4" height="4"/><rect x="8" y="128" width="4" height="4"/><rect x="12" y="128" width="4" height="4"/><rect x="16" y="128" width="4" height="4"/><rect x="20" y="128" width="4" height="4"/><rect x="24" y="128" width="4" height="4"/><rect x="32" y="128" width="4" height="4"/><rect x="48" y="128" width="4" height="4"/><rect x="52" y="128" width="4" height="4"/><rect x="60" y="128" width="4" height="4"/><rect x="68" y="128" width="4" height="4"/><rect x="80" y="128" width="4" height="4"/><rect x="84" y="128" width="4" height="4"/><rect x="88" y="128" width="4" height="4"/><rect x="92" y="128" width="4" height="4"/><rect x="96" y="128" width="4" height="4"/><rect x="104" y="128" width="4" height="4"/><rect x="116" y="128" width="4" height="4"/><rect x="128" y="128" width="4" height="4"/></g></svg></div>
 <footer class="app-footer">Réalisé par <a href="https://www.instagram.com/juliendestange/" target="_blank" rel="noopener" class="footer-link">Julien Destange</a> · <span id="appVersion"></span></footer>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-var VERSION = '1.10.0';  // SOURCE UNIQUE de version - le footer affiche 'v'+VERSION (NE JAMAIS coder le footer en dur)
+var VERSION = '1.11.0';  // SOURCE UNIQUE de version - le footer affiche 'v'+VERSION (NE JAMAIS coder le footer en dur)
 (function(){var f=document.getElementById('appVersion'); if(f) f.textContent='v'+VERSION;})();
 (function(){
   function hide(){ var sp=document.getElementById('appSplash'); if(!sp) return; sp.classList.add('splash-hide'); setTimeout(function(){ if(sp&&sp.parentNode) sp.parentNode.removeChild(sp); }, 600); }
@@ -1068,8 +1115,257 @@ function playChordAudio(chord) {
         now + si * _STRUM_S, _OPEN_MIDI[i] + fret, _NOTE_DUR, _NOTE_VOL);
       si++;
     });
+    // coupe la reco micro pendant le son de l'app (anti auto-validation)
+    try{ _crChroma=new Float32Array(12); _crPeak=new Float32Array(12); _crHoldSince=0; _crDinged=false; _crMuteUntil=performance.now()+(si*_STRUM_S)*1000+1800; }catch(e){}
   });
 }
+
+/* ════════════════════════════════════════════════════════════
+   RECONNAISSANCE D'ACCORDS AU MICRO (beta)
+   Détecteur chroma : on joue l'accord, l'app écoute au micro et
+   reconnaît si toutes les notes cibles sont présentes (≥ CR_PRES)
+   et qu'aucune note intruse n'est trop forte (< CR_INTR), maintenu
+   CR_HOLDMS ms. Cordes : open pitch-classes E A D G B E = [4,9,2,7,11,4].
+════════════════════════════════════════════════════════════ */
+var _crCtx=null,_crStream=null,_crAnalyser=null,_crRAF=null,_crFreq=null,_crTime=null,_crRun=false;
+var _crChroma=new Float32Array(12),_crIdx=0,_crHoldSince=0,_crAdvancing=false,_crLog=[],_crRms=0;
+var _crDinged=false,_crMuteUntil=0,_crPeak=new Float32Array(12);
+var _crTarget=null,_crOnMatch=null,_crOnError=null,_crArmed=false,_crLastDing=0,_betaReco=false,_betaTaps=0,_betaLast=0;
+var _recogOn=false; try{ _recogOn=localStorage.getItem('gtr_recog')==='1'; }catch(e){}
+function recogSave(){ try{ localStorage.setItem('gtr_recog', _recogOn?'1':'0'); }catch(e){} }
+
+/* Seuils — à CALIBRER avec les captures réelles de Julien (cf. page test beta) */
+var CR_PRES=0.12, CR_INTR=0.12, CR_GATE=0.008, CR_HOLDMS=150, CR_DECAY=0.90;
+var CR_NOTES=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+var CR_OPEN=[4,9,2,7,11,4]; /* E A D G B E (pitch-classes des cordes à vide) */
+function crSolfege(pc){ return ['Do','Do#','Ré','Ré#','Mi','Fa','Fa#','Sol','Sol#','La','La#','Si'][pc]; }
+function crChordPCs(chord){ var set={}; chord.frets.forEach(function(fr,i){ if(fr>=0) set[(CR_OPEN[i]+fr)%12]=true; }); return set; }
+function crResetState(){ _crChroma=new Float32Array(12); _crPeak=new Float32Array(12); _crHoldSince=0; _crDinged=false; _crMuteUntil=0; _crAdvancing=false; _crArmed=true; }
+function crGo(d){ _crIdx=(_crIdx+d+CHORDS.length)%CHORDS.length; crResetState(); render(); }
+function crDing(){ if(!_crCtx) return; try{ var t=_crCtx.currentTime; [[0,880],[0.11,1318.51]].forEach(function(pp){ var o=_crCtx.createOscillator(),g=_crCtx.createGain(); o.type='sine'; o.frequency.value=pp[1]; g.gain.setValueAtTime(0.0001,t+pp[0]); g.gain.exponentialRampToValueAtTime(0.2,t+pp[0]+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+pp[0]+0.18); o.connect(g); g.connect(_crCtx.destination); o.start(t+pp[0]); o.stop(t+pp[0]+0.2); }); }catch(e){} }
+
+function renderCRTest(root){
+  var chord=CHORDS[_crIdx], pcs=crChordPCs(chord);
+  var pcList=Object.keys(pcs).map(Number).sort(function(a,b){return a-b;});
+  var notesTxt=pcList.map(function(pc){ return CR_NOTES[pc]+' ('+crSolfege(pc)+')'; }).join(' · ');
+  var bars=''; for(var pc=0;pc<12;pc++){ bars+='<div class="cr-bar'+(pcs[pc]?' tgt':'')+'" id="crBar'+pc+'"><div class="cr-bar-fill" id="crFill'+pc+'" style="height:2px"></div><div class="cr-bar-lbl">'+CR_NOTES[pc]+'</div></div>'; }
+  var div=document.createElement('div'); div.className='cr-screen fadein';
+  div.innerHTML=
+    '<div class="cr-top"><button class="btn-ghost" id="crBack">'+ICON_BACK+'<span>Retour</span></button><span class="cr-badge-beta">Test reco · beta</span></div>'+
+    '<div class="face-tag">Joue cet accord<br>sur ta guitare</div>'+
+    '<div class="cr-target" id="crTarget">'+chord.name+'</div>'+
+    (chord.sub?'<div class="chord-sub">'+chord.sub+'</div>':'')+
+    '<div class="cr-notes">Notes attendues : '+notesTxt+'</div>'+
+    '<div class="cr-verdict no" id="crVerdict">En attente du son…</div>'+
+    '<div class="cr-score" id="crScore">—</div>'+
+    '<div class="cr-bars">'+bars+'</div>'+
+    '<div class="cr-actions"><button class="cr-btn" id="crPrev">← Précédent</button><button class="cr-btn primary" id="crNext">Accord suivant →</button></div>'+
+    '<button class="cr-btn" id="crExample" style="width:100%;margin-top:8px">\u{1F50A} Écouter l\'accord (exemple)</button>'+
+    '<button class="cr-btn primary" id="crCapture" style="width:100%;margin-top:8px">\u{1F4CB} Capturer (joue d\'abord, puis appuie)</button>'+
+    '<div class="cr-actions" style="margin-top:8px"><button class="cr-btn" id="crExport">⬇️ Exporter le log</button><button class="cr-btn" id="crClear">Vider</button></div>'+
+    '<div class="cr-score" id="crLogCount" style="margin-top:6px">0 capture</div>'+
+    '<textarea id="crLogOut" readonly style="display:none;width:100%;height:130px;margin-top:8px;font-size:10px;font-family:monospace;border:1px solid var(--border);border-radius:8px"></textarea>'+
+    '<div class="cr-hint"><b>Gratte l\'accord d\'un coup</b> (toutes les cordes ensemble) et tiens-le un court instant. Il faut <b>toutes</b> les notes justes et <b>aucune en trop</b>. Le pic de chaque corde reste affiché ~1/3 s. Capture/Export pour caler les seuils.</div>';
+  root.appendChild(div);
+  document.getElementById('crBack').onclick=function(){ navHome(); };
+  document.getElementById('crNext').onclick=function(){ crGo(1); };
+  document.getElementById('crPrev').onclick=function(){ crGo(-1); };
+  document.getElementById('crExample').onclick=crPlayExample;
+  document.getElementById('crCapture').onclick=crCapture;
+  document.getElementById('crExport').onclick=crExport;
+  document.getElementById('crClear').onclick=crClearLog;
+  var lc=document.getElementById('crLogCount'); if(lc) lc.textContent=_crLog.length+' capture'+(_crLog.length>1?'s':'');
+  crResetState();
+  crStart();
+}
+
+function crStart(){
+  if(_crRun) return;
+  var md=navigator.mediaDevices, gum=(md&&md.getUserMedia)?function(c){return md.getUserMedia(c);}:null;
+  var v=document.getElementById('crVerdict');
+  if(!gum){ if(v) v.textContent='Micro non disponible sur ce navigateur.'; return; }
+  if(v) v.textContent='Autorisation micro…';
+  gum({audio:{echoCancellation:false,autoGainControl:false,noiseSuppression:false},video:false}).then(function(stream){
+    _crStream=stream;
+    var AC=window.AudioContext||window.webkitAudioContext; _crCtx=new AC();
+    if(_crCtx.state==='suspended'){ try{ _crCtx.resume(); }catch(e){} }
+    var src=_crCtx.createMediaStreamSource(stream);
+    _crAnalyser=_crCtx.createAnalyser(); _crAnalyser.fftSize=16384; _crAnalyser.smoothingTimeConstant=0.3;
+    src.connect(_crAnalyser);
+    _crFreq=new Float32Array(_crAnalyser.frequencyBinCount);
+    _crTime=new Float32Array(_crAnalyser.fftSize);
+    _crRun=true; crLoop();
+  }).catch(function(){ if(_crOnError){ _crOnError(); } else { var v2=document.getElementById('crVerdict'); if(v2) v2.textContent='Micro refusé. Autorise-le dans le navigateur puis reviens.'; } });
+}
+function crStop(){
+  _crRun=false; if(_crRAF){ cancelAnimationFrame(_crRAF); _crRAF=null; }
+  if(_crStream){ _crStream.getTracks().forEach(function(t){ t.stop(); }); _crStream=null; }
+  if(_crCtx){ try{ _crCtx.close(); }catch(e){} _crCtx=null; }
+  _crAnalyser=null; _crTarget=null; _crOnMatch=null; _crOnError=null; _crHoldSince=0; _crDinged=false; _crArmed=false;
+}
+function recogArm(chord, onMatch){
+  _crArmed=true; _crTarget=chord; _crOnMatch=onMatch; _crOnError=recogPermHelp;
+  _crDinged=false; _crHoldSince=0; _crChroma=new Float32Array(12); _crPeak=new Float32Array(12);
+  crStart();
+}
+function recogStandby(){
+  _crArmed=false; _crTarget=null; _crOnMatch=null; _crOnError=recogPermHelp;
+  crStart();
+}
+function recogIntro(cb){
+  if(document.getElementById('recogOverlay')) return;
+  var ov=document.createElement('div'); ov.className='recog-perm-overlay'; ov.id='recogOverlay';
+  ov.innerHTML='<div class="recog-perm-panel" style="text-align:center">'+
+    '<div class="cr-badge-beta" style="display:inline-block;margin-bottom:8px">Reconnaissance d\'accord · beta</div>'+
+    '<p style="font-family:Outfit,sans-serif;font-size:14px;line-height:1.5;color:var(--text);margin:6px 0 4px;">Fonctionnalité <b>expérimentale</b>. Quand tu joues, l\'app écoute au micro et <b>retourne la carte</b> si elle reconnaît l\'accord — à toi de valider ensuite.</p>'+
+    '<p style="font-family:Outfit,sans-serif;font-size:13px;line-height:1.5;color:var(--muted);margin:0 0 10px;">Pour que ça marche : <b>gratte toutes les cordes d\'un seul coup</b>, à <b>volume normal</b>, téléphone près de la guitare.</p>'+
+    '<button class="recog-perm-btn" id="recogIntroOk">Compris — autoriser le micro</button>'+
+  '</div>';
+  document.body.appendChild(ov);
+  document.getElementById('recogIntroOk').onclick=function(){ var o=document.getElementById('recogOverlay'); if(o&&o.parentNode) o.parentNode.removeChild(o); if(cb) cb(); };
+}
+
+/* ── Détection navigateur/OS autonome (pas d'accordeur sur la guitare) ── */
+function recogBrowser(){
+  var ua=navigator.userAgent||'';
+  var os=/Android/i.test(ua)?'android':((/iPad|iPhone|iPod/.test(ua))||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))?'ios':'desktop';
+  var name='ton navigateur';
+  if(/SamsungBrowser/i.test(ua)) name='Samsung Internet';
+  else if(/Edg\//i.test(ua)) name='Edge';
+  else if(/OPR\//i.test(ua)||/Opera/i.test(ua)) name='Opera';
+  else if(/Firefox\//i.test(ua)||/FxiOS/i.test(ua)) name='Firefox';
+  else if(/CriOS/i.test(ua)) name='Chrome';
+  else if(/Chrome\//i.test(ua)) name='Chrome';
+  else if(/Safari/i.test(ua)) name='Safari';
+  var standalone=false; try{ standalone=(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||window.navigator.standalone===true; }catch(e){}
+  return {os:os,name:name,standalone:standalone};
+}
+function recogPermSteps(b){
+  var host=location.hostname;
+  if(b.standalone && b.os==='android'){
+    var path;
+    if(b.name==='Samsung Internet') path='Menu <b>≡</b> → <b>Paramètres</b> → <b>Paramètres des sites</b> → <b>Microphone</b>';
+    else if(b.name==='Edge') path='Menu <b>⋯</b> → <b>Paramètres</b> → <b>Autorisations de site</b> → <b>Microphone</b>';
+    else if(b.name==='Chrome') path='Menu <b>⋮</b> → <b>Paramètres</b> → <b>Paramètres des sites</b> → <b>Micro</b>';
+    else path='Paramètres de '+b.name+' → <b>Paramètres des sites</b> → <b>Micro</b>';
+    return '<p class="recog-perm-note">Le micro est géré par le navigateur. Il faut l\'autoriser dans ses paramètres de sites.</p>'+
+      '<ol class="recog-steps"><li>Ouvre <b>'+b.name+'</b>.</li><li>'+path+'.</li><li>Touche <b>'+host+'</b> → <b>Autoriser</b>.</li><li>Reviens dans l\'app et réessaie.</li></ol>';
+  }
+  if(b.os==='ios'){
+    return '<ol class="recog-steps"><li>Sur la page, touche <b>aA</b> dans la barre d\'adresse → <b>Réglages du site web</b> → <b>Microphone</b> → <b>Autoriser</b>.</li>'+
+      '<li>Sinon : <b>Réglages</b> iOS → <b>Safari</b> → <b>Microphone</b> → <b>Autoriser</b>.</li>'+
+      '<li>Recharge la page et réessaie.</li></ol>';
+  }
+  if(b.os==='android'){
+    var step1=(b.name==='Chrome')
+      ? '<li>Menu <b>⋮</b> → icône <b>ⓘ</b> (info) → <b>Autorisations</b> → <b>Micro</b> → <b>Autoriser</b>.</li>'
+      : '<li>Menu de <b>'+b.name+'</b> → <b>Infos sur le site</b> / <b>Autorisations</b> → <b>Micro</b> → <b>Autoriser</b>.</li>';
+    return '<ol class="recog-steps">'+step1+
+      '<li>Si le micro est grisé : <b>Réglages</b> du téléphone → <b>Applications</b> → <b>'+b.name+'</b> → <b>Autorisations</b> → <b>Micro</b> → <b>Autoriser</b>.</li>'+
+      '<li>Reviens et touche <b>Réessayer</b>.</li></ol>';
+  }
+  return '<ol class="recog-steps"><li>Touche le <b>cadenas</b> à gauche de l\'adresse → <b>Paramètres du site</b> → <b>Micro</b> → <b>Autoriser</b>.</li><li>Recharge la page et réessaie.</li></ol>';
+}
+function recogPermHelp(){
+  if(document.getElementById('recogPermOverlay')) return;
+  var b=recogBrowser();
+  var ov=document.createElement('div'); ov.className='recog-perm-overlay'; ov.id='recogPermOverlay';
+  ov.innerHTML='<div class="recog-perm-panel">'+
+    '<div class="recog-perm-title">\u{1F3A4} Le micro est bloqué</div>'+
+    '<div class="recog-perm-sub">Détecté : <b>'+b.name+'</b>'+(b.os==='android'?' · Android':(b.os==='ios'?' · iPhone':''))+(b.standalone?' · app installée':'')+'</div>'+
+    recogPermSteps(b)+
+    '<button class="recog-perm-btn" id="recogPermRetry">↻ J\'ai autorisé — Réessayer</button>'+
+    '<button class="recog-perm-btn" id="recogPermClose" style="background:transparent;color:var(--muted);margin-top:6px;">Fermer</button>'+
+  '</div>';
+  document.body.appendChild(ov);
+  document.getElementById('recogPermRetry').onclick=function(){ var o=document.getElementById('recogPermOverlay'); if(o&&o.parentNode) o.parentNode.removeChild(o); crStart(); };
+  document.getElementById('recogPermClose').onclick=function(){ var o=document.getElementById('recogPermOverlay'); if(o&&o.parentNode) o.parentNode.removeChild(o); };
+}
+
+function crCapture(){
+  var chord=CHORDS[_crIdx], pcs=crChordPCs(chord), i;
+  var chroma=[]; for(i=0;i<12;i++) chroma.push(Math.round(_crPeak[i]*1000)/1000);
+  var total=0,inSet=0,minT=1,maxI=0,maxIn=-1;
+  for(i=0;i<12;i++){ total+=_crPeak[i]; if(pcs[i]){ inSet+=_crPeak[i]; if(_crPeak[i]<minT) minT=_crPeak[i]; } else if(_crPeak[i]>maxI){ maxI=_crPeak[i]; maxIn=i; } }
+  var e={ i:_crLog.length+1, target:chord.name, id:chord.id,
+    pcs:Object.keys(pcs).map(Number).sort(function(a,b){return a-b;}),
+    chroma:chroma, rms:Math.round(_crRms*1000)/1000,
+    scoreEnergy: total>0?Math.round(inSet/total*100)/100:0,
+    minTarget:Math.round(minT*100)/100, maxIntruder:Math.round(maxI*100)/100,
+    maxIntruderNote: maxIn>=0?CR_NOTES[maxIn]:null };
+  _crLog.push(e);
+  var c=document.getElementById('crLogCount');
+  if(c) c.textContent=_crLog.length+' capture'+(_crLog.length>1?'s':'')+' · #'+e.i+' '+e.target+' : score '+Math.round(e.scoreEnergy*100)+'% · note mini cible '+Math.round(e.minTarget*100)+'% · intrus '+(e.maxIntruderNote||'—')+' '+Math.round(e.maxIntruder*100)+'%';
+}
+function crExport(){
+  if(!_crLog.length){ alert('Aucune capture pour le moment.'); return; }
+  var json=JSON.stringify(_crLog);
+  try{ if(navigator.clipboard) navigator.clipboard.writeText(json); }catch(e){}
+  try{ var blob=new Blob([json],{type:'application/json'}); var url=URL.createObjectURL(blob); var a=document.createElement('a'); a.href=url; a.download='crlog-guitare.json'; document.body.appendChild(a); a.click(); setTimeout(function(){ if(a.parentNode) a.parentNode.removeChild(a); URL.revokeObjectURL(url); },150); }catch(e){}
+  var ta=document.getElementById('crLogOut'); if(ta){ ta.style.display='block'; ta.value=json; ta.focus(); ta.select(); }
+}
+function crClearLog(){ _crLog=[]; var c=document.getElementById('crLogCount'); if(c) c.textContent='0 capture'; var ta=document.getElementById('crLogOut'); if(ta){ ta.value=''; ta.style.display='none'; } }
+
+function crLoop(){
+  if(!_crRun) return;
+  if(!_crArmed){ _crRAF=requestAnimationFrame(crLoop); return; }
+  var now=performance.now();
+  if(now<_crMuteUntil){ _crRAF=requestAnimationFrame(crLoop); return; }
+  _crAnalyser.getFloatFrequencyData(_crFreq);
+  _crAnalyser.getFloatTimeDomainData(_crTime);
+  var i, rms=0; for(i=0;i<_crTime.length;i++){ rms+=_crTime[i]*_crTime[i]; } rms=Math.sqrt(rms/_crTime.length);
+  _crRms=rms; var quiet = rms<CR_GATE;
+  var srate=_crCtx.sampleRate, N=_crAnalyser.fftSize, binHz=srate/N;
+  var ch=new Float32Array(12);
+  var kmin=Math.max(1,Math.floor(70/binHz)), kmax=Math.min(_crFreq.length-1,Math.ceil(1600/binHz));
+  for(var k=kmin;k<=kmax;k++){ var f=k*binHz, amp=Math.pow(10,_crFreq[k]/20); var pitch=69+12*Math.log(f/440)/Math.LN2; var pc=((Math.round(pitch)%12)+12)%12; ch[pc]+=amp; }
+  var mx=0; for(i=0;i<12;i++) if(ch[i]>mx) mx=ch[i];
+  if(mx>0) for(i=0;i<12;i++) ch[i]/=mx;
+  for(i=0;i<12;i++) _crChroma[i]+=((quiet?0:ch[i])-_crChroma[i])*0.4;
+  for(i=0;i<12;i++){ var pk=_crPeak[i]*CR_DECAY; _crPeak[i]= _crChroma[i]>pk?_crChroma[i]:pk; }
+  var chord=_crTarget||CHORDS[_crIdx], pcs=crChordPCs(chord);
+  var minT=1, minPc=-1, maxI=0, maxIn=-1;
+  for(i=0;i<12;i++){ if(pcs[i]){ if(_crPeak[i]<minT){ minT=_crPeak[i]; minPc=i; } } else if(_crPeak[i]>maxI){ maxI=_crPeak[i]; maxIn=i; } }
+  var present=minT>=CR_PRES, clean=maxI<CR_INTR, okNow=present&&clean;
+  if(okNow){ if(!_crHoldSince) _crHoldSince=now; } else { _crHoldSince=0; _crDinged=false; }
+  var validated = _crHoldSince>0 && (now-_crHoldSince>=CR_HOLDMS);
+  for(i=0;i<12;i++){ var fe=document.getElementById('crFill'+i); if(fe) fe.style.height=Math.max(2,Math.round(_crPeak[i]*100))+'%'; var be=document.getElementById('crBar'+i); if(be) be.className='cr-bar'+(pcs[i]?' tgt':'')+((pcs[i]&&_crPeak[i]>=CR_PRES)?' ok':((!pcs[i]&&_crPeak[i]>=CR_INTR)?' bad':'')); }
+  var sc=document.getElementById('crScore'); if(sc) sc.textContent= quiet?'(silence)':'cible mini '+Math.round(minT*100)+'% (≥'+Math.round(CR_PRES*100)+') · intrus '+(maxIn>=0?CR_NOTES[maxIn]:'—')+' '+Math.round(maxI*100)+'% (<'+Math.round(CR_INTR*100)+')';
+  var vEl=document.getElementById('crVerdict'), tEl=document.getElementById('crTarget');
+  var rh=document.getElementById('recogHint');
+  if(validated){
+    if(vEl){ vEl.textContent='✓ reconnu : '+chord.name; vEl.className='cr-verdict ok'; }
+    if(tEl) tEl.className='cr-target ok';
+    if(rh){ rh.textContent='✓ Accord reconnu !'; rh.className='recog-hint ok'; }
+    if(!_crDinged){ _crDinged=true; if(now-_crLastDing>1500){ _crLastDing=now; crDing(); } if(_crOnMatch){ var cb=_crOnMatch; _crOnMatch=null; cb(); } }
+  } else {
+    if(tEl) tEl.className='cr-target';
+    var msg = quiet?'Gratte l\'accord (toutes les cordes) et tiens' : (!present?'✗ il manque '+(minPc>=0?CR_NOTES[minPc]+' ('+crSolfege(minPc)+')':'une note') : (!clean?'✗ note en trop : '+(maxIn>=0?CR_NOTES[maxIn]+' ('+crSolfege(maxIn)+')':'?') : '✓ tiens la position…'));
+    if(vEl){ vEl.textContent=msg; vEl.className='cr-verdict'+(okNow?'':' no'); }
+    if(rh){ rh.textContent='\u{1F3A4} Joue l\'accord d\'un coup…'; rh.className='recog-hint'; }
+  }
+  _crRAF=requestAnimationFrame(crLoop);
+}
+
+function crPlayExample(){
+  if(!_crCtx){ return; }
+  if(_crCtx.state==='suspended'){ try{ _crCtx.resume(); }catch(e){} }
+  var chord=CHORDS[_crIdx], t0=_crCtx.currentTime, stepT=0.42, dur=0.6, n=0;
+  chord.frets.forEach(function(fr,i){
+    if(fr<0) return;
+    var midi=_OPEN_MIDI[i]+fr, f=440*Math.pow(2,(midi-69)/12), start=t0+n*stepT; n++;
+    var master=_crCtx.createGain();
+    master.gain.setValueAtTime(0.0001,start);
+    master.gain.exponentialRampToValueAtTime(0.26,start+0.03);
+    master.gain.exponentialRampToValueAtTime(0.0001,start+dur);
+    master.connect(_crCtx.destination);
+    [[f,1,'sine'],[f*2,0.15,'sine']].forEach(function(pp){ var o=_crCtx.createOscillator(),g=_crCtx.createGain(); o.type=pp[2]; o.frequency.value=pp[0]; g.gain.value=pp[1]; o.connect(g); g.connect(master); o.start(start); o.stop(start+dur+0.05); });
+  });
+  _crMuteUntil=performance.now()+(n*stepT+dur)*1000+200;
+  _crHoldSince=0; _crDinged=false; for(var j=0;j<12;j++){ _crChroma[j]=0; _crPeak[j]=0; }
+  var vEl=document.getElementById('crVerdict'); if(vEl){ vEl.textContent='\u{1F50A} Exemple…'; vEl.className='cr-verdict no'; }
+}
+
 
 /* ════════════════════════════════════════════════════════════
    ROUTEUR
@@ -1094,6 +1390,7 @@ function navHome() {
 }
 
 function _doRender(root) {
+  if (app.screen !== 'cr-test') crStop();
   if      (app.screen === 'home')           renderHome(root);
   else if (app.screen === 'submode-select') renderSubModes(root);
   else if (app.screen === 'mode-preview')   renderModePreview(root);
@@ -1101,6 +1398,7 @@ function _doRender(root) {
   else if (app.screen === 'session')        renderSession(root);
   else if (app.screen === 'end')            renderEnd(root);
   else if (app.screen === 'reference')      renderReference(root);
+  else if (app.screen === 'cr-test')        renderCRTest(root);
   else if (app.screen === 'chord-detail')   renderChordDetail(root);
 }
 
@@ -1110,7 +1408,7 @@ function render() {
   if (_historyReady) {
     var curDepth = (history.state && history.state.depth) || 0;
     var st = { screen: app.screen, detailIds: app.detailIds, detailIdx: app.detailIdx, detailContext: app.detailContext, depth: curDepth };
-    var pushable = ['reference', 'submode-select', 'custom-select', 'mode-preview'];
+    var pushable = ['reference', 'submode-select', 'custom-select', 'mode-preview', 'cr-test'];
     if (app.screen === 'home') {
       st.depth = 0;
       history.replaceState(st, '');
@@ -1229,6 +1527,10 @@ function renderHome(root) {
   div.querySelector('#importFile').onchange = function(e) { if (e.target.files[0]) importProgress(e.target.files[0]); };
   (function(){ var hb=document.createElement('button'); hb.className='ob-help-btn'; hb.id='bHelp'; hb.innerHTML='\u2753 Aide & installation'; hb.onclick=function(){ obStart(true); }; div.appendChild(hb); })();
 
+  // Easter-egg : 7 taps sur le titre revelent le test reco accords (beta)
+  (function(){ var ttl=div.querySelector('.home-h1'); if(ttl){ ttl.onclick=function(){ var nw=Date.now(); if(nw-_betaLast>800) _betaTaps=0; _betaLast=nw; _betaTaps++; if(_betaTaps>=7 && !_betaReco){ _betaReco=true; _betaTaps=0; alert('\u{1F3A4} Test reco accords (beta) active'); render(); } }; }
+    if(_betaReco){ var cb=document.createElement('button'); cb.className='home-action-btn'; cb.id='bCRTest'; cb.innerHTML='<span class="hab-icon">\u{1F3A4}</span><span class="hab-text">Test reco accords (beta)</span><span class="hab-arrow">'+ICON_ARROW_RIGHT+'</span>'; cb.onclick=function(){ app.screen='cr-test'; render(); }; var links=div.querySelector('.home-links'); if(links) links.appendChild(cb); }
+  })();
   // Si une mise à jour était en attente pendant une session, on l'affiche maintenant
   maybeShowUpdate();
 }
