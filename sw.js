@@ -1,4 +1,4 @@
-var CACHE = 'guitare-v4.5';
+var CACHE = 'guitare-v4.6';
 var ASSETS = ['./', './manifest.json',
   './icon-192.png', './icon-512.png',
   './icon-192-maskable.png', './icon-512-maskable.png',
