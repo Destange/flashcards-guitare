@@ -498,6 +498,9 @@
 
     @keyframes btnAttn{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
     .btn-ok.attn,.btn-ko.attn{animation:btnAttn .9s ease-in-out infinite;box-shadow:0 0 0 3px rgba(0,0,0,.06);}
+    .voice-hint{text-align:center;font-family:'Outfit',sans-serif;font-size:13px;color:var(--muted);margin:2px 0 10px;min-height:38px;line-height:1.3;display:flex;align-items:center;justify-content:center;}
+    .voice-hint.ok{color:var(--correct);font-weight:700;}
+    .voice-hint.no{color:#C0392B;font-weight:600;}
 </style>
 </head>
 <body>
@@ -506,7 +509,7 @@
 <div id="obQrSrc" style="display:none"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 132" shape-rendering="crispEdges"><rect width="132" height="132" fill="#fff"/><g fill="#1C1C1C"><rect x="0" y="0" width="4" height="4"/><rect x="4" y="0" width="4" height="4"/><rect x="8" y="0" width="4" height="4"/><rect x="12" y="0" width="4" height="4"/><rect x="16" y="0" width="4" height="4"/><rect x="20" y="0" width="4" height="4"/><rect x="24" y="0" width="4" height="4"/><rect x="32" y="0" width="4" height="4"/><rect x="48" y="0" width="4" height="4"/><rect x="56" y="0" width="4" height="4"/><rect x="60" y="0" width="4" height="4"/><rect x="64" y="0" width="4" height="4"/><rect x="68" y="0" width="4" height="4"/><rect x="92" y="0" width="4" height="4"/><rect x="104" y="0" width="4" height="4"/><rect x="108" y="0" width="4" height="4"/><rect x="112" y="0" width="4" height="4"/><rect x="116" y="0" width="4" height="4"/><rect x="120" y="0" width="4" height="4"/><rect x="124" y="0" width="4" height="4"/><rect x="128" y="0" width="4" height="4"/><rect x="0" y="4" width="4" height="4"/><rect x="24" y="4" width="4" height="4"/><rect x="36" y="4" width="4" height="4"/><rect x="40" y="4" width="4" height="4"/><rect x="48" y="4" width="4" height="4"/><rect x="68" y="4" width="4" height="4"/><rect x="76" y="4" width="4" height="4"/><rect x="80" y="4" width="4" height="4"/><rect x="88" y="4" width="4" height="4"/><rect x="104" y="4" width="4" height="4"/><rect x="128" y="4" width="4" height="4"/><rect x="0" y="8" width="4" height="4"/><rect x="8" y="8" width="4" height="4"/><rect x="12" y="8" width="4" height="4"/><rect x="16" y="8" width="4" height="4"/><rect x="24" y="8" width="4" height="4"/><rect x="40" y="8" width="4" height="4"/><rect x="48" y="8" width="4" height="4"/><rect x="52" y="8" width="4" height="4"/><rect x="60" y="8" width="4" height="4"/><rect x="84" y="8" width="4" height="4"/><rect x="92" y="8" width="4" height="4"/><rect x="104" y="8" width="4" height="4"/><rect x="112" y="8" width="4" height="4"/><rect x="116" y="8" width="4" height="4"/><rect x="120" y="8" width="4" height="4"/><rect x="128" y="8" width="4" height="4"/><rect x="0" y="12" width="4" height="4"/><rect x="8" y="12" width="4" height="4"/><rect x="12" y="12" width="4" height="4"/><rect x="16" y="12" width="4" height="4"/><rect x="24" y="12" width="4" height="4"/><rect x="32" y="12" width="4" height="4"/><rect x="36" y="12" width="4" height="4"/><rect x="40" y="12" width="4" height="4"/><rect x="44" y="12" width="4" height="4"/><rect x="56" y="12" width="4" height="4"/><rect x="68" y="12" width="4" height="4"/><rect x="72" y="12" width="4" height="4"/><rect x="76" y="12" width="4" height="4"/><rect x="80" y="12" width="4" height="4"/><rect x="88" y="12" width="4" height="4"/><rect x="92" y="12" width="4" height="4"/><rect x="104" y="12" width="4" height="4"/><rect x="112" y="12" width="4" height="4"/><rect x="116" y="12" width="4" height="4"/><rect x="120" y="12" width="4" height="4"/><rect x="128" y="12" width="4" height="4"/><rect x="0" y="16" width="4" height="4"/><rect x="8" y="16" width="4" height="4"/><rect x="12" y="16" width="4" height="4"/><rect x="16" y="16" width="4" height="4"/><rect x="24" y="16" width="4" height="4"/><rect x="32" y="16" width="4" height="4"/><rect x="36" y="16" width="4" height="4"/><rect x="52" y="16" width="4" height="4"/><rect x="56" y="16" width="4" height="4"/><rect x="72" y="16" width="4" height="4"/><rect x="76" y="16" width="4" height="4"/><rect x="80" y="16" width="4" height="4"/><rect x="84" y="16" width="4" height="4"/><rect x="92" y="16" width="4" height="4"/><rect x="104" y="16" width="4" height="4"/><rect x="112" y="16" width="4" height="4"/><rect x="116" y="16" width="4" height="4"/><rect x="120" y="16" width="4" height="4"/><rect x="128" y="16" width="4" height="4"/><rect x="0" y="20" width="4" height="4"/><rect x="24" y="20" width="4" height="4"/><rect x="32" y="20" width="4" height="4"/><rect x="52" y="20" width="4" height="4"/><rect x="56" y="20" width="4" height="4"/><rect x="64" y="20" width="4" height="4"/><rect x="76" y="20" width="4" height="4"/><rect x="84" y="20" width="4" height="4"/><rect x="88" y="20" width="4" height="4"/><rect x="96" y="20" width="4" height="4"/><rect x="104" y="20" width="4" height="4"/><rect x="128" y="20" width="4" height="4"/><rect x="0" y="24" width="4" height="4"/><rect x="4" y="24" width="4" height="4"/><rect x="8" y="24" width="4" height="4"/><rect x="12" y="24" width="4" height="4"/><rect x="16" y="24" width="4" height="4"/><rect x="20" y="24" width="4" height="4"/><rect x="24" y="24" width="4" height="4"/><rect x="32" y="24" width="4" height="4"/><rect x="40" y="24" width="4" height="4"/><rect x="48" y="24" width="4" height="4"/><rect x="56" y="24" width="4" height="4"/><rect x="64" y="24" width="4" height="4"/><rect x="72" y="24" width="4" height="4"/><rect x="80" y="24" width="4" height="4"/><rect x="88" y="24" width="4" height="4"/><rect x="96" y="24" width="4" height="4"/><rect x="104" y="24" width="4" height="4"/><rect x="108" y="24" width="4" height="4"/><rect x="112" y="24" width="4" height="4"/><rect x="116" y="24" width="4" height="4"/><rect x="120" y="24" width="4" height="4"/><rect x="124" y="24" width="4" height="4"/><rect x="128" y="24" width="4" height="4"/><rect x="32" y="28" width="4" height="4"/><rect x="40" y="28" width="4" height="4"/><rect x="44" y="28" width="4" height="4"/><rect x="48" y="28" width="4" height="4"/><rect x="56" y="28" width="4" height="4"/><rect x="60" y="28" width="4" height="4"/><rect x="64" y="28" width="4" height="4"/><rect x="68" y="28" width="4" height="4"/><rect x="72" y="28" width="4" height="4"/><rect x="84" y="28" width="4" height="4"/><rect x="88" y="28" width="4" height="4"/><rect x="0" y="32" width="4" height="4"/><rect x="16" y="32" width="4" height="4"/><rect x="24" y="32" width="4" height="4"/><rect x="28" y="32" width="4" height="4"/><rect x="32" y="32" width="4" height="4"/><rect x="36" y="32" width="4" height="4"/><rect x="48" y="32" width="4" height="4"/><rect x="68" y="32" width="4" height="4"/><rect x="76" y="32" width="4" height="4"/><rect x="80" y="32" width="4" height="4"/><rect x="84" y="32" width="4" height="4"/><rect x="88" y="32" width="4" height="4"/><rect x="96" y="32" width="4" height="4"/><rect x="100" y="32" width="4" height="4"/><rect x="104" y="32" width="4" height="4"/><rect x="108" y="32" width="4" height="4"/><rect x="112" y="32" width="4" height="4"/><rect x="116" y="32" width="4" height="4"/><rect x="128" y="32" width="4" height="4"/><rect x="4" y="36" width="4" height="4"/><rect x="8" y="36" width="4" height="4"/><rect x="12" y="36" width="4" height="4"/><rect x="28" y="36" width="4" height="4"/><rect x="32" y="36" width="4" height="4"/><rect x="36" y="36" width="4" height="4"/><rect x="40" y="36" width="4" height="4"/><rect x="52" y="36" width="4" height="4"/><rect x="60" y="36" width="4" height="4"/><rect x="64" y="36" width="4" height="4"/><rect x="72" y="36" width="4" height="4"/><rect x="84" y="36" width="4" height="4"/><rect x="92" y="36" width="4" height="4"/><rect x="100" y="36" width="4" height="4"/><rect x="116" y="36" width="4" height="4"/><rect x="120" y="36" width="4" height="4"/><rect x="124" y="36" width="4" height="4"/><rect x="0" y="40" width="4" height="4"/><rect x="16" y="40" width="4" height="4"/><rect x="24" y="40" width="4" height="4"/><rect x="28" y="40" width="4" height="4"/><rect x="32" y="40" width="4" height="4"/><rect x="44" y="40" width="4" height="4"/><rect x="48" y="40" width="4" height="4"/><rect x="60" y="40" width="4" height="4"/><rect x="64" y="40" width="4" height="4"/><rect x="68" y="40" width="4" height="4"/><rect x="92" y="40" width="4" height="4"/><rect x="100" y="40" width="4" height="4"/><rect x="116" y="40" width="4" height="4"/><rect x="124" y="40" width="4" height="4"/><rect x="0" y="44" width="4" height="4"/><rect x="20" y="44" width="4" height="4"/><rect x="28" y="44" width="4" height="4"/><rect x="32" y="44" width="4" height="4"/><rect x="36" y="44" width="4" height="4"/><rect x="40" y="44" width="4" height="4"/><rect x="56" y="44" width="4" height="4"/><rect x="68" y="44" width="4" height="4"/><rect x="72" y="44" width="4" height="4"/><rect x="80" y="44" width="4" height="4"/><rect x="84" y="44" width="4" height="4"/><rect x="92" y="44" width="4" height="4"/><rect x="96" y="44" width="4" height="4"/><rect x="100" y="44" width="4" height="4"/><rect x="104" y="44" width="4" height="4"/><rect x="124" y="44" width="4" height="4"/><rect x="128" y="44" width="4" height="4"/><rect x="4" y="48" width="4" height="4"/><rect x="12" y="48" width="4" height="4"/><rect x="16" y="48" width="4" height="4"/><rect x="20" y="48" width="4" height="4"/><rect x="24" y="48" width="4" height="4"/><rect x="28" y="48" width="4" height="4"/><rect x="36" y="48" width="4" height="4"/><rect x="48" y="48" width="4" height="4"/><rect x="52" y="48" width="4" height="4"/><rect x="56" y="48" width="4" height="4"/><rect x="72" y="48" width="4" height="4"/><rect x="76" y="48" width="4" height="4"/><rect x="80" y="48" width="4" height="4"/><rect x="104" y="48" width="4" height="4"/><rect x="112" y="48" width="4" height="4"/><rect x="116" y="48" width="4" height="4"/><rect x="124" y="48" width="4" height="4"/><rect x="128" y="48" width="4" height="4"/><rect x="0" y="52" width="4" height="4"/><rect x="4" y="52" width="4" height="4"/><rect x="12" y="52" width="4" height="4"/><rect x="16" y="52" width="4" height="4"/><rect x="20" y="52" width="4" height="4"/><rect x="36" y="52" width="4" height="4"/><rect x="40" y="52" width="4" height="4"/><rect x="44" y="52" width="4" height="4"/><rect x="48" y="52" width="4" height="4"/><rect x="64" y="52" width="4" height="4"/><rect x="76" y="52" width="4" height="4"/><rect x="92" y="52" width="4" height="4"/><rect x="108" y="52" width="4" height="4"/><rect x="120" y="52" width="4" height="4"/><rect x="0" y="56" width="4" height="4"/><rect x="12" y="56" width="4" height="4"/><rect x="24" y="56" width="4" height="4"/><rect x="28" y="56" width="4" height="4"/><rect x="40" y="56" width="4" height="4"/><rect x="48" y="56" width="4" height="4"/><rect x="64" y="56" width="4" height="4"/><rect x="76" y="56" width="4" height="4"/><rect x="92" y="56" width="4" height="4"/><rect x="96" y="56" width="4" height="4"/><rect x="100" y="56" width="4" height="4"/><rect x="104" y="56" width="4" height="4"/><rect x="112" y="56" width="4" height="4"/><rect x="124" y="56" width="4" height="4"/><rect x="4" y="60" width="4" height="4"/><rect x="12" y="60" width="4" height="4"/><rect x="20" y="60" width="4" height="4"/><rect x="28" y="60" width="4" height="4"/><rect x="32" y="60" width="4" height="4"/><rect x="40" y="60" width="4" height="4"/><rect x="48" y="60" width="4" height="4"/><rect x="68" y="60" width="4" height="4"/><rect x="76" y="60" width="4" height="4"/><rect x="80" y="60" width="4" height="4"/><rect x="84" y="60" width="4" height="4"/><rect x="92" y="60" width="4" height="4"/><rect x="100" y="60" width="4" height="4"/><rect x="104" y="60" width="4" height="4"/><rect x="0" y="64" width="4" height="4"/><rect x="16" y="64" width="4" height="4"/><rect x="20" y="64" width="4" height="4"/><rect x="24" y="64" width="4" height="4"/><rect x="28" y="64" width="4" height="4"/><rect x="44" y="64" width="4" height="4"/><rect x="48" y="64" width="4" height="4"/><rect x="52" y="64" width="4" height="4"/><rect x="56" y="64" width="4" height="4"/><rect x="60" y="64" width="4" height="4"/><rect x="68" y="64" width="4" height="4"/><rect x="72" y="64" width="4" height="4"/><rect x="84" y="64" width="4" height="4"/><rect x="88" y="64" width="4" height="4"/><rect x="104" y="64" width="4" height="4"/><rect x="112" y="64" width="4" height="4"/><rect x="116" y="64" width="4" height="4"/><rect x="124" y="64" width="4" height="4"/><rect x="0" y="68" width="4" height="4"/><rect x="12" y="68" width="4" height="4"/><rect x="16" y="68" width="4" height="4"/><rect x="20" y="68" width="4" height="4"/><rect x="28" y="68" width="4" height="4"/><rect x="36" y="68" width="4" height="4"/><rect x="48" y="68" width="4" height="4"/><rect x="56" y="68" width="4" height="4"/><rect x="60" y="68" width="4" height="4"/><rect x="64" y="68" width="4" height="4"/><rect x="68" y="68" width="4" height="4"/><rect x="72" y="68" width="4" height="4"/><rect x="84" y="68" width="4" height="4"/><rect x="92" y="68" width="4" height="4"/><rect x="100" y="68" width="4" height="4"/><rect x="116" y="68" width="4" height="4"/><rect x="120" y="68" width="4" height="4"/><rect x="124" y="68" width="4" height="4"/><rect x="8" y="72" width="4" height="4"/><rect x="12" y="72" width="4" height="4"/><rect x="20" y="72" width="4" height="4"/><rect x="24" y="72" width="4" height="4"/><rect x="28" y="72" width="4" height="4"/><rect x="32" y="72" width="4" height="4"/><rect x="36" y="72" width="4" height="4"/><rect x="48" y="72" width="4" height="4"/><rect x="52" y="72" width="4" height="4"/><rect x="56" y="72" width="4" height="4"/><rect x="60" y="72" width="4" height="4"/><rect x="72" y="72" width="4" height="4"/><rect x="80" y="72" width="4" height="4"/><rect x="92" y="72" width="4" height="4"/><rect x="96" y="72" width="4" height="4"/><rect x="100" y="72" width="4" height="4"/><rect x="108" y="72" width="4" height="4"/><rect x="116" y="72" width="4" height="4"/><rect x="124" y="72" width="4" height="4"/><rect x="8" y="76" width="4" height="4"/><rect x="12" y="76" width="4" height="4"/><rect x="16" y="76" width="4" height="4"/><rect x="20" y="76" width="4" height="4"/><rect x="28" y="76" width="4" height="4"/><rect x="40" y="76" width="4" height="4"/><rect x="44" y="76" width="4" height="4"/><rect x="48" y="76" width="4" height="4"/><rect x="52" y="76" width="4" height="4"/><rect x="56" y="76" width="4" height="4"/><rect x="88" y="76" width="4" height="4"/><rect x="100" y="76" width="4" height="4"/><rect x="108" y="76" width="4" height="4"/><rect x="8" y="80" width="4" height="4"/><rect x="12" y="80" width="4" height="4"/><rect x="24" y="80" width="4" height="4"/><rect x="40" y="80" width="4" height="4"/><rect x="60" y="80" width="4" height="4"/><rect x="64" y="80" width="4" height="4"/><rect x="88" y="80" width="4" height="4"/><rect x="96" y="80" width="4" height="4"/><rect x="104" y="80" width="4" height="4"/><rect x="112" y="80" width="4" height="4"/><rect x="116" y="80" width="4" height="4"/><rect x="124" y="80" width="4" height="4"/><rect x="0" y="84" width="4" height="4"/><rect x="4" y="84" width="4" height="4"/><rect x="8" y="84" width="4" height="4"/><rect x="16" y="84" width="4" height="4"/><rect x="20" y="84" width="4" height="4"/><rect x="36" y="84" width="4" height="4"/><rect x="40" y="84" width="4" height="4"/><rect x="44" y="84" width="4" height="4"/><rect x="52" y="84" width="4" height="4"/><rect x="68" y="84" width="4" height="4"/><rect x="72" y="84" width="4" height="4"/><rect x="76" y="84" width="4" height="4"/><rect x="80" y="84" width="4" height="4"/><rect x="92" y="84" width="4" height="4"/><rect x="100" y="84" width="4" height="4"/><rect x="120" y="84" width="4" height="4"/><rect x="124" y="84" width="4" height="4"/><rect x="8" y="88" width="4" height="4"/><rect x="12" y="88" width="4" height="4"/><rect x="24" y="88" width="4" height="4"/><rect x="28" y="88" width="4" height="4"/><rect x="60" y="88" width="4" height="4"/><rect x="72" y="88" width="4" height="4"/><rect x="80" y="88" width="4" height="4"/><rect x="84" y="88" width="4" height="4"/><rect x="92" y="88" width="4" height="4"/><rect x="100" y="88" width="4" height="4"/><rect x="116" y="88" width="4" height="4"/><rect x="120" y="88" width="4" height="4"/><rect x="124" y="88" width="4" height="4"/><rect x="8" y="92" width="4" height="4"/><rect x="16" y="92" width="4" height="4"/><rect x="20" y="92" width="4" height="4"/><rect x="28" y="92" width="4" height="4"/><rect x="44" y="92" width="4" height="4"/><rect x="60" y="92" width="4" height="4"/><rect x="64" y="92" width="4" height="4"/><rect x="68" y="92" width="4" height="4"/><rect x="84" y="92" width="4" height="4"/><rect x="92" y="92" width="4" height="4"/><rect x="96" y="92" width="4" height="4"/><rect x="108" y="92" width="4" height="4"/><rect x="112" y="92" width="4" height="4"/><rect x="128" y="92" width="4" height="4"/><rect x="0" y="96" width="4" height="4"/><rect x="4" y="96" width="4" height="4"/><rect x="8" y="96" width="4" height="4"/><rect x="12" y="96" width="4" height="4"/><rect x="20" y="96" width="4" height="4"/><rect x="24" y="96" width="4" height="4"/><rect x="28" y="96" width="4" height="4"/><rect x="32" y="96" width="4" height="4"/><rect x="36" y="96" width="4" height="4"/><rect x="40" y="96" width="4" height="4"/><rect x="48" y="96" width="4" height="4"/><rect x="52" y="96" width="4" height="4"/><rect x="56" y="96" width="4" height="4"/><rect x="68" y="96" width="4" height="4"/><rect x="76" y="96" width="4" height="4"/><rect x="80" y="96" width="4" height="4"/><rect x="84" y="96" width="4" height="4"/><rect x="96" y="96" width="4" height="4"/><rect x="100" y="96" width="4" height="4"/><rect x="104" y="96" width="4" height="4"/><rect x="108" y="96" width="4" height="4"/><rect x="112" y="96" width="4" height="4"/><rect x="32" y="100" width="4" height="4"/><rect x="36" y="100" width="4" height="4"/><rect x="40" y="100" width="4" height="4"/><rect x="48" y="100" width="4" height="4"/><rect x="52" y="100" width="4" height="4"/><rect x="56" y="100" width="4" height="4"/><rect x="60" y="100" width="4" height="4"/><rect x="72" y="100" width="4" height="4"/><rect x="92" y="100" width="4" height="4"/><rect x="96" y="100" width="4" height="4"/><rect x="112" y="100" width="4" height="4"/><rect x="120" y="100" width="4" height="4"/><rect x="124" y="100" width="4" height="4"/><rect x="0" y="104" width="4" height="4"/><rect x="4" y="104" width="4" height="4"/><rect x="8" y="104" width="4" height="4"/><rect x="12" y="104" width="4" height="4"/><rect x="16" y="104" width="4" height="4"/><rect x="20" y="104" width="4" height="4"/><rect x="24" y="104" width="4" height="4"/><rect x="32" y="104" width="4" height="4"/><rect x="36" y="104" width="4" height="4"/><rect x="44" y="104" width="4" height="4"/><rect x="52" y="104" width="4" height="4"/><rect x="56" y="104" width="4" height="4"/><rect x="60" y="104" width="4" height="4"/><rect x="68" y="104" width="4" height="4"/><rect x="80" y="104" width="4" height="4"/><rect x="84" y="104" width="4" height="4"/><rect x="88" y="104" width="4" height="4"/><rect x="96" y="104" width="4" height="4"/><rect x="104" y="104" width="4" height="4"/><rect x="112" y="104" width="4" height="4"/><rect x="116" y="104" width="4" height="4"/><rect x="124" y="104" width="4" height="4"/><rect x="0" y="108" width="4" height="4"/><rect x="24" y="108" width="4" height="4"/><rect x="44" y="108" width="4" height="4"/><rect x="48" y="108" width="4" height="4"/><rect x="68" y="108" width="4" height="4"/><rect x="72" y="108" width="4" height="4"/><rect x="76" y="108" width="4" height="4"/><rect x="80" y="108" width="4" height="4"/><rect x="84" y="108" width="4" height="4"/><rect x="96" y="108" width="4" height="4"/><rect x="112" y="108" width="4" height="4"/><rect x="124" y="108" width="4" height="4"/><rect x="128" y="108" width="4" height="4"/><rect x="0" y="112" width="4" height="4"/><rect x="8" y="112" width="4" height="4"/><rect x="12" y="112" width="4" height="4"/><rect x="16" y="112" width="4" height="4"/><rect x="24" y="112" width="4" height="4"/><rect x="32" y="112" width="4" height="4"/><rect x="36" y="112" width="4" height="4"/><rect x="44" y="112" width="4" height="4"/><rect x="56" y="112" width="4" height="4"/><rect x="60" y="112" width="4" height="4"/><rect x="72" y="112" width="4" height="4"/><rect x="76" y="112" width="4" height="4"/><rect x="80" y="112" width="4" height="4"/><rect x="96" y="112" width="4" height="4"/><rect x="100" y="112" width="4" height="4"/><rect x="104" y="112" width="4" height="4"/><rect x="108" y="112" width="4" height="4"/><rect x="112" y="112" width="4" height="4"/><rect x="116" y="112" width="4" height="4"/><rect x="124" y="112" width="4" height="4"/><rect x="128" y="112" width="4" height="4"/><rect x="0" y="116" width="4" height="4"/><rect x="8" y="116" width="4" height="4"/><rect x="12" y="116" width="4" height="4"/><rect x="16" y="116" width="4" height="4"/><rect x="24" y="116" width="4" height="4"/><rect x="44" y="116" width="4" height="4"/><rect x="48" y="116" width="4" height="4"/><rect x="56" y="116" width="4" height="4"/><rect x="64" y="116" width="4" height="4"/><rect x="68" y="116" width="4" height="4"/><rect x="76" y="116" width="4" height="4"/><rect x="84" y="116" width="4" height="4"/><rect x="88" y="116" width="4" height="4"/><rect x="92" y="116" width="4" height="4"/><rect x="96" y="116" width="4" height="4"/><rect x="104" y="116" width="4" height="4"/><rect x="108" y="116" width="4" height="4"/><rect x="112" y="116" width="4" height="4"/><rect x="116" y="116" width="4" height="4"/><rect x="120" y="116" width="4" height="4"/><rect x="124" y="116" width="4" height="4"/><rect x="0" y="120" width="4" height="4"/><rect x="8" y="120" width="4" height="4"/><rect x="12" y="120" width="4" height="4"/><rect x="16" y="120" width="4" height="4"/><rect x="24" y="120" width="4" height="4"/><rect x="40" y="120" width="4" height="4"/><rect x="48" y="120" width="4" height="4"/><rect x="56" y="120" width="4" height="4"/><rect x="64" y="120" width="4" height="4"/><rect x="68" y="120" width="4" height="4"/><rect x="76" y="120" width="4" height="4"/><rect x="104" y="120" width="4" height="4"/><rect x="108" y="120" width="4" height="4"/><rect x="112" y="120" width="4" height="4"/><rect x="116" y="120" width="4" height="4"/><rect x="0" y="124" width="4" height="4"/><rect x="24" y="124" width="4" height="4"/><rect x="36" y="124" width="4" height="4"/><rect x="56" y="124" width="4" height="4"/><rect x="68" y="124" width="4" height="4"/><rect x="72" y="124" width="4" height="4"/><rect x="76" y="124" width="4" height="4"/><rect x="80" y="124" width="4" height="4"/><rect x="84" y="124" width="4" height="4"/><rect x="88" y="124" width="4" height="4"/><rect x="96" y="124" width="4" height="4"/><rect x="104" y="124" width="4" height="4"/><rect x="0" y="128" width="4" height="4"/><rect x="4" y="128" width="4" height="4"/><rect x="8" y="128" width="4" height="4"/><rect x="12" y="128" width="4" height="4"/><rect x="16" y="128" width="4" height="4"/><rect x="20" y="128" width="4" height="4"/><rect x="24" y="128" width="4" height="4"/><rect x="32" y="128" width="4" height="4"/><rect x="48" y="128" width="4" height="4"/><rect x="52" y="128" width="4" height="4"/><rect x="60" y="128" width="4" height="4"/><rect x="68" y="128" width="4" height="4"/><rect x="80" y="128" width="4" height="4"/><rect x="84" y="128" width="4" height="4"/><rect x="88" y="128" width="4" height="4"/><rect x="92" y="128" width="4" height="4"/><rect x="96" y="128" width="4" height="4"/><rect x="104" y="128" width="4" height="4"/><rect x="116" y="128" width="4" height="4"/><rect x="128" y="128" width="4" height="4"/></g></svg></div>
 <footer class="app-footer">Réalisé par <a href="https://www.instagram.com/juliendestange/" target="_blank" rel="noopener" class="footer-link">Julien Destange</a> · <span id="appVersion"></span></footer>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-var VERSION = '1.12.1';  // SOURCE UNIQUE de version - le footer affiche 'v'+VERSION (NE JAMAIS coder le footer en dur)
+var VERSION = '1.13.0';  // SOURCE UNIQUE de version - le footer affiche 'v'+VERSION (NE JAMAIS coder le footer en dur)
 (function(){var f=document.getElementById('appVersion'); if(f) f.textContent='v'+VERSION;})();
 (function(){
   function hide(){ var sp=document.getElementById('appSplash'); if(!sp) return; sp.classList.add('splash-hide'); setTimeout(function(){ if(sp&&sp.parentNode) sp.parentNode.removeChild(sp); }, 600); }
@@ -1137,7 +1140,7 @@ try{ _betaReco=localStorage.getItem('gtr_beta')==='1'; }catch(e){}
 function betaSave(){ try{ localStorage.setItem('gtr_beta','1'); }catch(e){} }
 var _recogOn=false; try{ _recogOn=localStorage.getItem('gtr_recog')==='1'; }catch(e){}
 function recogSave(){ try{ localStorage.setItem('gtr_recog', _recogOn?'1':'0'); }catch(e){} }
-function anyRecoOn(){ return (_betaReco && _recogOn) || (typeof _voiceOn!=='undefined' && _voiceOn); }
+function anyRecoOn(){ return _betaReco && (_recogOn || (typeof _voiceOn!=='undefined' && _voiceOn)); }
 
 /* Seuils — à CALIBRER avec les captures réelles de Julien (cf. page test beta) */
 var CR_PRES=0.11, CR_INTR=0.18, CR_REL=1.0, CR_GATE=0.008, CR_HOLDMS=150, CR_DECAY=0.90;
@@ -1372,6 +1375,164 @@ function crPlayExample(){
 }
 
 
+
+/* ════════════════════════════════════════════════════════════
+   RECONNAISSANCE VOCALE du nom d'accord (beta, EXPÉRIMENTAL)
+   Web Speech API (fr-FR) — EN LIGNE (audio -> Google), ~inutilisable iOS/Safari.
+   Sur une question diagramme (« trouve le nom »), l'utilisateur DIT le nom
+   (« mi mineur », « do », « fa dièse mineur »…). Si juste -> retourne la carte.
+   Parseur solfège FR + lettres, équivalences enharmoniques, homophones (ASR FR).
+════════════════════════════════════════════════════════════ */
+var _voiceOn=false; try{ _voiceOn=localStorage.getItem('gtr_voice')==='1'; }catch(e){}
+function vrSave(){ try{ localStorage.setItem('gtr_voice', _voiceOn?'1':'0'); }catch(e){} }
+var _vrRec=null,_vrActive=false,_vrOnCorrect=null,_vrOnWrong=null,_vrTargetQ=null,_vrTargetKeys=null,_vrHintLock=0,_vrName='';
+function vrSupported(){ return !!(window.SpeechRecognition||window.webkitSpeechRecognition); }
+function _notePc(L){ return {C:0,D:2,E:4,F:5,G:7,A:9,B:11}[L]; }
+function chordPcQ(name){
+  var m=name.match(/^([A-G])([#b]?)(.*)$/); if(!m) return null;
+  var pc=(_notePc(m[1])+(m[2]==='#'?1:m[2]==='b'?-1:0)+12)%12;
+  var suf=m[3];
+  var q = suf===''?'maj' : suf==='m'?'min' : suf==='7'?'7' : suf==='m7'?'m7' : suf==='maj7'?'maj7' : suf;
+  return {pc:pc,q:q};
+}
+function parseSpoken(t){
+  if(!t) return null;
+  t=t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  t=t.replace(/\b(six|6)\b/g,'si').replace(/\bscie\b/g,'si').replace(/\b(raie|rai)\b/g,'re').replace(/\bdos\b/g,'do').replace(/\bsole\b/g,'sol');
+  t=t.replace(/\b(sunset|sun set|saucette|sausette|sol set)\b/g,'sol sept');
+  var pc=null, idx=-1, rlen=0;
+  var rm=t.match(/\b(do|re|mi|fa|sol|la|si)\b/);
+  if(rm){ pc={do:0,re:2,mi:4,fa:5,sol:7,la:9,si:11}[rm[1]]; idx=rm.index; rlen=rm[1].length; }
+  else { var em=t.match(/\b([a-g])\b/); if(em){ pc={a:9,b:11,c:0,d:2,e:4,f:5,g:7}[em[1]]; idx=em.index; rlen=1; } }
+  if(pc===null) return null;
+  var after=t.slice(idx+rlen);
+  if(/die[sz]|sharp/.test(after)||after.indexOf('#')>=0) pc=(pc+1)%12;
+  else if(/bemol|flat/.test(after)||/\bb\b/.test(after)) pc=(pc+11)%12;
+  var majWord=/majeur|majeure|major|maj7|\bmaj\b/.test(after);
+  var hasMin=/mineur|mineure|\bmin\b|minor|m7/.test(after);
+  var has7=/septieme|\bsept\b|\b7\b|seven|seventh/.test(after)||after.indexOf('7')>=0;
+  var sus4=/sus *4|sus quatre|suspendu[^0-9]*(quarte|4|quatre)/.test(after);
+  var sus2=/sus *2|sus deux|suspendu[^0-9]*(seconde|2|deux)/.test(after);
+  var add9=/add *9|add neuf|ajoute *9|ajoute neuf/.test(after);
+  var q;
+  if(sus4) q='sus4';
+  else if(sus2) q='sus2';
+  else if(add9) q='add9';
+  else if(majWord && has7) q='maj7';
+  else if(hasMin && has7) q='m7';
+  else if(hasMin) q='min';
+  else if(has7) q='7';
+  else q='maj';
+  return {pc:pc,q:q};
+}
+// Variantes parlées (FR) attendues + homophones repris de l'app ukulélé
+var CHORD_HOMOPHONES={'A':['lac majeur'],'A7':['placette','lacet',"l'assiette"],'B':['image heure'],'C7':['dans 7','dosette','doucette'],'Cmaj7':['thomas jarret 7','dommageur 7','tot majeur 7'],'D7':['re sept','re 7','recette','reset','risette','riz sept'],'E7':['miss est','17','dix-sept','michel','michelle','michette','1007','dix sept','mille sept'],'Em7':['luminaire 7'],'G':['salut majeur']};
+var _homoMap={}; Object.keys(CHORD_HOMOPHONES).forEach(function(_n){ CHORD_HOMOPHONES[_n].forEach(function(_h){ _homoMap[phon(_h)]=_n; }); });
+function chordSpokenVariants(name){
+  var m=name.match(/^([A-G])([#b]?)(.*)$/); if(!m) return [];
+  var root={C:'do',D:'re',E:'mi',F:'fa',G:'sol',A:'la',B:'si'}[m[1]];
+  var acc=m[2]==='#'?' diese':m[2]==='b'?' bemol':'';
+  var suf=m[3];
+  var quals = suf===''?['',' majeur'] : suf==='m'?[' mineur'] :
+              suf==='7'?[' sept',' septieme',' septieme de dominante'] :
+              suf==='m7'?[' mineur sept',' mineur septieme',' septieme mineure'] :
+              suf==='maj7'?[' majeur sept',' majeur septieme',' septieme majeure',' maj sept'] :
+              suf==='sus2'?[' sus deux',' suspendu deux',' sus 2'] :
+              suf==='sus4'?[' sus quatre',' suspendu quatre',' sus 4'] :
+              suf==='add9'?[' add neuf',' add 9',' ajoute neuf'] : [''];
+  var base=root+acc;
+  var out=quals.map(function(q){ return base+q; });
+  return out.concat(CHORD_HOMOPHONES[name]||[]);
+}
+// Clé phonétique grossière (FR)
+function phon(s){
+  if(!s) return '';
+  s=s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  s=s.replace(/[^a-z0-9]/g,'');
+  s=s.replace(/6/g,'si');
+  s=s.replace(/7/g,'set');
+  s=s.replace(/ph/g,'f').replace(/qu/g,'k');
+  s=s.replace(/c([eiy])/g,'s$1').replace(/c/g,'k');
+  s=s.replace(/h/g,'');
+  s=s.replace(/pt/g,'t');
+  s=s.replace(/[aeiouy]/g,'a');
+  s=s.replace(/(.)\1+/g,'$1');
+  s=s.replace(/a+$/,'');
+  return s;
+}
+function vrSetHint(msg,cls,lockMs){
+  var now=Date.now();
+  if(now<_vrHintLock && !lockMs) return;
+  var h=document.getElementById('voiceHint'); if(h){ h.textContent=msg; h.className='voice-hint'+(cls?(' '+cls):''); }
+  _vrHintLock = lockMs ? now+lockMs : 0;
+}
+function pcQToFr(pc,q){
+  var N=['Do','Do dièse','Ré','Mi bémol','Mi','Fa','Fa dièse','Sol','Sol dièse','La','Si bémol','Si'];
+  var qs={maj:' Majeur',min:' mineur','7':' 7','m7':' mineur 7','maj7':' Majeur 7',sus2:' sus2',sus4:' sus4',add9:' add9'}[q]||'';
+  return N[pc]+qs;
+}
+function vrErrSound(){ var c=ctx(); if(!c) return; try{ var t=c.currentTime, o=c.createOscillator(), g=c.createGain(); o.type='sine'; o.frequency.setValueAtTime(330,t); o.frequency.exponentialRampToValueAtTime(165,t+0.18); g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.16,t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+0.22); o.connect(g); g.connect(c.destination); o.start(t); o.stop(t+0.24); }catch(e){} }
+function vrStop(){
+  _vrActive=false;
+  if(_vrRec){ try{ _vrRec.onend=null; _vrRec.onresult=null; _vrRec.onerror=null; }catch(e){} try{ _vrRec.abort(); }catch(e){} try{ _vrRec.stop(); }catch(e){} _vrRec=null; }
+  _vrOnCorrect=null; _vrOnWrong=null; _vrTargetQ=null; _vrTargetKeys=null; _vrName='';
+}
+function vrStart(chord, onCorrect){
+  if(!vrSupported()) return;
+  vrStop();
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  try{ _vrRec=new SR(); }catch(e){ _vrRec=null; return; }
+  _vrTargetQ=chordPcQ(chord.name); _vrTargetKeys=chordSpokenVariants(chord.name).map(phon); _vrOnCorrect=onCorrect; _vrName=chord.name; _vrActive=true;
+  _vrRec.lang='fr-FR'; _vrRec.continuous=true; _vrRec.interimResults=true; _vrRec.maxAlternatives=5;
+  _vrRec.onstart=function(){ vrSetHint('\u{1F442} J\'écoute… donne le nom de cet accord',''); };
+  _vrRec.onspeechstart=function(){ vrSetHint('… \u{1F442}',''); };
+  _vrRec.onresult=function(ev){
+    var interim='';
+    for(var i=ev.resultIndex;i<ev.results.length;i++){
+      var res=ev.results[i];
+      if(!res.isFinal){ interim += res[0].transcript; continue; }
+      var correct=false, wrongLabel=null, rawTxt='';
+      for(var a=0;a<res.length;a++){
+        var txt=(res[a].transcript||''); if(!rawTxt) rawTxt=txt.trim();
+        var k=phon(txt);
+        if(_vrTargetKeys && _vrTargetKeys.indexOf(k)>=0){ correct=true; break; }
+        var pq=parseSpoken(txt);
+        if(!pq && _homoMap[k]){ pq=chordPcQ(_homoMap[k]); }
+        if(pq){ if(_vrTargetQ && pq.pc===_vrTargetQ.pc && pq.q===_vrTargetQ.q){ correct=true; break; }
+          if(!wrongLabel) wrongLabel=pcQToFr(pq.pc,pq.q); }
+      }
+      if(correct){ vrSetHint(chordFr(_vrName)+', Correct ! ✔️','ok',6000); var c=_vrOnCorrect; vrStop(); if(c) c(); return; }
+      if(wrongLabel){ vrSetHint('❌ Entendu : « '+wrongLabel+' » — incorrect, essaie encore ❌','no',5000); return; }
+      if(rawTxt) vrSetHint('Entendu : « '+rawTxt+' » — Donne un nom d\'accord','',4000);
+      return;
+    }
+    if(interim) vrSetHint('… ‹ '+interim.trim()+' ›','');
+  };
+  _vrRec.onerror=function(ev){
+    var e=(ev&&ev.error)||'?';
+    if(e==='not-allowed'||e==='service-not-allowed'){ _vrActive=false; vrSetHint('\u{1F399}️ Micro refusé pour la voix','no',8000); }
+    else if(e==='network'){ vrSetHint('\u{1F399}️ Voix : connexion Internet requise','no',6000); }
+    else if(e==='no-speech'){ }
+    else if(e==='audio-capture'){ vrSetHint('\u{1F399}️ Micro occupé','no',5000); }
+    else { vrSetHint('\u{1F399}️ (info voix : '+e+')','',4000); }
+  };
+  _vrRec.onend=function(){ if(_vrActive){ setTimeout(function(){ if(_vrActive && _vrRec){ try{ _vrRec.start(); }catch(e){} } }, 250); } };
+  try{ _vrRec.start(); }catch(e){ vrSetHint('\u{1F399}️ démarrage voix impossible',''); }
+}
+function voiceIntro(cb){
+  if(document.getElementById('voiceOverlay')) return;
+  var ov=document.createElement('div'); ov.className='recog-perm-overlay'; ov.id='voiceOverlay';
+  ov.innerHTML='<div class="recog-perm-panel" style="text-align:center">'+
+    '<div class="cr-badge-beta" style="display:inline-block;margin-bottom:8px">Reconnaissance vocale · beta</div>'+
+    '<p style="font-family:Outfit,sans-serif;font-size:14px;line-height:1.5;color:var(--text);margin:6px 0 4px;">Sur une question <b>diagramme</b> (« trouve le nom »), <b>dis le nom de l\'accord</b> à voix haute : l\'app retourne la carte si elle reconnaît.</p>'+
+    '<p style="font-family:Outfit,sans-serif;font-size:13px;line-height:1.5;color:var(--muted);margin:0 0 4px;">Donne le nom <b>complet</b> et <b>bien détaché</b> : dis « <b>Do majeur</b> » plutôt que « Do », et sépare les mots — par ex. « <b>Ré – mineur – sept</b> ».</p>'+
+    '<p style="font-family:Outfit,sans-serif;font-size:12px;line-height:1.45;color:var(--muted);margin:0 0 10px;">Nécessite une connexion Internet ; peu fiable sur iPhone/Safari.</p>'+
+    '<button class="recog-perm-btn" id="voiceIntroOk">Compris</button>'+
+  '</div>';
+  document.body.appendChild(ov);
+  document.getElementById('voiceIntroOk').onclick=function(){ var o=document.getElementById('voiceOverlay'); if(o&&o.parentNode) o.parentNode.removeChild(o); if(cb) cb(); };
+}
+
 /* ════════════════════════════════════════════════════════════
    ROUTEUR
 ════════════════════════════════════════════════════════════ */
@@ -1395,7 +1556,7 @@ function navHome() {
 }
 
 function _doRender(root) {
-  if (app.screen !== 'cr-test' && app.screen !== 'session') crStop();
+  if (app.screen !== 'cr-test' && app.screen !== 'session') { crStop(); try{ vrStop(); }catch(e){} }
   if      (app.screen === 'home')           renderHome(root);
   else if (app.screen === 'submode-select') renderSubModes(root);
   else if (app.screen === 'mode-preview')   renderModePreview(root);
@@ -1630,7 +1791,7 @@ function renderSession(root) {
     '<div class="prog-track"><div class="prog-fill" style="width:'+progPct+'%;background:'+progColor+'"></div></div>';
   root.appendChild(pg);
 
-  // ── Toggle reco accords au micro (beta) — visible seulement si le mode beta est déverrouillé ──
+  // ── Toggles reco (beta) — visibles seulement si le mode beta est déverrouillé ──
   if (_betaReco) {
     var recogRow = document.createElement('div');
     recogRow.className = 'recog-row';
@@ -1638,8 +1799,16 @@ function renderSession(root) {
       '<span class="recog-label">\u{1F3B8} Je joue l\'accord <span class="recog-beta">beta</span></span>'+
       '<button class="recog-switch'+(_recogOn?' on':'')+'" id="recogToggle" role="switch" aria-checked="'+(_recogOn?'true':'false')+'"><span class="recog-knob"></span></button>';
     root.appendChild(recogRow);
+    var voiceRow = document.createElement('div');
+    voiceRow.className = 'recog-row';
+    voiceRow.innerHTML =
+      '<span class="recog-label">\u{1F5E3}\uFE0F Je dis le nom <span class="recog-beta">beta</span></span>'+
+      '<button class="recog-switch'+(_voiceOn?' on':'')+'" id="voiceToggle" role="switch" aria-checked="'+(_voiceOn?'true':'false')+'"><span class="recog-knob"></span></button>';
+    root.appendChild(voiceRow);
     if (item.side === 'name') {
       var rhEl = document.createElement('div'); rhEl.className='recog-hint'; rhEl.id='recogHint'; rhEl.textContent = _recogOn ? '\u{1F3A4} Joue l\'accord d\'un coup…' : ''; root.appendChild(rhEl);
+    } else {
+      var vhEl = document.createElement('div'); vhEl.className='voice-hint'; vhEl.id='voiceHint'; vhEl.textContent = (_voiceOn && vrSupported()) ? '\u{1F442} J\'écoute… donne le nom de cet accord' : ''; root.appendChild(vhEl);
     }
   }
 
@@ -1698,6 +1867,7 @@ function renderSession(root) {
 
   function reveal() {
     if (revealed) return;
+    try { vrStop(); } catch(e) {}
     if (_recogOn && item.side === 'name') { _crOnMatch = null; _crArmed = false; }
     cBody.classList.add('flipped');
     btnReveal.classList.add('hidden');
@@ -1770,22 +1940,32 @@ function renderSession(root) {
   document.getElementById('bOk').onclick = function() { advance(true);  };
   document.getElementById('bKo').onclick = function() { advance(false); };
 
-  // ── Reco accords au micro (beta) : sur la face 'name' (« joue cet accord ») ──
+  // ── Recos (beta) : accords au micro sur 'name', voix sur 'diagram' (faces différentes : pas de partage micro) ──
   var _rtog = document.getElementById('recogToggle');
   if (_rtog) _rtog.onclick = function() {
     _recogOn = !_recogOn; recogSave();
     if (_recogOn) { recogIntro(function(){ render(); }); }
     else { crStop(); render(); }
   };
-  if (_betaReco && _recogOn && item.side === 'name') {
-    recogArm(chord, function() {
-      reveal();
-      setTimeout(function(){ var b=document.getElementById('bOk'); if (b) b.classList.add('attn'); }, 520);
-    });
-  } else if (_betaReco && _recogOn) {
-    recogStandby();   // face diagramme : micro en veille (pas de détection)
-  } else {
+  var _vtog = document.getElementById('voiceToggle');
+  if (_vtog) _vtog.onclick = function() {
+    if (!_voiceOn) {
+      if (!vrSupported()) { alert('La reconnaissance vocale n\'est pas disponible sur ce navigateur (souvent le cas sur iPhone/Safari). Elle nécessite aussi une connexion Internet.'); return; }
+      _voiceOn = true; vrSave(); voiceIntro(function(){ render(); });
+    } else { _voiceOn = false; vrSave(); render(); }
+  };
+  var _onRecoMatch = function() {
+    reveal();
+    setTimeout(function(){ var b=document.getElementById('bOk'); if (b) b.classList.add('attn'); }, 520);
+  };
+  if (_betaReco && item.side === 'name') {
+    vrStop();
+    if (_recogOn) recogArm(chord, _onRecoMatch); else crStop();
+  } else if (_betaReco && item.side === 'diagram') {
     crStop();
+    if (_voiceOn && vrSupported()) vrStart(chord, _onRecoMatch); else vrStop();
+  } else {
+    crStop(); vrStop();
   }
 
   // Bouton "Fin de la session libre" — visible uniquement en mode libre
